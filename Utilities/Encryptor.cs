@@ -11,7 +11,7 @@ namespace ProyectoFinalDAMAgil.Utilities
 
 			StringBuilder sb = new StringBuilder();
 
-			using (SHA256 hash = SHA256.Create())
+            using (SHA256 hash = SHA256.Create())
 			{
 				Encoding enc = Encoding.UTF8;
 
