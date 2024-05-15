@@ -25,7 +25,6 @@ namespace ProyectoFinalDAMAgil.Services.Usuario
 		//Creamos un usuario y lo introducimos en la base de datos.
 		public async Task<Scaffold.Usuario> SaveUsuario(Scaffold.Usuario usuario)
 		{
-
 			_context.Usuarios.Add(usuario);
 			await _context.SaveChangesAsync();
 			return usuario;

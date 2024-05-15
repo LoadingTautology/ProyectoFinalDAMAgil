@@ -7,6 +7,7 @@ using ProyectoFinalDAMAgil.Utilities;
 using System.Security.Claims;
 using ProyectoFinalDAMAgil.Services.Correoelectronico;
 using ProyectoFinalDAMAgil.Models;
+using ProyectoFinalDAMAgil.Services.Administrador;
 
 namespace ProyectoFinalDAMAgil.Controllers
 {
@@ -15,9 +16,10 @@ namespace ProyectoFinalDAMAgil.Controllers
         //Inyeccion de dependencias que hay en Program.cs
         private readonly IUsuarioService _usuarioService;
         private readonly ICorreoelectronicoService _correoelectronicoService;
+        private readonly IAdministradorService _administradorService;
 
 
-        public LoginController(IUsuarioService usuarioService, ICorreoelectronicoService correoelectronicoService)
+        public LoginController(IUsuarioService usuarioService, ICorreoelectronicoService correoelectronicoService, IAdministradorService administradorService)
         {
             _usuarioService = usuarioService;
             _correoelectronicoService =correoelectronicoService;
@@ -44,7 +46,7 @@ namespace ProyectoFinalDAMAgil.Controllers
                 return View(usuarioView);
             }
 
-
+            //Crear Correo
             Correoelectronico correoCreado = await _correoelectronicoService.SaveCorreoElectronico(
                 new Correoelectronico
                 {
@@ -52,18 +54,27 @@ namespace ProyectoFinalDAMAgil.Controllers
                     Clave = Encryptor.EncriptarClave(usuarioView.Clave)
                 }
             );
-
-
-
+            //Crear UsuarioAdmin
             Usuario usuarioCreado = await _usuarioService.SaveUsuario(
                 new Usuario
                 {
                     NombreUsuario = usuarioView.NombreUsuario,
                     ApellidosUsuario = usuarioView.NombreUsuario,
-                    Rol = "Administrador",
-                    Email=usuarioView.Correo
+                    Rol = "ADMINISTRADOR",
+                    Email=usuarioView.Correo,                    
                 }
-            ); ;
+            );
+
+            //Guardar Admin
+            //Usuario userBBDD = await _usuarioService.GetUsuario(usuarioView.Correo);
+            Administrador administradorCreado = await _administradorService.SaveAdministrador(
+                new Administrador
+                {                 
+                    Dni = usuarioView.DNI
+                }
+            ) ;
+
+
 
             if (usuarioCreado.IdUsuario > 0 && correoCreado.Email!=null)
             {
@@ -100,7 +111,11 @@ namespace ProyectoFinalDAMAgil.Controllers
 
             Usuario usuarioEncontrado = await _usuarioService.GetUsuario(correo);
 
-            List<Claim> claims = new List<Claim>() { new Claim(ClaimTypes.Name, usuarioEncontrado.NombreUsuario) };
+            List<Claim> claims = new List<Claim>() 
+            {
+                new Claim(ClaimTypes.Name, usuarioEncontrado.NombreUsuario), 
+                new Claim(ClaimTypes.Role, usuarioEncontrado.Rol)  
+            };
 
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             AuthenticationProperties properties = new AuthenticationProperties() { AllowRefresh = true };
