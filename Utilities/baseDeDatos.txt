@@ -23,7 +23,49 @@ CREATE TABLE Usuario (
     UNIQUE(Email)
 );
 
-****************************************************************
+-- Creación de la tabla Administrador
+CREATE TABLE Administrador (
+    IdAdministrador INT,
+    DNI VARCHAR(20) NOT NULL DEFAULT '',
+    PRIMARY KEY (IdAdministrador),
+    FOREIGN KEY (IdAdministrador) REFERENCES Usuario(IdUsuario)
+);
+
+-- Creación de la tabla CentroEducativo
+CREATE TABLE CentroEducativo (
+    IdCentro INT AUTO_INCREMENT,
+    NombreCentro VARCHAR(100) NOT NULL DEFAULT '',
+    Direccion VARCHAR(255) NOT NULL DEFAULT '',
+    IdAdministrador INT NOT NULL,
+    PRIMARY KEY (IdCentro),
+    UNIQUE(NombreCentro, Direccion),
+    FOREIGN KEY (IdAdministrador) REFERENCES Administrador(IdAdministrador)
+);
+
+-- Creación de la tabla UsuariosCentroEducativo
+CREATE TABLE UsuariosCentroEducativo (
+    IdUsuariosCentroEducativo INT AUTO_INCREMENT,
+    IdCentro INT NOT NULL,
+    IdUsuario INT NOT NULL,
+    PRIMARY KEY (IdUsuariosCentroEducativo),
+    FOREIGN KEY (IdCentro) REFERENCES CentroEducativo(IdCentro),
+    FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario),
+    UNIQUE (IdCentro, IdUsuario)
+);
+
+
+
+
+
+
+
+
+
+
+
+
+******************************************************************
+
 
 -- Creación de la tabla FranjaHoraria
 CREATE TABLE FranjaHoraria (
@@ -97,14 +139,6 @@ CREATE TABLE ExamenAsignaturas (
     FOREIGN KEY (IdAsignatura) REFERENCES Asignatura(IdAsignatura)
 );
 
--- Creación de la tabla Administrador
-CREATE TABLE Administrador (
-    IdAdministrador INT,
-    DNI VARCHAR(20) NOT NULL DEFAULT '',
-    PRIMARY KEY (IdAdministrador),
-    FOREIGN KEY (IdAdministrador) REFERENCES Usuario(IdUsuario)
-);
-
 -- Creación de la tabla Profesor
 CREATE TABLE Profesor (
     IdProfesor INT,
@@ -121,23 +155,9 @@ CREATE TABLE Alumno (
     FOREIGN KEY (IdAlumno) REFERENCES Usuario(IdUsuario)
 );
 
--- Creación de la tabla CentroEducativo
-CREATE TABLE CentroEducativo (
-    IdCentro INT AUTO_INCREMENT,
-    NombreCentro VARCHAR(100) NOT NULL DEFAULT '',
-    Direccion VARCHAR(255) NOT NULL DEFAULT '',
-    PRIMARY KEY (IdCentro),
-    UNIQUE(NombreCentro, Direccion)
-);
 
--- Creación de la tabla UsuariosCentroEducativo
-CREATE TABLE UsuariosCentroEducativo (
-    IdCentro INT,
-    IdUsuario INT,
-    PRIMARY KEY (IdCentro, IdUsuario),
-    FOREIGN KEY (IdCentro) REFERENCES CentroEducativo(IdCentro),
-    FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario)
-);
+
+
 
 -- Creación de la tabla AsistenciaAlumnos
 CREATE TABLE AsistenciaAlumnos (

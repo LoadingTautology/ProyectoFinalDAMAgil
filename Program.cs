@@ -20,6 +20,12 @@ namespace ProyectoFinalDAMAgil
 			/* ********* Inyeccion dependencias Servicios********* */
 			builder.Services.AddScoped<Services.Usuario.IUsuarioService, Services.Usuario.UsuarioService>();
             builder.Services.AddScoped<Services.Correoelectronico.ICorreoelectronicoService, Services.Correoelectronico.CorreoelectronicoService>();
+            builder.Services.AddScoped<Services.Administrador.IAdministradorService, Services.Administrador.AdministradorService>();
+            builder.Services.AddScoped<Services.Centroeducativo.Centroeducativo, Services.Centroeducativo.Centroeducativo>();
+            builder.Services.AddScoped<Services.Usuarioscentroeducativo.IUsuarioscentroeducativo, Services.Usuarioscentroeducativo.Usuarioscentroeducativo>();
+
+
+
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 			{

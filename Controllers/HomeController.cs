@@ -32,7 +32,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 			ViewData["nombreUsuario"] = nombreUsuario;
 			return View();
 		}
-
+		//[Authorize(Roles ="ADMINISTRADOR")]
 		public IActionResult Privacy()
 		{
 			return View();
