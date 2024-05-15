@@ -1,9 +1,8 @@
 ﻿@model ProyectoFinalDAMAgil.Models.UsuarioCorreo
-    {
+
 @{
     Layout = null;
 }
-
 
 <!DOCTYPE html>
 
@@ -14,50 +13,53 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 </head>
 <body>
-
-
     <div class="container mt-5 pt-5">
-
         <div class="row justify-content-center">
             <div class="col-12 col-xl-4 col-md-6">
-
-                <div class="card">
-                    <div class="card-header">
-                        Registrate
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h4>Registrate</h4>
                     </div>
                     <div class="card-body">
-
-                        <form asp-controller="Login" asp-action="Registro" method="post" enctype="multipart/form-data">
-
-                            <input class="form-control mb-3" type="text" placeholder="Nombre" asp-for="NombreUsuario" required />
-                            <input class="form-control mb-3" type="text" placeholder="Apellidos" asp-for="ApellidosUsuario" required />
-                            <input class="form-control mb-3" type="text" placeholder="DNI" asp-for="DNI" required />
-                            <input class="form-control mb-3" type="text" placeholder="Correo" required asp-for="Correo" />
-                            <input class="form-control mb-3" type="password" placeholder="Contraseña" required asp-for="Clave" />
-                            <input class="form-control mb-3" type="password" placeholder="Repite Contraseña" required name="ClaveRepetida" />
-                            <div class="d-grid gap-2 mb-3">
-                                <button class="btn btn-primary" type="submit">Registrate</button>
+                        <form id="registroForm" asp-controller="Login" asp-action="Registro" method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <input class="form-control" type="text" placeholder="Nombre" asp-for="NombreUsuario" required />
                             </div>
-                            @if (ViewData["Mensaje"] != null)
+                            <div class="mb-3">
+                                <input class="form-control" type="text" placeholder="Apellidos" asp-for="ApellidosUsuario" required />
+                            </div>
+                            <div class="mb-3">
+                                <input class="form-control" type="text" placeholder="DNI" asp-for="DNI" required />
+                            </div>
+                            <div class="mb-3">
+                                <input class="form-control" type="email" placeholder="Correo" required asp-for="Correo" />
+                            </div>
+                            <div class="mb-3">
+                                <input class="form-control" type="password" placeholder="Contraseña" required asp-for="Clave" />
+                            </div>
+                            <div class="mb-3">
+                                <input class="form-control" type="password" placeholder="Repite Contraseña" required name="ClaveRepetida" />
+                            </div>
+                            <div class="d-grid gap-2 mb-3">
+                                <button class="btn btn-primary" type="submit">Registrarse</button>
+                            </div>
+                            @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
                             {
-
-                                <div class="form-group">
-                                    <div class="alert alert-danger" role="alert">
-                                        @ViewData["Mensaje"]
-                                    </div>
+                                <div class="alert alert-danger" role="alert">
+                                    @ViewData["Mensaje"]
                                 </div>
                             }
-                            ¿Ya tienes una cuenta? <a href="@Url.Action("IniciarSesion","Login")"> Iniciar Sesion</a>
-
+                            <div class="text-center">
+                                ¿Ya tienes una cuenta? <a href="@Url.Action("IniciarSesion","Login")"> Iniciar Sesión</a>
+                            </div>
                         </form>
-
                     </div>
-
+                    <div class="card-footer text-center">
+                        <a href="@Url.Action("Index", "MainPage")" class="btn btn-secondary">Volver</a>
+                    </div>
                 </div>
-
             </div>
         </div>
-
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -1,61 +1,53 @@
-﻿﻿@{
+﻿@{
     Layout = null;
 }
 
 <!DOCTYPE html>
-
-<html>
+<html lang="es">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>IniciarSesion</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Iniciar Sesión</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 </head>
 <body>
-
     <div class="container mt-5 pt-5">
-
         <div class="row justify-content-center">
             <div class="col-12 col-xl-4 col-md-6">
-
-                <div class="card">
-                    <div class="card-header">
-                        Iniciar Sesion
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h4>Iniciar Sesión</h4>
                     </div>
                     <div class="card-body">
-
                         <form asp-controller="Login" asp-action="IniciarSesion" method="post">
-
-                            <input class="form-control mb-3" type="text" placeholder="Correo" required name="correo" />
-                            <input class="form-control mb-3" type="password" placeholder="Contraseña" required name="clave" />
+                            <div class="mb-3">
+                                <label for="correo" class="form-label">Correo</label>
+                                <input class="form-control" type="email" id="correo" name="correo" placeholder="Correo" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="clave" class="form-label">Contraseña</label>
+                                <input class="form-control" type="password" id="clave" name="clave" placeholder="Contraseña" required />
+                            </div>
                             <div class="d-grid gap-2 mb-3">
-                                <button class="btn btn-primary" type="submit">Iniciar Sesion</button>
+                                <button class="btn btn-primary" type="submit">Iniciar Sesión</button>
                             </div>
                             @if (ViewData["Mensaje"] != null)
                             {
-
-                                <div class="form-group">
-                                    <div class="alert alert-danger" role="alert">
-                                        @ViewData["Mensaje"]
-                                    </div>
+                                <div class="alert alert-danger" role="alert">
+                                    @ViewData["Mensaje"]
                                 </div>
                             }
-                            <div>
-                                ¿No tienes una cuenta? <a href="@Url.Action("Registro","Login")"> Registraste!</a>
+                            <div class="text-center">
+                                ¿No tienes una cuenta? <a href="@Url.Action("Registro", "Login")">¡Regístrate!</a>
                             </div>
-                            <div>
-                                <a href="@Url.Action("Index","MainPage")"> Volver </a>
-                            </div>
-
-
                         </form>
-
                     </div>
-
+                    <div class="card-footer text-center">
+                        <a href="@Url.Action("Index", "MainPage")" class="btn btn-secondary">Volver</a>
+                    </div>
                 </div>
-
             </div>
         </div>
-
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

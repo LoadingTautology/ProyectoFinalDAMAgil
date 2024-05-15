@@ -63,6 +63,8 @@ namespace ProyectoFinalDAMAgil
 }
 
 
-
+//"ConnectionStrings": {
+//  "Default": "server=database.proyectofinaldam2324.site;port=3306;database=proyecto;uid=root;password=pedrolachuspa"
+//}
 
 //Scaffold-DbContext "server=localhost;port=3306;database=DBAppProyectoFinal;uid=root;password=" Pomelo.EntityFrameworkCore.MySql -NoOnConfiguring -OutputDir Scaffold -Force
