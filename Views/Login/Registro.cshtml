@@ -29,9 +29,11 @@
 
                         <form asp-controller="Login" asp-action="Registro" method="post" enctype="multipart/form-data">
 
-                            <input class="form-control mb-3" type="text" placeholder="Nombre Completo" asp-for="NombreUsuario" required />
+                            <input class="form-control mb-3" type="text" placeholder="Nombre" asp-for="NombreUsuario" required />
+                            <input class="form-control mb-3" type="text" placeholder="Apellidos" asp-for="ApellidosUsuario" required />
                             <input class="form-control mb-3" type="text" placeholder="Correo" required asp-for="Correo" />
                             <input class="form-control mb-3" type="password" placeholder="Contraseña" required asp-for="Clave" />
+                            <input class="form-control mb-3" type="password" placeholder="Repite Contraseña" required name="ClaveRepetida" />
                             <div class="d-grid gap-2 mb-3">
                                 <button class="btn btn-primary" type="submit">Registrate</button>
                             </div>

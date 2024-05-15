@@ -35,8 +35,15 @@ namespace ProyectoFinalDAMAgil.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Registro(UsuarioCorreo usuarioView)
+        public async Task<IActionResult> Registro(UsuarioCorreo usuarioView, string ClaveRepetida)
         {
+
+            if(usuarioView.Clave != ClaveRepetida)
+            {
+                ViewData["Mensaje"] = "Clave repetida incorrecta";
+                return View(usuarioView);
+            }
+
 
             Correoelectronico correoCreado = await _correoelectronicoService.SaveCorreoElectronico(
                 new Correoelectronico
@@ -46,23 +53,28 @@ namespace ProyectoFinalDAMAgil.Controllers
                 }
             );
 
-            
+
 
             Usuario usuarioCreado = await _usuarioService.SaveUsuario(
                 new Usuario
                 {
                     NombreUsuario = usuarioView.NombreUsuario,
+                    ApellidosUsuario = usuarioView.NombreUsuario,
+                    Rol = "Administrador",
                     Email=usuarioView.Correo
                 }
-            );
+            ); ;
 
             if (usuarioCreado.IdUsuario > 0 && correoCreado.Email!=null)
             {
                 return RedirectToAction("IniciarSesion", "Login");
             }
+            else
+            {
+                ViewData["Mensaje"] = "No se pudo crear el usuario";
+                return View();
+            }
 
-            ViewData["Mensaje"] = "No se pudo crear el usuario";
-            return View();
         }
 
         [HttpGet]
