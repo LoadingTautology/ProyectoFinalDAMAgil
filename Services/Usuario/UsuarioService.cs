@@ -29,8 +29,6 @@ namespace ProyectoFinalDAMAgil.Services.Usuario
 			await _context.SaveChangesAsync();
 			Scaffold.Usuario usuariobbdd = await GetUsuario(usuario.Email);
 
-			Console.WriteLine("EL IDE DE USUARIO ES: "+usuariobbdd.IdUsuario+"  ********************* ");
-
 			return usuariobbdd;
 
         }

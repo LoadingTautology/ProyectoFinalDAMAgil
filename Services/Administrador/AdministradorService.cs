@@ -18,11 +18,13 @@ namespace ProyectoFinalDAMAgil.Services.Administrador
             return admin;
         }
 
-        public async Task<Scaffold.Administrador> SaveAdministrador(Scaffold.Administrador Admin)
+        public async Task<Scaffold.Administrador> SaveAdministrador(Scaffold.Administrador admin)
         {
-            _context.Administradors.Add(Admin);
+            _context.Administradors.Add(admin);
             await _context.SaveChangesAsync();
-            return Admin;
+            Scaffold.Administrador adminbbdd = await GetAdministrador(admin.IdAdministrador);
+
+            return adminbbdd;
         }
     }
 }

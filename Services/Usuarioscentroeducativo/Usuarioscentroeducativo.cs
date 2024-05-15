@@ -1,16 +1,31 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
+using ProyectoFinalDAMAgil.Scaffold;
+
 namespace ProyectoFinalDAMAgil.Services.Usuarioscentroeducativo
 {
     public class Usuarioscentroeducativo : IUsuarioscentroeducativo
     {
-        public Task<Scaffold.Usuarioscentroeducativo> GetUsuariosCentroeducativo(int IdCentro, int IdUsuario)
+        private readonly DbappProyectoFinalContext _context;
+
+        public Usuarioscentroeducativo(DbappProyectoFinalContext context)
         {
-            throw new NotImplementedException();
+            _context=context;
         }
 
-        public Task<Scaffold.Usuarioscentroeducativo> SaveUsuariosCentroeducativo(Scaffold.Usuarioscentroeducativo UsuarioCentroEducativo)
+        public async Task<Scaffold.Usuarioscentroeducativo> GetUsuariosCentroeducativo(int idCentro, int idUsuario)
         {
-            throw new NotImplementedException();
+            Scaffold.Usuarioscentroeducativo usuarioscentroeducativo = await _context.Usuarioscentroeducativos.Where(user => user.IdCentro == idCentro && user.IdUsuario == idUsuario).FirstOrDefaultAsync();
+            return usuarioscentroeducativo;
+        }
+
+        public async Task<Scaffold.Usuarioscentroeducativo> SaveUsuariosCentroeducativo(Scaffold.Usuarioscentroeducativo usuarioCentroEducativo)
+        {
+            _context.Usuarioscentroeducativos.Add(usuarioCentroEducativo);
+            await _context.SaveChangesAsync();
+            Scaffold.Usuarioscentroeducativo usuarioCentroEducativobbdd = await GetUsuariosCentroeducativo(usuarioCentroEducativo.IdCentro, usuarioCentroEducativo.IdUsuario);
+
+            return usuarioCentroEducativobbdd;
         }
     }
 }

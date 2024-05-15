@@ -76,10 +76,6 @@ namespace ProyectoFinalDAMAgil.Controllers
                     );
 
                     //Guardar Admin
-
-                    Console.WriteLine("USUARIO CREADO ID: "+usuarioCreado.IdUsuario);
-                    Console.WriteLine("USUARIO CREADO DNI: "+usuarioView.DNI);
-
                     Administrador administradorCreado = await _administradorService.SaveAdministrador(
                         new Administrador
                         {
@@ -92,6 +88,7 @@ namespace ProyectoFinalDAMAgil.Controllers
                 }
                 catch (Exception e) 
                 {
+                    Console.WriteLine(e.ToString());
                     ViewData["Mensaje"] = "No se pudo crear el usuario";
                     return View();
                 }

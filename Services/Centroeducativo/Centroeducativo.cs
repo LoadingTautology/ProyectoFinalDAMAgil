@@ -21,9 +21,12 @@ namespace ProyectoFinalDAMAgil.Services.Centroeducativo
             return centroeducativo;
         }
 
-        public Task<Scaffold.Centroeducativo> SaveCentroeducativo(Scaffold.Centroeducativo CentroEducativo)
+        public async Task<Scaffold.Centroeducativo> SaveCentroeducativo(Scaffold.Centroeducativo centroEducativo)
         {
-            throw new NotImplementedException();
+            _context.Centroeducativos.Add(centroEducativo);
+            await _context.SaveChangesAsync();
+            Scaffold.Centroeducativo centroeducativobbdd = await GetCentroeducativo(centroEducativo.NombreCentro, centroEducativo.Direccion);
+            return centroeducativobbdd;
         }
     }
 }
