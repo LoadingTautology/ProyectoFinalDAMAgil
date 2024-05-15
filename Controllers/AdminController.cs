@@ -4,7 +4,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 {
     public class AdminController : Controller
     {
-        public IActionResult AgregarCentro()
+        public IActionResult GestionCentros()
         {
             return View();
         }
