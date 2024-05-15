@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Scaffold\" />
+    <Folder Include="wwwroot\src\img\" />
   </ItemGroup>
 
   <ItemGroup>
