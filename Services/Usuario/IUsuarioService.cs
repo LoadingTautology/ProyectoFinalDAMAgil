@@ -8,5 +8,8 @@
 		//Sirve guardar un usuario en la bbdd
 		Task<Scaffold.Usuario> SaveUsuario(Scaffold.Usuario usuario);
 
-	}
+		Task<bool> ExisteUsuario(string correo);
+
+
+    }
 }

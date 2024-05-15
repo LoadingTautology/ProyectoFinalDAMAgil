@@ -23,6 +23,7 @@ namespace ProyectoFinalDAMAgil.Controllers
         {
             _usuarioService = usuarioService;
             _correoelectronicoService =correoelectronicoService;
+            _administradorService = administradorService;
         }
 
         [HttpGet]
@@ -40,50 +41,60 @@ namespace ProyectoFinalDAMAgil.Controllers
         public async Task<IActionResult> Registro(UsuarioCorreo usuarioView, string ClaveRepetida)
         {
 
-            if(usuarioView.Clave != ClaveRepetida)
+            if (await _usuarioService.ExisteUsuario(usuarioView.Correo)) 
+            {
+                usuarioView.Correo ="";
+                ViewData["Mensaje"] = "Ese email ya existe";
+                return View(usuarioView);
+            }
+            else if(usuarioView.Clave != ClaveRepetida)
             {
                 ViewData["Mensaje"] = "Clave repetida incorrecta";
                 return View(usuarioView);
             }
-
-            //Crear Correo
-            Correoelectronico correoCreado = await _correoelectronicoService.SaveCorreoElectronico(
-                new Correoelectronico
-                {
-                    Email = usuarioView.Correo,
-                    Clave = Encryptor.EncriptarClave(usuarioView.Clave)
-                }
-            );
-            //Crear UsuarioAdmin
-            Usuario usuarioCreado = await _usuarioService.SaveUsuario(
-                new Usuario
-                {
-                    NombreUsuario = usuarioView.NombreUsuario,
-                    ApellidosUsuario = usuarioView.NombreUsuario,
-                    Rol = "ADMINISTRADOR",
-                    Email=usuarioView.Correo,                    
-                }
-            );
-
-            //Guardar Admin
-            //Usuario userBBDD = await _usuarioService.GetUsuario(usuarioView.Correo);
-            Administrador administradorCreado = await _administradorService.SaveAdministrador(
-                new Administrador
-                {                 
-                    Dni = usuarioView.DNI
-                }
-            ) ;
-
-
-
-            if (usuarioCreado.IdUsuario > 0 && correoCreado.Email!=null)
-            {
-                return RedirectToAction("IniciarSesion", "Login");
-            }
             else
             {
-                ViewData["Mensaje"] = "No se pudo crear el usuario";
-                return View();
+                try
+                {
+                    //Crear Correo
+                    Correoelectronico correoCreado = await _correoelectronicoService.SaveCorreoElectronico(
+                        new Correoelectronico
+                        {
+                            Email = usuarioView.Correo,
+                            Clave = Encryptor.EncriptarClave(usuarioView.Clave)
+                        }
+                    );
+                    //Crear UsuarioAdmin
+                    Usuario usuarioCreado = await _usuarioService.SaveUsuario(
+                        new Usuario
+                        {
+                            NombreUsuario = usuarioView.NombreUsuario,
+                            ApellidosUsuario = usuarioView.NombreUsuario,
+                            Rol = "ADMINISTRADOR",
+                            Email=usuarioView.Correo,
+                        }
+                    );
+
+                    //Guardar Admin
+
+                    Console.WriteLine("USUARIO CREADO ID: "+usuarioCreado.IdUsuario);
+                    Console.WriteLine("USUARIO CREADO DNI: "+usuarioView.DNI);
+
+                    Administrador administradorCreado = await _administradorService.SaveAdministrador(
+                        new Administrador
+                        {
+                            IdAdministrador =usuarioCreado.IdUsuario,
+                            Dni = usuarioView.DNI
+                        }
+                    );
+
+                    return RedirectToAction("IniciarSesion", "Login");
+                }
+                catch (Exception e) 
+                {
+                    ViewData["Mensaje"] = "No se pudo crear el usuario";
+                    return View();
+                }
             }
 
         }
