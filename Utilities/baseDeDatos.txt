@@ -4,6 +4,27 @@ CREATE DATABASE DBAppProyectoFinal;
 
 USE DBAppProyectoFinal;
 
+-- Creación de la tabla CorreoElectronico
+CREATE TABLE CorreoElectronico (
+    Email VARCHAR(100),
+    Clave VARCHAR(100) NOT NULL DEFAULT '',
+    PRIMARY KEY (Email)
+);
+
+-- Creación de la tabla Usuario
+CREATE TABLE Usuario (
+    IdUsuario INT AUTO_INCREMENT,
+    NombreUsuario VARCHAR(50) NOT NULL DEFAULT '',
+    ApellidosUsuario VARCHAR(100) NOT NULL DEFAULT '',
+    Rol VARCHAR(50) NOT NULL DEFAULT 'ALUMNO',
+    Email VARCHAR(100) NOT NULL,
+    PRIMARY KEY (IdUsuario),
+    FOREIGN KEY (Email) REFERENCES CorreoElectronico(Email),
+    UNIQUE(Email)
+);
+
+****************************************************************
+
 -- Creación de la tabla FranjaHoraria
 CREATE TABLE FranjaHoraria (
     HoraMinInicio TIME,
@@ -74,25 +95,6 @@ CREATE TABLE ExamenAsignaturas (
     Tiempo TIME NOT NULL DEFAULT '01:30:00',
     PRIMARY KEY (IdAsignatura, IdExamen),
     FOREIGN KEY (IdAsignatura) REFERENCES Asignatura(IdAsignatura)
-);
-
--- Creación de la tabla CorreoElectronico
-CREATE TABLE CorreoElectronico (
-    Email VARCHAR(100),
-    Clave VARCHAR(100) NOT NULL DEFAULT '',
-    PRIMARY KEY (Email)
-);
-
--- Creación de la tabla Usuario
-CREATE TABLE Usuario (
-    IdUsuario INT AUTO_INCREMENT,
-    NombreUsuario VARCHAR(50) NOT NULL DEFAULT '',
-    ApellidosUsuario VARCHAR(100) NOT NULL DEFAULT '',
-    Rol VARCHAR(50) NOT NULL DEFAULT 'ALUMNO',
-    Email VARCHAR(100) NOT NULL,
-    PRIMARY KEY (IdUsuario),
-    FOREIGN KEY (Email) REFERENCES CorreoElectronico(Email),
-    UNIQUE(Email)
 );
 
 -- Creación de la tabla Administrador
