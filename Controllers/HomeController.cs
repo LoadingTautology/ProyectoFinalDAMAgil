@@ -18,8 +18,8 @@ namespace ProyectoFinalDAMAgil.Controllers
 			_logger = logger;
 		}
 
-
-		public IActionResult Index()
+        [HttpGet]
+        public IActionResult Index()
 		{
 			ClaimsPrincipal claimsUser = HttpContext.User;
 			string nombreUsuario = "";
