@@ -111,7 +111,7 @@ namespace ProyectoFinalDAMAgil.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditarCentro(string datosCentro)
+        public async Task<IActionResult> EditarCentro(CentroEducativoModel datosCentro)
         {
             Console.WriteLine("************************** EDITAR CENTRO"+ datosCentro);
 
