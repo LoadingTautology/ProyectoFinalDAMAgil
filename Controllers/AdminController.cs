@@ -54,8 +54,6 @@ namespace ProyectoFinalDAMAgil.Controllers
         [HttpGet]
         public IActionResult GuardarCentro()
         {
-            Console.WriteLine("AQUI LLEGA LISTAR GUARDAR CENTRO");
-            //METODO SOLO DEVUELVE LA VISTA
             return View("~/Views/Admin/Centro/Guardar.cshtml");
         }
 
@@ -64,7 +62,6 @@ namespace ProyectoFinalDAMAgil.Controllers
         [HttpPost]
         public async Task<IActionResult> GuardarCentro(CentroEducativoModel datosCentro)
         {
-            Console.WriteLine("AQUI LLEGA LISTAR GUARDAR CENTRO POST");
 
             if (!ModelState.IsValid)
                 return View("~/Views/Admin/Centro/Guardar.cshtml", datosCentro);
