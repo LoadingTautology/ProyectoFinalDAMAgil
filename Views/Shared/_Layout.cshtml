@@ -28,7 +28,13 @@
                         @if (User.IsInRole("ADMINISTRADOR"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="AgregarCentro">Agregar Centro</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ListarCentro">Centro</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Profesores</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Alumnos</a>
                             </li>
                         }
 
@@ -37,6 +43,8 @@
                         </li>
                     </ul>
                 </div>
+                <div class="text-right">@User.Identity.Name</div>
+
             </div>
         </nav>
     </header>

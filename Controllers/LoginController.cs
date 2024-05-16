@@ -122,7 +122,8 @@ namespace ProyectoFinalDAMAgil.Controllers
             List<Claim> claims = new List<Claim>() 
             {
                 new Claim(ClaimTypes.Name, usuarioEncontrado.NombreUsuario), 
-                new Claim(ClaimTypes.Role, usuarioEncontrado.Rol)  
+                new Claim(ClaimTypes.Role, usuarioEncontrado.Rol),
+                new Claim(ClaimTypes.Email, usuarioEncontrado.Email)
             };
 
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

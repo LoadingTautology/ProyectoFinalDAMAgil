@@ -36,13 +36,16 @@
                             </div>
                             <div class="mb-3">
                                 <input class="form-control" type="password" placeholder="Contraseña" required asp-for="Clave" />
+@*                                 <span asp-validation-for="Clave" class="text-danger"></span> *@
                             </div>
                             <div class="mb-3">
                                 <input class="form-control" type="password" placeholder="Repite Contraseña" required name="ClaveRepetida" />
                             </div>
+
                             <div class="d-grid gap-2 mb-3">
                                 <button class="btn btn-primary" type="submit">Registrarse</button>
                             </div>
+
                             @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
                             {
                                 <div class="alert alert-danger" role="alert">

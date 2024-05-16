@@ -1,0 +1,50 @@
+﻿@model ProyectoFinalDAMAgil.Models.Admin.CentroEducativoModel
+﻿@{
+    ViewData["Title"] = "Centro Educativo Guardar";
+}
+
+<div class="card">
+    <div class="card-header">
+        Crear Centro nuevo
+    </div>
+     <div class="card-body">
+        <form asp-controller="Admin" asp-action="GuardarCentro" method="post" enctype="multipart/form-data">
+
+@*             <div class="mb-3">
+                <input class="form-control" type="text" placeholder="Nombre Centro" asp-for="NombreCentro" required />
+            </div>
+
+            <div class="mb-3">
+                <input class="form-control" type="text" placeholder="Dirección del centro" asp-for="DireccionCentro" required />
+            </div>
+
+            <div class="d-grid gap-2 mb-3">
+                <button class="btn btn-primary" type="submit">Registrar</button>
+            </div>
+            
+            <a asp-controller="Admin" asp-action="ListarCentro" class="btn btn-warning">Volver a la lista</a> *@
+
+            <div class="mb-3">
+                <label class="form-label">Nombre del centro</label>
+                <input asp-for="NombreCentro" type="text" class="form-control">
+                <span asp-validation-for="NombreCentro" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Dirección del centro</label>
+                <input asp-for="DireccionCentro" type="text" class="form-control">
+                <span asp-validation-for="DireccionCentro" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a asp-controller="Admin" asp-action="ListarCentro" class="btn btn-warning">Volver a la lista</a>
+
+        </form>
+        @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewData["Mensaje"]
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,45 @@
+﻿@model List<ProyectoFinalDAMAgil.Models.Admin.CentroEducativoModel>
+﻿@{
+    ViewData["Title"] = "Centro Educativo";
+}
+
+
+
+<div class="card">
+    <div class="card-header">
+        Lista Contacto
+    </div>
+    <div class="card-body">
+        <a asp-controller="Admin" asp-action="GuardarCentro" class="btn btn-success"><i class="bi bi-plus-circle"></i> Crear Nuevo</a>
+        <hr />
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if(Model!=null)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.NombreCentro</td>
+                            <td>@item.DireccionCentro</td>
+                            <td>
+
+                                <a asp-controller="Admin" asp-action="EditarCentro" asp-for="@item.NombreCentro" class="btn btn-primary btn-sm" >Editar</a>
+                                <a asp-controller="Admin" asp-action="EliminarCentro" asp-for="@item" class="btn btn-danger btn-sm">Eliminar</a>
+                            </td>
+                        </tr>
+
+                    }
+                }
+
+            </tbody>
+        </table>
+
+    </div>
+</div>

@@ -1,10 +1,15 @@
-﻿namespace ProyectoFinalDAMAgil.Services.Centroeducativo
+﻿using ProyectoFinalDAMAgil.Models.Admin;
+
+namespace ProyectoFinalDAMAgil.Services.Centroeducativo
 {
     public interface ICentroeducativo
     {
-        Task<Scaffold.Centroeducativo> GetCentroeducativo(string NombreCentro, string Direccion);
+        Task<Scaffold.Centroeducativo> GetCentroeducativo(string nombreCentro, string direccion);
 
-        //Sirve guardar un usuario en la bbdd
-        Task<Scaffold.Centroeducativo> SaveCentroeducativo(Scaffold.Centroeducativo CentroEducativo);
+        Task<Scaffold.Centroeducativo> SaveCentroeducativo(Scaffold.Centroeducativo centroEducativo, string emailAdmin);
+
+        Task<bool> ExisteCentroEducativo(string nombreCentro, string direccion);
+
+        Task<IEnumerable<CentroEducativoModel>> ListadoCentroEducativo(string emailAdmin);
     }
 }
