@@ -1,34 +1,33 @@
 ﻿@model ProyectoFinalDAMAgil.Scaffold.Centroeducativo
-﻿@{
-    ViewData["Title"] = "Centro Educativo Editar";
+
+@{
+    ViewData["Title"] = "Editar Centro Educativo";
 }
 
-
 <div class="card">
-
     <div class="card-header">
-        Editar Contacto
+        <h3>Editar Contacto</h3>
     </div>
-
     <div class="card-body">
         <form asp-controller="Admin" asp-action="EditarCentro" method="post">
-
             <div class="mb-3">
-                <label class="form-label">Nombre Centro</label>
-                <input asp-for="NombreCentro" type="text" class="form-control">
+                <label asp-for="NombreCentro" class="form-label">Nombre Centro</label>
+                <input asp-for="NombreCentro" type="text" class="form-control" />
                 <span asp-validation-for="NombreCentro" class="text-danger"></span>
-             </div>
-             <div class="mb-3">
-                <label class="form-label">Direccion Centro</label>
-                <input asp-for="Direccion" type="text" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label asp-for="Direccion" class="form-label">Dirección Centro</label>
+                <input asp-for="Direccion" type="text" class="form-control" />
                 <span asp-validation-for="Direccion" class="text-danger"></span>
-             </div>
-
-             <button type="submit" class="btn btn-primary">Guardar</button>
-
-             <a asp-controller="Admin"asp-action="ListarCentro" class="btn btn-warning">Volver a la lista</a>
-
+            </div>
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> Guardar
+                </button>
+                <a asp-controller="Admin" asp-action="ListarCentro" class="btn btn-warning">
+                    <i class="bi bi-arrow-left"></i> Volver a la lista
+                </a>
+            </div>
         </form>
     </div>
-
 </div>

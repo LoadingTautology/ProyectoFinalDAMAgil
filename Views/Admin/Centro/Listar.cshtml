@@ -1,59 +1,51 @@
 ﻿@model List<ProyectoFinalDAMAgil.Scaffold.Centroeducativo>
-@* @model List<ProyectoFinalDAMAgil.Models.Admin.CentroEducativoModel> *@
-﻿@{
+
+@{
     ViewData["Title"] = "Centro Educativo";
 }
 
-
-
 <div class="card">
     <div class="card-header">
-        Lista Contacto
+        <h3>Lista de Contacto</h3>
     </div>
     <div class="card-body">
-        <a asp-controller="Admin" asp-action="GuardarCentro" class="btn btn-success"><i class="bi bi-plus-circle"></i> Crear Nuevo</a>
-        <hr />
-        <table class="table table-bordered">
-            <thead>
+        <a asp-controller="Admin" asp-action="GuardarCentro" class="btn btn-success mb-3">
+            <i class="bi bi-plus-circle"></i> Crear Nuevo
+        </a>
+        <table class="table table-hover table-striped">
+            <thead class="thead-dark">
                 <tr>
                     <th>Nombre</th>
                     <th>Dirección</th>
-                    <th></th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                @if(Model!=null)
+                @if (Model != null && Model.Any())
                 {
                     @foreach (var item in Model)
                     {
                         <tr>
                             <td>@item.NombreCentro</td>
                             <td>@item.Direccion</td>
-@*                             <td>@item.DireccionCentro</td> *@
                             <td>
-
-                                <a asp-controller="Admin" asp-action="EditarCentro" asp-route-id="@item.IdCentro" class="btn btn-primary btn-sm">Editar</a>
-
-
- @*                                <div>
-                                    <form asp-controller="Admin" asp-action="EditarCentro" method="post">
-                                        <input type="hidden" asp-for="@item" />
-                                        <button class="btn btn-primary btn-sm" type="submit">Editar</button>
-                                    </form>
-                                </div> *@
-
-
-
-                                @* <a asp-controller="Admin" asp-action="EditarCentro" asp-for="@item" class="btn btn-primary btn-sm" >Editar</a> *@
-                                <a asp-controller="Admin" asp-action="EliminarCentro" asp-for="@item" class="btn btn-danger btn-sm">Eliminar</a>
+                                <a asp-controller="Admin" asp-action="EditarCentro" asp-route-id="@item.IdCentro" class="btn btn-primary btn-sm">
+                                    <i class="bi bi-pencil"></i> Editar
+                                </a>
+                                <a asp-controller="Admin" asp-action="EliminarCentro" asp-route-id="@item.IdCentro" class="btn btn-danger btn-sm" onclick="return confirm('¿Está seguro de que desea eliminar este centro educativo?');">
+                                    <i class="bi bi-trash"></i> Eliminar
+                                </a>
                             </td>
                         </tr>
-
                     }
                 }
-
+                else
+                {
+                    <tr>
+                        <td colspan="3" class="text-center">No hay centros educativos disponibles.</td>
+                    </tr>
+                }
             </tbody>
         </table>
-
     </div>
 </div>
