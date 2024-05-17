@@ -32,9 +32,9 @@
                                 <a asp-controller="Admin" asp-action="EditarCentro" asp-route-id="@item.IdCentro" class="btn btn-primary btn-sm">
                                     <i class="bi bi-pencil"></i> Editar
                                 </a>
-                                <a asp-controller="Admin" asp-action="EliminarCentro" asp-route-id="@item.IdCentro" class="btn btn-danger btn-sm">
+                                <button asp-controller="Admin" asp-action="EliminarCentro" asp-route-id="@item.IdCentro" class="btn btn-danger btn-sm">
                                     <i class="bi bi-trash"></i> Eliminar
-                                </a>
+                                </button>
                             </td>
                         </tr>
                     }
