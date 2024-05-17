@@ -1,4 +1,4 @@
-﻿@model ProyectoFinalDAMAgil.Models.Admin.CentroEducativoModel
+﻿@model ProyectoFinalDAMAgil.Scaffold.Centroeducativo
 ﻿@{
     ViewData["Title"] = "Centro Educativo Editar";
 }
@@ -20,8 +20,8 @@
              </div>
              <div class="mb-3">
                 <label class="form-label">Direccion Centro</label>
-                <input asp-for="DireccionCentro" type="text" class="form-control">
-                <span asp-validation-for="DireccionCentro" class="text-danger"></span>
+                <input asp-for="Direccion" type="text" class="form-control">
+                <span asp-validation-for="Direccion" class="text-danger"></span>
              </div>
 
              <button type="submit" class="btn btn-primary">Guardar</button>

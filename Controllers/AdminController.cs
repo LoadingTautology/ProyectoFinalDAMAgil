@@ -7,6 +7,7 @@ using ProyectoFinalDAMAgil.Services.Usuario;
 using ProyectoFinalDAMAgil.Services.Usuarioscentroeducativo;
 using ProyectoFinalDAMAgil.Models.Admin;
 using System.Security.Claims;
+using ProyectoFinalDAMAgil.Scaffold;
 
 namespace ProyectoFinalDAMAgil.Controllers
 {
@@ -43,8 +44,8 @@ namespace ProyectoFinalDAMAgil.Controllers
             if (claimsUser.Identity!.IsAuthenticated)
                 emailUsuario = claimsUser.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()!;
             
-
-            IEnumerable<CentroEducativoModel> listado = await _centroeducativoService.ListadoCentroEducativo(emailUsuario);
+            /*            */
+            IEnumerable<Scaffold.Centroeducativo> listado = await _centroeducativoService.ListadoCentroEducativo(emailUsuario);
 
             Console.WriteLine("AQUI LLEGA LISTAR CENTRO");
             return View("~/Views/Admin/Centro/Listar.cshtml", listado);
@@ -107,13 +108,38 @@ namespace ProyectoFinalDAMAgil.Controllers
             return RedirectToAction("ListarCentro", "Admin");
         }
 
+
+
+
         [HttpGet]
-        public async Task<IActionResult> EditarCentro(CentroEducativoModel datosCentro)
+        public async Task<IActionResult> EditarCentro([FromRoute] int Id)
         {
-            Console.WriteLine("************************** EDITAR CENTRO"+ datosCentro);
+            Console.WriteLine("************************** EDITAR CENTRO GET Id:"+ Id+" ********");
+
+            Scaffold.Centroeducativo centro = await _centroeducativoService.GetCentroeducativo(Id);
+
+            return View("~/Views/Admin/Centro/Editar.cshtml", centro);
+        }
+
+
+        //[HttpPost]
+        //public IActionResult EditarCentroPost([FromRoute] int Id)
+        //{
+        //    Console.WriteLine("************************** EDITAR CENTRO POST Id:"+ Id+" ********"); ;
+
+        //    //METODO SOLO DEVUELVE LA VISTA
+        //    return RedirectToAction("EditarCentroGet");
+        //    //return View("~/Views/Admin/Centro/Editar.cshtml", datosCentro);
+        //}
+
+        [HttpPost]
+        public IActionResult EditarCentro(Scaffold.Centroeducativo centro)
+        {
+            Console.WriteLine("************************** EDITAR CENTRO POST Id: ********");
 
             //METODO SOLO DEVUELVE LA VISTA
-            return View("~/Views/Admin/Centro/Editar.cshtml", datosCentro);
+            return RedirectToAction("EditarCentro");
+            //return View("~/Views/Admin/Centro/Editar.cshtml", datosCentro);
         }
 
         #endregion

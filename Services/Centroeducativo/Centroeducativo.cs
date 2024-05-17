@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProyectoFinalDAMAgil.Models.Admin;
 using ProyectoFinalDAMAgil.Scaffold;
+using System.Linq;
 
 namespace ProyectoFinalDAMAgil.Services.Centroeducativo
 {
@@ -13,6 +14,14 @@ namespace ProyectoFinalDAMAgil.Services.Centroeducativo
         {
             _context=context;
         }
+
+        public async Task<Scaffold.Centroeducativo> GetCentroeducativo(int idCentro)
+        {
+            Scaffold.Centroeducativo centroeducativo = await _context.Centroeducativos.Where(centro => centro.IdCentro == idCentro).FirstOrDefaultAsync();
+
+            return centroeducativo!;
+        }
+
 
         public async Task<Scaffold.Centroeducativo> GetCentroeducativo(string nombreCentro, string direccion)
         {
@@ -44,16 +53,39 @@ namespace ProyectoFinalDAMAgil.Services.Centroeducativo
             return existe;
         }
 
-        public async Task<IEnumerable<CentroEducativoModel>> ListadoCentroEducativo(string emailAdmin)
+        public async Task<IEnumerable<Scaffold.Centroeducativo>> ListadoCentroEducativo(string emailAdmin)
         {
+            IQueryable<Scaffold.Centroeducativo> centrobbdd = from centro in _context.Centroeducativos
+                                                              join user in _context.Usuarios on centro.IdAdministrador equals user.IdUsuario
+                                                              where user.Email == emailAdmin
+                                                              select new Scaffold.Centroeducativo { IdCentro=centro.IdCentro, NombreCentro=centro.NombreCentro, Direccion=centro.Direccion };
+
+            //List<Scaffold.Centroeducativo> centroView = new List<Scaffold.Centroeducativo>();
+
+            //foreach( var item in centrobbdd) 
+            //{
+            //    centroView.Add(new Scaffold.Centroeducativo { IdCentro=item.IdCentro, NombreCentro=item.NombreCentro, Direccion=item.Direccion } );
+            //}
 
 
-            IQueryable<CentroEducativoModel> centrobbdd = from centro in _context.Centroeducativos
-                                                          join user in _context.Usuarios on centro.IdAdministrador equals user.IdUsuario
-                                                          where user.Email == emailAdmin
-                                                          select new CentroEducativoModel { NombreCentro=centro.NombreCentro, DireccionCentro= centro.Direccion };
             return centrobbdd.ToList();
-
         }
+
+
+
+
+
+        //public async Task<IEnumerable<CentroEducativoModel>> ListadoCentroEducativo(string emailAdmin)
+        //{
+
+
+
+        //    IQueryable<CentroEducativoModel> centrobbdd = from centro in _context.Centroeducativos
+        //                                                  join user in _context.Usuarios on centro.IdAdministrador equals user.IdUsuario
+        //                                                  where user.Email == emailAdmin
+        //                                                  select new CentroEducativoModel { NombreCentro=centro.NombreCentro, DireccionCentro= centro.Direccion };
+        //    return centrobbdd.ToList();
+
+        //}
     }
 }
