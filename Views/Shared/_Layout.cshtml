@@ -6,57 +6,13 @@
     <title>GestaCentro - @ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Layout.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProyectoFinalDAMAgil.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
-    <style>
-        /* Estilos personalizados para la barra lateral */
-        #sidebar {
-            height: 100vh;
-            position: fixed;
-            top: 56px; /* Altura de la barra de navegación */
-            left: 0;
-            width: 250px;
-            transition: width 0.3s;
-            overflow-x: hidden;
-            z-index: 1000;
-        }
-
-            #sidebar.collapsed {
-                width: 80px;
-            }
-
-            #sidebar .nav-link {
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                overflow: hidden;
-            }
-
-            #sidebar.collapsed .nav-link {
-                text-align: center;
-            }
-
-                #sidebar.collapsed .nav-link span {
-                    display: none;
-                }
-
-        #content {
-            margin-left: 250px;
-            transition: margin-left 0.3s;
-            padding-top: 56px; /* Altura de la barra de navegación */
-        }
-
-            #content.collapsed {
-                margin-left: 80px;
-            }
-
-        .navbar {
-            z-index: 1050; /* Asegura que la barra de navegación esté sobre la barra lateral */
-        }
-    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3 fixed-top">
+        <nav class="navbar navbar-expand-sm border-bottom box-shadow mb-3 fixed-top">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GestaCentro</a>
                 <div class="d-flex">
@@ -66,13 +22,27 @@
                             @User.Identity.Name
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                            <li class="d-flex align-items-center px-3 py-2">
+                                <i class="bi bi-person-circle me-2"></i>
+                                <span>@User.Identity.Name</span>
+                            </li>
                             <li>
                                 <a class="dropdown-item d-flex align-items-center" asp-area="" asp-controller="Account" asp-action="Settings">
                                     <i class="bi bi-gear me-2"></i>Configuración
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="CerrarSesion">
+                                <button class="dropdown-item d-flex align-items-center" id="themeToggle">
+                                    <i class="bi bi-moon me-2" id="themeIcon"></i><span id="themeText">Cambiar a Oscuro</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item d-flex align-items-center" id="languageToggle">
+                                    <i class="bi bi-translate me-2"></i>Seleccionar Idioma
+                                </button>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center text-danger" asp-area="" asp-controller="Home" asp-action="CerrarSesion">
                                     <i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión
                                 </a>
                             </li>
@@ -83,7 +53,7 @@
         </nav>
     </header>
 
-    <div id="sidebar" class="bg-light border-right">
+    <div id="sidebar" class="border-right">
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link" href="#" onclick="toggleSidebar()">
@@ -151,6 +121,43 @@
                 document.getElementById('sidebar').classList.add('collapsed');
                 document.getElementById('content').classList.add('collapsed');
             }
+        });
+
+        // Alternar tema claro/oscuro
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+            updateThemeButton(theme);
+        });
+
+        // Cargar el tema desde localStorage
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+            }
+            updateThemeButton(savedTheme);
+        });
+
+        // Actualizar el botón de tema
+        function updateThemeButton(theme) {
+            const themeText = document.getElementById('themeText');
+            const themeIcon = document.getElementById('themeIcon');
+            if (theme === 'dark') {
+                themeText.textContent = 'Cambiar a Claro';
+                themeIcon.classList.remove('bi-moon');
+                themeIcon.classList.add('bi-sun');
+            } else {
+                themeText.textContent = 'Cambiar a Oscuro';
+                themeIcon.classList.remove('bi-sun');
+                themeIcon.classList.add('bi-moon');
+            }
+        }
+
+        // Placeholder para cambiar idioma
+        document.getElementById('languageToggle').addEventListener('click', () => {
+            alert('Cambiar idioma - Funcionalidad en desarrollo');
         });
     </script>
 </body>
