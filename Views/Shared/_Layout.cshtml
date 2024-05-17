@@ -12,7 +12,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light border-bottom box-shadow mb-3 fixed-top">
+        <nav class="navbar navbar-expand-sm border-bottom box-shadow mb-3 fixed-top">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GestaCentro</a>
                 <div class="d-flex">
@@ -126,7 +126,6 @@
         // Alternar tema claro/oscuro
         document.getElementById('themeToggle').addEventListener('click', () => {
             document.body.classList.toggle('dark-theme');
-            document.table.classList.toggle('table-dark');
             const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
             localStorage.setItem('theme', theme);
             updateThemeButton(theme);
@@ -137,9 +136,6 @@
             const savedTheme = localStorage.getItem('theme') || 'light';
             if (savedTheme === 'dark') {
                 document.body.classList.add('dark-theme');
-            }
-            if (savedTheme === 'dark') {
-                document.table.classList.add('table-dark');
             }
             updateThemeButton(savedTheme);
         });
