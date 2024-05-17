@@ -17,14 +17,14 @@ namespace ProyectoFinalDAMAgil.Controllers
         private readonly IUsuarioService _usuarioService;
         private readonly ICorreoelectronicoService _correoelectronicoService;
         private readonly IAdministradorService _administradorService;
-        private readonly ICentroeducativo _centroeducativoService;
-        private readonly IUsuarioscentroeducativo _usuarioscentroeducativoService;
+        private readonly ICentroeducativoService _centroeducativoService;
+        private readonly IUsuarioscentroeducativoService _usuarioscentroeducativoService;
 
         public AdminController(IUsuarioService usuarioService,
                                ICorreoelectronicoService correoelectronicoService,
                                IAdministradorService administradorService,
-                               ICentroeducativo centroeducativoService,
-                               IUsuarioscentroeducativo usuarioscentroeducativo)
+                               ICentroeducativoService centroeducativoService,
+                               IUsuarioscentroeducativoService usuarioscentroeducativo)
         {
             _usuarioService=usuarioService;
             _correoelectronicoService=correoelectronicoService;
@@ -37,7 +37,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 
         #region Gestion Centro
         [HttpGet]
-        public async Task<IActionResult> ListarCentroAsync()
+        public async Task<IActionResult> ListarCentro()
         {
             ClaimsPrincipal claimsUser = HttpContext.User;
             string emailUsuario = "";
@@ -122,23 +122,22 @@ namespace ProyectoFinalDAMAgil.Controllers
         }
 
 
-        //[HttpPost]
-        //public IActionResult EditarCentroPost([FromRoute] int Id)
-        //{
-        //    Console.WriteLine("************************** EDITAR CENTRO POST Id:"+ Id+" ********"); ;
-
-        //    //METODO SOLO DEVUELVE LA VISTA
-        //    return RedirectToAction("EditarCentroGet");
-        //    //return View("~/Views/Admin/Centro/Editar.cshtml", datosCentro);
-        //}
-
         [HttpPost]
-        public IActionResult EditarCentro(Scaffold.Centroeducativo centro)
+        public async Task<IActionResult> EditarCentro(Scaffold.Centroeducativo centro)
         {
-            Console.WriteLine("************************** EDITAR CENTRO POST Id: ********");
+
+            if(await _centroeducativoService.ExisteCentroEducativo(centro.NombreCentro, centro.Direccion)) 
+            {
+                ViewData["Mensaje"] = "Ese centro ya existe en esa dirección";
+                return View("~/Views/Admin/Centro/Editar.cshtml", centro);
+            }
+
+            centro = await _centroeducativoService.UpdateCentroeducativo(centro);
+
+
 
             //METODO SOLO DEVUELVE LA VISTA
-            return RedirectToAction("EditarCentro");
+            return RedirectToAction("ListarCentro");
             //return View("~/Views/Admin/Centro/Editar.cshtml", datosCentro);
         }
 

@@ -10,6 +10,9 @@
     </div>
     <div class="card-body">
         <form asp-controller="Admin" asp-action="EditarCentro" method="post">
+            <input type="hidden" asp-for=IdAdministrador/>
+            <input type="hidden" asp-for="IdCentro" />
+
             <div class="mb-3">
                 <label asp-for="NombreCentro" class="form-label">Nombre Centro</label>
                 <input asp-for="NombreCentro" type="text" class="form-control" />
@@ -29,5 +32,11 @@
                 </a>
             </div>
         </form>
+        @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewData["Mensaje"]
+            </div>
+        }
     </div>
 </div>
