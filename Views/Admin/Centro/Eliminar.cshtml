@@ -12,10 +12,9 @@
     <div class="card-body">
 
 
-        <form asp-controller="Admin" asp-action="EliminarCentro" method="post">
+        <form asp-controller="Admin" asp-action="EliminarCentroPost" method="post">
 
-            <input type="hidden" asp-for=IdAdministrador/>
-            <input type="hidden" asp-for="IdCentro" />
+            <input type="hidden" name="IdCentroEducativo" asp-for="IdCentro"/>
 
             <div class="alert alert-danger" role="alert">
                 ¿Desea eliminar el centro ?
@@ -24,7 +23,7 @@
             </div>
 
             <button type="submit" class="btn btn-danger">Elimnar</button>
-            <a asp-controller="Admin" asp-action="ListarCentro" class="btn btn-warning">Volver a la lista</a>
+            <a asp-controller="Admin" asp-action="ListarCentro" asp-route-id="@Model.IdCentro" class="btn btn-warning">Volver a la lista</a>
         </form>
 
 

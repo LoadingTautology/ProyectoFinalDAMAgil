@@ -79,6 +79,14 @@ namespace ProyectoFinalDAMAgil.Services.Centroeducativo
             return centrobbdd.ToList();
         }
 
+        public async Task<Scaffold.Centroeducativo> DeleteCentroeducativo(int idCentro)
+        {
+            Scaffold.Centroeducativo centroeducativo = await this.GetCentroeducativo(idCentro);
+            _context.Centroeducativos.Remove(centroeducativo);
+            await _context.SaveChangesAsync();
+            return centroeducativo;
+        }
+
 
 
 

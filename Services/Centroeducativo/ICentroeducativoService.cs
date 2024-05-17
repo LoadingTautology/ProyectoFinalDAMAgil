@@ -4,6 +4,7 @@ namespace ProyectoFinalDAMAgil.Services.Centroeducativo
 {
     public interface ICentroeducativoService
     {
+        Task<Scaffold.Centroeducativo> DeleteCentroeducativo(int idCentro);
         Task<Scaffold.Centroeducativo> UpdateCentroeducativo(Scaffold.Centroeducativo centroeducativo);
         Task<Scaffold.Centroeducativo> GetCentroeducativo(int idCentro);
 

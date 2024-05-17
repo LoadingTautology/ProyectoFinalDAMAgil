@@ -48,8 +48,8 @@ CREATE TABLE UsuariosCentroEducativo (
     IdCentro INT NOT NULL,
     IdUsuario INT NOT NULL,
     PRIMARY KEY (IdUsuariosCentroEducativo),
-    FOREIGN KEY (IdCentro) REFERENCES CentroEducativo(IdCentro),
-    FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario),
+    FOREIGN KEY (IdCentro) REFERENCES CentroEducativo(IdCentro) ON DELETE CASCADE,
+    FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario) ON DELETE CASCADE,
     UNIQUE (IdCentro, IdUsuario)
 );
 
