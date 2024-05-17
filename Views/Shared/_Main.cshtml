@@ -25,6 +25,24 @@
         .footer-links a {
             text-decoration: none;
         }
+
+        .footer {
+            background-color: #f8f9fa;
+            padding: 2rem 0;
+        }
+
+            .footer h5 {
+                margin-bottom: 1rem;
+            }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer .social-icons a {
+            margin: 0 0.5rem;
+            color: #343a40;
+        }
     </style>
 </head>
 <body>
@@ -60,7 +78,6 @@
                                 <i class="bi bi-shield-lock"></i>Privacy
                             </a>
                         </li>
-
                         <li class="nav-item ms-3">
                             <a class="btn btn-primary" asp-area="" asp-controller="Login" asp-action="IniciarSesion">
                                 <i class="bi bi-box-arrow-in-right"></i> Acceder
@@ -76,9 +93,8 @@
             @RenderBody()
         </main>
     </div>
-
-    <footer class="bg-light text-center text-lg-start mt-auto py-3">
-        <div class="container text-center py-3">
+    <footer class="footer mt-auto">
+        <div class="container text-center">
             <div class="row">
                 <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
                     <h5 class="text-uppercase">GestaCentro</h5>
@@ -102,6 +118,16 @@
                             <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-dark">Privacy</a>
                         </li>
                     </ul>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <div class="social-icons">
+                        <a href="#!" class="text-dark"><i class="bi bi-facebook"></i></a>
+                        <a href="#!" class="text-dark"><i class="bi bi-twitter"></i></a>
+                        <a href="#!" class="text-dark"><i class="bi bi-instagram"></i></a>
+                        <a href="#!" class="text-dark"><i class="bi bi-linkedin"></i></a>
+                    </div>
                 </div>
             </div>
             <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">

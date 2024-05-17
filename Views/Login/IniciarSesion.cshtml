@@ -9,6 +9,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Iniciar Sesión</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .card {
+            border-radius: 1rem;
+        }
+
+        .card-header {
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+                border-color: #004085;
+            }
+    </style>
 </head>
 <body>
     <div class="container mt-5 pt-5">
@@ -19,10 +43,10 @@
                         <h4>Iniciar Sesión</h4>
                     </div>
                     <div class="card-body">
-                        <form asp-controller="Login" asp-action="IniciarSesion" method="post">
+                        <form asp-controller="Login" asp-action="IniciarSesion" method="post" novalidate>
                             <div class="mb-3">
                                 <label for="correo" class="form-label">Correo</label>
-                                <input class="form-control" type="email" id="correo" name="correo" placeholder="Correo" required />
+                                <input class="form-control" type="email" id="correo" name="correo" placeholder="Correo" required aria-describedby="emailHelp" />
                             </div>
                             <div class="mb-3">
                                 <label for="clave" class="form-label">Contraseña</label>
