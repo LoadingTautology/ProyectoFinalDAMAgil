@@ -176,9 +176,10 @@ namespace ProyectoFinalDAMAgil.Controllers
 
         [HttpGet]
         [HttpPost]
-        public IActionResult Estudios([FromRoute] int Id)
+        public IActionResult Estudios(int Id)
         {
-            return View("~/Views/Admin/Estudios/Index.cshtml");
+            // Aquí puedes agregar lógica adicional si es necesario
+            return View("~/Views/Admin/Estudios/Index.cshtml", Id);
         }
 
         #endregion
