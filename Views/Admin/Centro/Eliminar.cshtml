@@ -1,5 +1,32 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model ProyectoFinalDAMAgil.Scaffold.Centroeducativo
+
 @{
+    ViewData["Title"] = "Eliminar Centro Educativo";
 }
+
+
+<div class="card">
+    <div class="card-header">
+        Eliminar Contacto
+    </div>
+    <div class="card-body">
+
+
+        <form asp-controller="Admin" asp-action="EliminarCentro" method="post">
+
+            <input type="hidden" asp-for=IdAdministrador/>
+            <input type="hidden" asp-for="IdCentro" />
+
+            <div class="alert alert-danger" role="alert">
+                ¿Desea eliminar el centro ?
+                Nombre: @Html.DisplayTextFor(centro => centro.NombreCentro)
+                Dirección: @Html.DisplayTextFor(centro => centro.Direccion)
+            </div>
+
+            <button type="submit" class="btn btn-danger">Elimnar</button>
+            <a asp-controller="Admin" asp-action="ListarCentro" class="btn btn-warning">Volver a la lista</a>
+        </form>
+
+
+    </div>
+</div>
