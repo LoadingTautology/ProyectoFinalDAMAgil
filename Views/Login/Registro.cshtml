@@ -5,12 +5,36 @@
 }
 
 <!DOCTYPE html>
-
-<html>
+<html lang="es">
 <head>
-    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Registrarse</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .card {
+            border-radius: 1rem;
+        }
+
+        .card-header {
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+                border-color: #004085;
+            }
+    </style>
 </head>
 <body>
     <div class="container mt-5 pt-5">
@@ -18,34 +42,42 @@
             <div class="col-12 col-xl-4 col-md-6">
                 <div class="card shadow-sm">
                     <div class="card-header bg-primary text-white text-center">
-                        <h4>Registrate</h4>
+                        <h4>Registrarse</h4>
                     </div>
                     <div class="card-body">
-                        <form id="registroForm" asp-controller="Login" asp-action="Registro" method="post" enctype="multipart/form-data">
+                        <form id="registroForm" asp-controller="Login" asp-action="Registro" method="post" enctype="multipart/form-data" novalidate>
                             <div class="mb-3">
-                                <input class="form-control" type="text" placeholder="Nombre" asp-for="NombreUsuario" required />
+                                <label for="NombreUsuario" class="form-label">Nombre</label>
+                                <input class="form-control" type="text" id="NombreUsuario" asp-for="NombreUsuario" placeholder="Nombre" required />
+                                <span asp-validation-for="NombreUsuario" class="text-danger"></span>
                             </div>
                             <div class="mb-3">
-                                <input class="form-control" type="text" placeholder="Apellidos" asp-for="ApellidosUsuario" required />
+                                <label for="ApellidosUsuario" class="form-label">Apellidos</label>
+                                <input class="form-control" type="text" id="ApellidosUsuario" asp-for="ApellidosUsuario" placeholder="Apellidos" required />
+                                <span asp-validation-for="ApellidosUsuario" class="text-danger"></span>
                             </div>
                             <div class="mb-3">
-                                <input class="form-control" type="text" placeholder="DNI" asp-for="DNI" required />
+                                <label for="DNI" class="form-label">DNI</label>
+                                <input class="form-control" type="text" id="DNI" asp-for="DNI" placeholder="DNI" required />
+                                <span asp-validation-for="DNI" class="text-danger"></span>
                             </div>
                             <div class="mb-3">
-                                <input class="form-control" type="email" placeholder="Correo" required asp-for="Correo" />
+                                <label for="Correo" class="form-label">Correo</label>
+                                <input class="form-control" type="email" id="Correo" asp-for="Correo" placeholder="Correo" required />
+                                <span asp-validation-for="Correo" class="text-danger"></span>
                             </div>
                             <div class="mb-3">
-                                <input class="form-control" type="password" placeholder="Contraseña" required asp-for="Clave" />
-@*                                 <span asp-validation-for="Clave" class="text-danger"></span> *@
+                                <label for="Clave" class="form-label">Contraseña</label>
+                                <input class="form-control" type="password" id="Clave" asp-for="Clave" placeholder="Contraseña" required />
+                                <span asp-validation-for="Clave" class="text-danger"></span>
                             </div>
                             <div class="mb-3">
-                                <input class="form-control" type="password" placeholder="Repite Contraseña" required name="ClaveRepetida" />
+                                <label for="ClaveRepetida" class="form-label">Repite Contraseña</label>
+                                <input class="form-control" type="password" id="ClaveRepetida" name="ClaveRepetida" placeholder="Repite Contraseña" required />
                             </div>
-
                             <div class="d-grid gap-2 mb-3">
                                 <button class="btn btn-primary" type="submit">Registrarse</button>
                             </div>
-
                             @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
                             {
                                 <div class="alert alert-danger" role="alert">
@@ -53,7 +85,7 @@
                                 </div>
                             }
                             <div class="text-center">
-                                ¿Ya tienes una cuenta? <a href="@Url.Action("IniciarSesion","Login")"> Iniciar Sesión</a>
+                                ¿Ya tienes una cuenta? <a href="@Url.Action("IniciarSesion","Login")">Iniciar Sesión</a>
                             </div>
                         </form>
                     </div>
