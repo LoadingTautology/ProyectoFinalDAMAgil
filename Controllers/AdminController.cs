@@ -11,7 +11,7 @@ using ProyectoFinalDAMAgil.Scaffold;
 
 namespace ProyectoFinalDAMAgil.Controllers
 {
-    [Authorize (Roles = "ADMINISTRADOR")]
+    [Authorize(Roles = "ADMINISTRADOR")]
     public class AdminController : Controller
     {
         private readonly IUsuarioService _usuarioService;
@@ -26,11 +26,11 @@ namespace ProyectoFinalDAMAgil.Controllers
                                ICentroeducativoService centroeducativoService,
                                IUsuarioscentroeducativoService usuarioscentroeducativo)
         {
-            _usuarioService=usuarioService;
-            _correoelectronicoService=correoelectronicoService;
-            _administradorService=administradorService;
-            _centroeducativoService=centroeducativoService;
-            this._usuarioscentroeducativoService=usuarioscentroeducativo;
+            _usuarioService = usuarioService;
+            _correoelectronicoService = correoelectronicoService;
+            _administradorService = administradorService;
+            _centroeducativoService = centroeducativoService;
+            this._usuarioscentroeducativoService = usuarioscentroeducativo;
         }
 
 
@@ -43,7 +43,7 @@ namespace ProyectoFinalDAMAgil.Controllers
             string emailUsuario = "";
             if (claimsUser.Identity!.IsAuthenticated)
                 emailUsuario = claimsUser.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()!;
-            
+
             /*            */
             IEnumerable<Scaffold.Centroeducativo> listado = await _centroeducativoService.ListadoCentroEducativo(emailUsuario);
 
@@ -67,22 +67,22 @@ namespace ProyectoFinalDAMAgil.Controllers
             if (!ModelState.IsValid)
                 return View("~/Views/Admin/Centro/Guardar.cshtml", datosCentro);
 
-            if(await _centroeducativoService.ExisteCentroEducativo(datosCentro.NombreCentro, datosCentro.DireccionCentro)) 
+            if (await _centroeducativoService.ExisteCentroEducativo(datosCentro.NombreCentro, datosCentro.DireccionCentro))
             {
-                datosCentro.NombreCentro="";
-                datosCentro.DireccionCentro="";
+                datosCentro.NombreCentro = "";
+                datosCentro.DireccionCentro = "";
                 ViewData["Mensaje"] = "Ese centro ya existe en esa dirección";
                 return View("~/Views/Admin/Centro/Guardar.cshtml", datosCentro);
             }
-            else 
+            else
             {
-                try 
+                try
                 {
                     //Crear Centro Educativo
                     Scaffold.Centroeducativo centroCreado = await _centroeducativoService.SaveCentroeducativo(
                         new Scaffold.Centroeducativo
                         {
-                            NombreCentro=datosCentro.NombreCentro,
+                            NombreCentro = datosCentro.NombreCentro,
                             Direccion = datosCentro.DireccionCentro
 
                         }, HttpContext.User.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()!
@@ -90,7 +90,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 
                     //Crear Relacion Centro Usuarios
                     await _usuarioscentroeducativoService.SaveUsuariosCentroeducativo(
-                        new Scaffold.Usuarioscentroeducativo 
+                        new Scaffold.Usuarioscentroeducativo
                         {
                             IdCentro = centroCreado.IdCentro,
                             IdUsuario = centroCreado.IdAdministrador
@@ -99,7 +99,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 
 
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     Console.WriteLine(ex.ToString());
                 }
@@ -125,7 +125,7 @@ namespace ProyectoFinalDAMAgil.Controllers
         public async Task<IActionResult> EditarCentro(Scaffold.Centroeducativo centro)
         {
 
-            if(await _centroeducativoService.ExisteCentroEducativo(centro.NombreCentro, centro.Direccion)) 
+            if (await _centroeducativoService.ExisteCentroEducativo(centro.NombreCentro, centro.Direccion))
             {
                 ViewData["Mensaje"] = "Ese centro ya existe en esa dirección";
                 return View("~/Views/Admin/Centro/Editar.cshtml", centro);
@@ -137,17 +137,30 @@ namespace ProyectoFinalDAMAgil.Controllers
             //return View("~/Views/Admin/Centro/Editar.cshtml", datosCentro);
         }
 
-        [HttpGet]
         [HttpPost]
         public async Task<IActionResult> EliminarCentro([FromRoute] int Id)
         {
+            try
+            {
+                Scaffold.Centroeducativo centro = await _centroeducativoService.DeleteCentroeducativo(Id);
+                bool existe = await _centroeducativoService.ExisteCentroEducativo(centro.NombreCentro, centro.Direccion);
 
-            Scaffold.Centroeducativo centro = await _centroeducativoService.DeleteCentroeducativo(Id);
-            if (await _centroeducativoService.ExisteCentroEducativo(centro.NombreCentro, centro.Direccion))
-                return RedirectToAction("ListarCentro");
-            else
-                return RedirectToAction("ListarCentro");
+                if (existe)
+                {
+                    return Json(new { success = false, message = "El centro educativo no se pudo eliminar." });
+                }
+                else
+                {
+                    return Json(new { success = true });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Ocurrió un error al eliminar el centro educativo." });
+            }
         }
+
+
 
         #endregion
 
