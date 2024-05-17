@@ -114,7 +114,6 @@ namespace ProyectoFinalDAMAgil.Controllers
         [HttpGet]
         public async Task<IActionResult> EditarCentro([FromRoute] int Id)
         {
-            Console.WriteLine("************************** EDITAR CENTRO GET Id:"+ Id+" ********");
 
             Scaffold.Centroeducativo centro = await _centroeducativoService.GetCentroeducativo(Id);
 
@@ -132,14 +131,20 @@ namespace ProyectoFinalDAMAgil.Controllers
                 return View("~/Views/Admin/Centro/Editar.cshtml", centro);
             }
 
-            centro = await _centroeducativoService.UpdateCentroeducativo(centro);
+            await _centroeducativoService.UpdateCentroeducativo(centro);
 
-
-
-            //METODO SOLO DEVUELVE LA VISTA
             return RedirectToAction("ListarCentro");
             //return View("~/Views/Admin/Centro/Editar.cshtml", datosCentro);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> EliminarCentro([FromRoute] int Id)
+        {
+            Scaffold.Centroeducativo centro = await _centroeducativoService.GetCentroeducativo(Id);
+
+            return View("~/Views/Admin/Centro/Eliminar.cshtml", centro);
+        }
+
 
         #endregion
 
@@ -157,39 +162,6 @@ namespace ProyectoFinalDAMAgil.Controllers
 
 /*
 
-
-
-
-
-        public IActionResult Editar(int IdContacto)
-        {
-            //METODO SOLO DEVUELVE LA VISTA
-            var ocontacto = _ContactoDatos.Obtener(IdContacto);
-            return View(ocontacto);
-        }
-
-        [HttpPost]
-        public IActionResult Editar(ContactoModel oContacto)
-        {
-            if (!ModelState.IsValid)
-                return View();
-
-
-            var respuesta = _ContactoDatos.Editar(oContacto);
-
-            if (respuesta)
-                return RedirectToAction("Listar");
-            else
-                return View();
-        }
-
-
-        public IActionResult Eliminar(int IdContacto)
-        {
-            //METODO SOLO DEVUELVE LA VISTA
-            var ocontacto = _ContactoDatos.Obtener(IdContacto);
-            return View(ocontacto);
-        }
 
         [HttpPost]
         public IActionResult Eliminar(ContactoModel oContacto)
