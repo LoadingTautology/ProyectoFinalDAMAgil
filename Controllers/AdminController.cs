@@ -138,22 +138,12 @@ namespace ProyectoFinalDAMAgil.Controllers
         }
 
         [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> EliminarCentro([FromRoute] int Id)
         {
 
-
-            Scaffold.Centroeducativo centro = await _centroeducativoService.GetCentroeducativo(Id);
-
-            return View("~/Views/Admin/Centro/Eliminar.cshtml", centro);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> EliminarCentroPost(int IdCentroEducativo)
-        {
-
-
-            Scaffold.Centroeducativo centro = await _centroeducativoService.DeleteCentroeducativo(IdCentroEducativo);
-            if (await _centroeducativoService.ExisteCentroEducativo(centro.NombreCentro,centro.Direccion))
+            Scaffold.Centroeducativo centro = await _centroeducativoService.DeleteCentroeducativo(Id);
+            if (await _centroeducativoService.ExisteCentroEducativo(centro.NombreCentro, centro.Direccion))
                 return RedirectToAction("ListarCentro");
             else
                 return RedirectToAction("ListarCentro");

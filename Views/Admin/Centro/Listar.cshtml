@@ -32,7 +32,7 @@
                                 <a asp-controller="Admin" asp-action="EditarCentro" asp-route-id="@item.IdCentro" class="btn btn-primary btn-sm">
                                     <i class="bi bi-pencil"></i> Editar
                                 </a>
-                                <button asp-controller="Admin" asp-action="EliminarCentro" asp-route-id="@item.IdCentro" class="btn btn-danger btn-sm">
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-url="@Url.Action("EliminarCentro", "Admin", new { id = item.IdCentro })">
                                     <i class="bi bi-trash"></i> Eliminar
                                 </button>
                             </td>
