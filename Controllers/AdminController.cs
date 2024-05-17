@@ -152,16 +152,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 
         #endregion
 
-        public IActionResult GestionCentros()
-        {
-            return View();
-        }
 
-        public IActionResult Prueba()
-        {
-            Console.WriteLine("AQUI LLEGA");
-            return View("~/Views/Admin/Carpeta/Index.cshtml");
-        }
     }
 }
 
