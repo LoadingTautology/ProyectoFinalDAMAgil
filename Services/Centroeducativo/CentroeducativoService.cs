@@ -5,15 +5,23 @@ using System.Linq;
 
 namespace ProyectoFinalDAMAgil.Services.Centroeducativo
 {
-    public class Centroeducativo : ICentroeducativo
+    public class CentroeducativoService : ICentroeducativoService
     {
         //Inyecta la base de datos para poder implementar los metodos de la interfaz
         private readonly DbappProyectoFinalContext _context;
 
-        public Centroeducativo(DbappProyectoFinalContext context)
+        public CentroeducativoService(DbappProyectoFinalContext context)
         {
             _context=context;
         }
+
+        public async Task<Scaffold.Centroeducativo> UpdateCentroeducativo(Scaffold.Centroeducativo centroEducativo)
+        {
+            _context.Centroeducativos.Update(centroEducativo);
+            await _context.SaveChangesAsync();
+            return centroEducativo;
+        }
+
 
         public async Task<Scaffold.Centroeducativo> GetCentroeducativo(int idCentro)
         {
@@ -70,6 +78,8 @@ namespace ProyectoFinalDAMAgil.Services.Centroeducativo
 
             return centrobbdd.ToList();
         }
+
+
 
 
 

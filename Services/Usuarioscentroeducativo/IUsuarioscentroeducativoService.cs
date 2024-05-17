@@ -1,6 +1,6 @@
 ﻿namespace ProyectoFinalDAMAgil.Services.Usuarioscentroeducativo
 {
-    public interface IUsuarioscentroeducativo
+    public interface IUsuarioscentroeducativoService
     {
         Task<Scaffold.Usuarioscentroeducativo> GetUsuariosCentroeducativo(int IdCentro, int IdUsuario);
 

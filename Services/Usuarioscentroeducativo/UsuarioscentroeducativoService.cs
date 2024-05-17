@@ -4,11 +4,11 @@ using ProyectoFinalDAMAgil.Scaffold;
 
 namespace ProyectoFinalDAMAgil.Services.Usuarioscentroeducativo
 {
-    public class Usuarioscentroeducativo : IUsuarioscentroeducativo
+    public class UsuarioscentroeducativoService : IUsuarioscentroeducativoService
     {
         private readonly DbappProyectoFinalContext _context;
 
-        public Usuarioscentroeducativo(DbappProyectoFinalContext context)
+        public UsuarioscentroeducativoService(DbappProyectoFinalContext context)
         {
             _context=context;
         }

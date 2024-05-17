@@ -2,8 +2,9 @@
 
 namespace ProyectoFinalDAMAgil.Services.Centroeducativo
 {
-    public interface ICentroeducativo
+    public interface ICentroeducativoService
     {
+        Task<Scaffold.Centroeducativo> UpdateCentroeducativo(Scaffold.Centroeducativo centroeducativo);
         Task<Scaffold.Centroeducativo> GetCentroeducativo(int idCentro);
 
         Task<Scaffold.Centroeducativo> GetCentroeducativo(string nombreCentro, string direccion);
