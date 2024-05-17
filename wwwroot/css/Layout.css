@@ -120,3 +120,42 @@
             .dark-theme .card-text {
                 color: #adb5bd;
             }
+
+            .dark-theme .table {
+                background-color: #495057;
+                color: #f8f9fa;
+            }
+
+            .dark-theme .table-hover tbody tr:hover {
+                background-color: #6c757d;
+            }
+
+            .dark-theme .btn-success {
+                background-color: #28a745;
+                border-color: #28a745;
+            }
+
+            .dark-theme .btn-primary {
+                background-color: #007bff;
+                border-color: #007bff;
+            }
+
+            .dark-theme .btn-danger {
+                background-color: #dc3545;
+                border-color: #dc3545;
+            }
+            .dark-theme .form-control {
+                background-color: #343a40;
+                color: #f8f9fa;
+                border: 1px solid #ced4da;
+            }
+
+            .dark-theme .form-label {
+                color: #f8f9fa;
+            }
+
+            .dark-theme .alert-danger {
+                background-color: #dc3545;
+                color: #f8f9fa;
+                border-color: #dc3545;
+            }
