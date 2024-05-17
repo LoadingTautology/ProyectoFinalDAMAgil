@@ -1,175 +1,176 @@
-        /* Estilos personalizados para la barra lateral */
-        #sidebar {
-            height: 100vh;
-            position: fixed;
-            top: 56px; /* Altura de la barra de navegación */
-            left: 0;
-            width: 250px;
-            transition: width 0.3s;
-            overflow-x: hidden;
-            z-index: 1000;
-            background-color: #f8f9fa;
-            color: #212529;
+/* Estilos personalizados para la barra lateral */
+#sidebar {
+    height: 100vh;
+    position: fixed;
+    top: 56px; /* Altura de la barra de navegación */
+    left: 0;
+    width: 250px;
+    transition: width 0.3s, transform 0.3s;
+    overflow-x: hidden;
+    z-index: 1000;
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+    #sidebar.collapsed {
+        width: 80px;
+    }
+
+    #sidebar .nav-link {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        color: #212529;
+    }
+
+    #sidebar.collapsed .nav-link {
+        text-align: center;
+    }
+
+        #sidebar.collapsed .nav-link span {
+            display: none;
         }
 
-            #sidebar.collapsed {
-                width: 80px;
-            }
+#content {
+    margin-left: 250px;
+    transition: margin-left 0.3s;
+    padding-top: 56px; /* Altura de la barra de navegación */
+    background-color: #ffffff;
+    color: #212529;
+}
 
-            #sidebar .nav-link {
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                overflow: hidden;
-                color: #212529;
-            }
+    #content.collapsed {
+        margin-left: 80px;
+    }
 
-            #sidebar.collapsed .nav-link {
-                text-align: center;
-            }
+.navbar {
+    z-index: 1050; /* Asegura que la barra de navegación esté sobre la barra lateral */
+    transition: background-color 0.3s, color 0.3s;
+}
 
-                #sidebar.collapsed .nav-link span {
-                    display: none;
-                }
+.dropdown-menu {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
 
-        #content {
-            margin-left: 250px;
-            transition: margin-left 0.3s;
-            padding-top: 56px; /* Altura de la barra de navegación */
-            background-color: #ffffff;
-            color: #212529;
-        }
+    .dropdown-menu.show {
+        opacity: 1;
+        visibility: visible;
+    }
 
-            #content.collapsed {
-                margin-left: 80px;
-            }
+/* Estilos para tema oscuro */
+.dark-theme {
+    background-color: #343a40;
+    color: #f8f9fa;
+}
 
-        .navbar {
-            z-index: 1050; /* Asegura que la barra de navegación esté sobre la barra lateral */
-            transition: background-color 0.3s, color 0.3s;
-        }
+    .dark-theme .navbar,
+    .dark-theme .navbar-expand-sm {
+        background-color: #343a40;
+        color: #f8f9fa;
+    }
 
-        .dropdown-menu {
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-        }
-
-            .dropdown-menu.show {
-                opacity: 1;
-                visibility: visible;
-            }
-
-        /* Estilos para tema oscuro */
-        .dark-theme {
-            background-color: #343a40;
+        .dark-theme .navbar .navbar-brand,
+        .dark-theme .navbar .nav-link,
+        .dark-theme .navbar .dropdown-item {
             color: #f8f9fa;
         }
 
-            .dark-theme .navbar,
-            .dark-theme .navbar-expand-sm {
-                background-color: #343a40;
-                color: #f8f9fa;
-            }
+    .dark-theme .dropdown-menu {
+        background-color: #495057;
+        color: #f8f9fa;
+    }
 
-                .dark-theme .navbar .navbar-brand,
-                .dark-theme .navbar .nav-link,
-                .dark-theme .navbar .dropdown-item {
-                    color: #f8f9fa;
-                }
+    .dark-theme .dropdown-item {
+        color: #f8f9fa;
+    }
 
-            .dark-theme .dropdown-menu {
-                background-color: #495057;
-                color: #f8f9fa;
-            }
+        .dark-theme .dropdown-item:hover {
+            background-color: #6c757d;
+        }
 
-            .dark-theme .dropdown-item {
-                color: #f8f9fa;
-            }
+    .dark-theme #sidebar {
+        background-color: #495057;
+        color: #f8f9fa;
+    }
 
-                .dark-theme .dropdown-item:hover {
-                    background-color: #6c757d;
-                }
+        .dark-theme #sidebar .nav-link {
+            color: #f8f9fa;
+        }
 
-            .dark-theme #sidebar {
-                background-color: #495057;
-                color: #f8f9fa;
-            }
+    .dark-theme #content {
+        background-color: #343a40;
+        color: #f8f9fa;
+    }
 
-                .dark-theme #sidebar .nav-link {
-                    color: #f8f9fa;
-                }
+    .dark-theme .footer {
+        color: #f8f9fa;
+    }
 
-            .dark-theme #content {
-                background-color: #343a40;
-                color: #f8f9fa;
-            }
+    .dark-theme .card {
+        background-color: #343a40;
+        color: #f8f9fa;
+    }
 
-            .dark-theme .footer {
-                color: #f8f9fa;
-            }
-            
-            .dark-theme .card {
-                background-color: #343a40;
-                color: #f8f9fa;
-            }
+    .dark-theme .card-title {
+        color: #f8f9fa;
+    }
 
-            .dark-theme .card-title {
-                color: #f8f9fa;
-            }
+    .dark-theme .card-text {
+        color: #adb5bd;
+    }
 
-            .dark-theme .card-text {
-                color: #adb5bd;
-            }
+    .dark-theme .table {
+        background-color: #495057;
+        color: #f8f9fa;
+    }
 
-            .dark-theme .table {
-                background-color: #495057;
-                color: #f8f9fa;
-            }
+    .dark-theme .table-hover tbody tr:hover {
+        background-color: #6c757d;
+    }
 
-            .dark-theme .table-hover tbody tr:hover {
-                background-color: #6c757d;
-            }
+    .dark-theme .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
 
-            .dark-theme .btn-success {
-                background-color: #28a745;
-                border-color: #28a745;
-            }
+    .dark-theme .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
 
-            .dark-theme .btn-primary {
-                background-color: #007bff;
-                border-color: #007bff;
-            }
+    .dark-theme .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
 
-            .dark-theme .btn-danger {
-                background-color: #dc3545;
-                border-color: #dc3545;
-            }
-            .dark-theme .form-control {
-                background-color: #343a40;
-                color: #f8f9fa;
-                border: 1px solid #ced4da;
-            }
+    .dark-theme .form-control {
+        background-color: #343a40;
+        color: #f8f9fa;
+        border: 1px solid #ced4da;
+    }
 
-            .dark-theme .form-label {
-                color: #f8f9fa;
-            }
+    .dark-theme .form-label {
+        color: #f8f9fa;
+    }
 
-            .dark-theme .alert-danger {
-                background-color: #dc3545;
-                color: #f8f9fa;
-                border-color: #dc3545;
-            }
+    .dark-theme .alert-danger {
+        background-color: #dc3545;
+        color: #f8f9fa;
+        border-color: #dc3545;
+    }
 
-            .dark-theme .modal-content {
-                background-color: #495057;
-                color: #f8f9fa;
-            }
+    .dark-theme .modal-content {
+        background-color: #495057;
+        color: #f8f9fa;
+    }
 
-            .dark-theme .modal-header,
-            .dark-theme .modal-footer {
-                border-color: #6c757d;
-            }
+    .dark-theme .modal-header,
+    .dark-theme .modal-footer {
+        border-color: #6c757d;
+    }
 
-            .dark-theme .btn-close {
-                filter: invert(1);
-            }
+    .dark-theme .btn-close {
+        filter: invert(1);
+    }
