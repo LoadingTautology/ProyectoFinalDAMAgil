@@ -4,6 +4,7 @@ namespace ProyectoFinalDAMAgil.Models.Admin
 {
     public class CentroEducativoModel
     {
+
         [Required]
         [MinLength(1)]
         [MaxLength(100)]

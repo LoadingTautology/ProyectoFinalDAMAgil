@@ -29,6 +29,7 @@ namespace ProyectoFinalDAMAgil.Controllers
         [HttpGet]
         public IActionResult Registro()
         {
+            Console.WriteLine("ENTRA REGISTRO");
             if (HttpContext.User.Identity!.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Home");

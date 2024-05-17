@@ -1,4 +1,5 @@
-﻿@model List<ProyectoFinalDAMAgil.Models.Admin.CentroEducativoModel>
+﻿@model List<ProyectoFinalDAMAgil.Scaffold.Centroeducativo>
+@* @model List<ProyectoFinalDAMAgil.Models.Admin.CentroEducativoModel> *@
 ﻿@{
     ViewData["Title"] = "Centro Educativo";
 }
@@ -27,10 +28,23 @@
                     {
                         <tr>
                             <td>@item.NombreCentro</td>
-                            <td>@item.DireccionCentro</td>
+                            <td>@item.Direccion</td>
+@*                             <td>@item.DireccionCentro</td> *@
                             <td>
 
-                                <a asp-controller="Admin" asp-action="EditarCentro" asp-for="@item" class="btn btn-primary btn-sm" >Editar</a>
+                                <a asp-controller="Admin" asp-action="EditarCentro" asp-route-id="@item.IdCentro" class="btn btn-primary btn-sm">Editar</a>
+
+
+ @*                                <div>
+                                    <form asp-controller="Admin" asp-action="EditarCentro" method="post">
+                                        <input type="hidden" asp-for="@item" />
+                                        <button class="btn btn-primary btn-sm" type="submit">Editar</button>
+                                    </form>
+                                </div> *@
+
+
+
+                                @* <a asp-controller="Admin" asp-action="EditarCentro" asp-for="@item" class="btn btn-primary btn-sm" >Editar</a> *@
                                 <a asp-controller="Admin" asp-action="EliminarCentro" asp-for="@item" class="btn btn-danger btn-sm">Eliminar</a>
                             </td>
                         </tr>
