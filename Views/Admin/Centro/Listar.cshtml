@@ -32,9 +32,9 @@
                                 <a asp-controller="Admin" asp-action="EditarCentro" asp-route-id="@item.IdCentro" class="btn btn-primary btn-sm">
                                     <i class="bi bi-pencil"></i> Editar
                                 </a>
-                                <a asp-controller="Admin" asp-action="EliminarCentro" asp-route-id="@item.IdCentro" class="btn btn-danger btn-sm" onclick="return confirm('¿Está seguro de que desea eliminar este centro educativo?');">
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-url="@Url.Action("EliminarCentro", "Admin", new { id = item.IdCentro })">
                                     <i class="bi bi-trash"></i> Eliminar
-                                </a>
+                                </button>
                             </td>
                         </tr>
                     }
@@ -49,3 +49,38 @@
         </table>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Está seguro que desea eliminar este centro educativo?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a id="confirmDeleteButton" class="btn btn-danger">Eliminar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var confirmDeleteModal = document.getElementById('confirmDeleteModal');
+            confirmDeleteModal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget; // Botón que disparó el modal
+                var url = button.getAttribute('data-url'); // Extraer la URL de los atributos data-*
+
+                // Actualizar el enlace del botón de confirmación
+                var confirmDeleteButton = confirmDeleteModal.querySelector('#confirmDeleteButton');
+                confirmDeleteButton.setAttribute('href', url);
+            });
+        });
+    </script>
+}
