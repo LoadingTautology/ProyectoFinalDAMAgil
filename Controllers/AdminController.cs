@@ -137,26 +137,27 @@ namespace ProyectoFinalDAMAgil.Controllers
             //return View("~/Views/Admin/Centro/Editar.cshtml", datosCentro);
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> EliminarCentro([FromRoute] int Id)
         {
+            try
+            {
+                Scaffold.Centroeducativo centro = await _centroeducativoService.DeleteCentroeducativo(Id);
+                bool existe = await _centroeducativoService.ExisteCentroEducativo(centro.NombreCentro, centro.Direccion);
 
-
-            Scaffold.Centroeducativo centro = await _centroeducativoService.GetCentroeducativo(Id);
-
-            return View("~/Views/Admin/Centro/Eliminar.cshtml", centro);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> EliminarCentroPost(int IdCentroEducativo)
-        {
-
-
-            Scaffold.Centroeducativo centro = await _centroeducativoService.DeleteCentroeducativo(IdCentroEducativo);
-            if (await _centroeducativoService.ExisteCentroEducativo(centro.NombreCentro,centro.Direccion))
-                return RedirectToAction("ListarCentro");
-            else
-                return RedirectToAction("ListarCentro");
+                if (existe)
+                {
+                    return Json(new { success = false, message = "El centro educativo no se pudo eliminar." });
+                }
+                else
+                {
+                    return Json(new { success = true });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Ocurrió un error al eliminar el centro educativo." });
+            }
         }
 
         #endregion
