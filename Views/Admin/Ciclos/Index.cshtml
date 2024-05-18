@@ -9,7 +9,7 @@
         <h3>Lista de Ciclos Formativos</h3>
     </div>
     <div class="card-body">
-        <a asp-controller="Admin" asp-action="GuardarCiclo" class="btn btn-success mb-3">
+        <a asp-controller="Admin" asp-action="GuardarCiclo" asp-route-id="@ViewData["IdCentro"]" class="btn btn-success mb-3">
             <i class="bi bi-plus-circle"></i> Crear Nuevo
         </a>
         <table id="centrosTable" class="table table-hover table-striped">
@@ -30,14 +30,14 @@
                             <td>@item.NombreCiclo</td>
                             <td>
                                 <a asp-controller="Admin" asp-action="Asignaturas" asp-route-id="@item.IdCiclo" class="btn btn-primary btn-sm">
-                                    <i class="bi bi-gear"></i> Gestionar
+                                    <i class="bi bi-gear"></i> Asignaturas
                                 </a>
 
                                 <a asp-controller="Admin" asp-action="EditarCiclo" asp-route-id="@item.IdCiclo" class="btn btn-secondary btn-sm">
                                     <i class="bi bi-pencil"></i> Editar
                                 </a>
 
-                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-url="@Url.Action("EliminarCentro", "Admin", new { id = @item.IdCiclo })">
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-url="@Url.Action("EliminarCiclo", new { id = @item.IdCiclo })">
                                     <i class="bi bi-trash"></i> Eliminar
                                 </button>
                             </td>
@@ -54,3 +54,84 @@
         </table>
     </div>
 </div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Está seguro que desea eliminar este centro educativo?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a id="confirmDeleteButton" class="btn btn-danger">Eliminar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var confirmDeleteModal = document.getElementById('confirmDeleteModal');
+            confirmDeleteModal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget; // Botón que disparó el modal
+                var url = button.getAttribute('data-url'); // Extraer la URL de los atributos data-*
+
+                // Actualizar el enlace del botón de confirmación
+                var confirmDeleteButton = confirmDeleteModal.querySelector('#confirmDeleteButton');
+                confirmDeleteButton.setAttribute('href', url);
+            });
+
+            var confirmDeleteButton = document.getElementById('confirmDeleteButton');
+            confirmDeleteButton.addEventListener('click', function (event) {
+                event.preventDefault();
+                var url = confirmDeleteButton.getAttribute('href');
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Centro eliminado',
+                                text: 'El centro educativo ha sido eliminado correctamente.'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'No se pudo eliminar el centro educativo.'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Ocurrió un error al eliminar el centro educativo.'
+                        }).then(() => {
+                            location.reload();
+                        });
+                    });
+            });
+        });
+    </script>
+}

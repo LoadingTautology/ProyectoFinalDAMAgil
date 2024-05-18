@@ -73,6 +73,7 @@ namespace ProyectoFinalDAMAgil.Services.Cicloformativo
 
         public async Task<CicloformativoModel> DeleteCicloformativo(CicloformativoModel cicloformativoModel)
         {
+
             Scaffold.Cicloformativo cicloformativo = new Scaffold.Cicloformativo
             {
                 IdCiclo=cicloformativoModel.IdCiclo,
@@ -85,19 +86,49 @@ namespace ProyectoFinalDAMAgil.Services.Cicloformativo
             return cicloformativoModel;
         }
 
-        public async Task<IEnumerable<CicloformativoModel>> ListadoCicloformativo(int idCiclo)
+        public async Task<IEnumerable<CicloformativoModel>> ListadoCicloformativo(int idCentro)
         {
             IQueryable<CicloformativoModel> cicloformativoListaDB = from cicloformativo in _context.Cicloformativos
-                                                                        where cicloformativo.IdCiclo == idCiclo
-                                                                        select new CicloformativoModel
+                                                                        where cicloformativo.IdCentro == idCentro
+                                                                    select new CicloformativoModel
                                                                         {
                                                                             IdCiclo=cicloformativo.IdCiclo,
                                                                             NombreCiclo=cicloformativo.NombreCiclo,
                                                                             Acronimo=cicloformativo.Acronimo,
-                                                                            IdCentro=cicloformativo.IdCentro
+                                                                            IdCentro=idCentro
                                                                         };
 
             return cicloformativoListaDB.ToList();
+        }
+
+        public async Task<bool> ExistCicloformativo(CicloformativoModel cicloformativoModel)
+        {
+            Console.WriteLine("**********************"+cicloformativoModel.IdCentro+"****"+cicloformativoModel.NombreCiclo+"*******"+cicloformativoModel.Acronimo);
+
+            bool existe = false;
+
+            IQueryable<CicloformativoModel> cicloformativoListaDB 
+                    = from cicloformativo in _context.Cicloformativos
+                      where cicloformativo.IdCentro==cicloformativoModel.IdCentro && 
+                        (cicloformativo.Acronimo== cicloformativoModel.Acronimo || cicloformativo.NombreCiclo == cicloformativoModel.NombreCiclo)
+                      select new CicloformativoModel
+                      {
+                          IdCiclo=cicloformativo.IdCiclo,
+                          NombreCiclo=cicloformativo.NombreCiclo,
+                          Acronimo=cicloformativo.Acronimo,
+                          IdCentro=cicloformativoModel.IdCentro
+                      };
+
+            if (cicloformativoListaDB.Count()!=0)
+            {
+                existe=true;
+            }
+
+            return existe;
+
+
+
+
         }
 
     }

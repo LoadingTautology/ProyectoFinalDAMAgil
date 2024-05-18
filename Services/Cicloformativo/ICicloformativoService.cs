@@ -9,7 +9,8 @@ namespace ProyectoFinalDAMAgil.Services.Cicloformativo
         Task<CicloformativoModel> UpdateCicloformativo(CicloformativoModel cicloformativoModel);
         Task<CicloformativoModel> DeleteCicloformativo(CicloformativoModel cicloformativoModel);
         
-        Task<IEnumerable<CicloformativoModel>> ListadoCicloformativo(int idCiclo);
+        Task<IEnumerable<CicloformativoModel>> ListadoCicloformativo(int idCentro);
+        Task<bool> ExistCicloformativo(CicloformativoModel cicloformativoModel);
 
 
     }
