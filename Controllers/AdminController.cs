@@ -174,7 +174,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 
         [HttpGet]
         [HttpPost]
-        public IActionResult Estudios(int Id)
+        public IActionResult ListarCiclos(int IdCentro)
         {
             // Aquí puedes agregar lógica adicional si es necesario
             return View("~/Views/Admin/Ciclos/Index.cshtml", Id);
