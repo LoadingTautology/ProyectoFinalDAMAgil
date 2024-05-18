@@ -34,6 +34,8 @@ namespace ProyectoFinalDAMAgil
             builder.Services.AddScoped<Services.Centroeducativo.ICentroeducativoService, Services.Centroeducativo.CentroeducativoService>();
             builder.Services.AddScoped<Services.Usuarioscentroeducativo.IUsuarioscentroeducativoService, Services.Usuarioscentroeducativo.UsuarioscentroeducativoService>();
 
+
+
             // Authentication configuration
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
             {
