@@ -269,7 +269,29 @@ namespace ProyectoFinalDAMAgil.Controllers
                 return Json(new { success = false, message = "Ocurrió un error al eliminar el ciclo formativo." });
             }
         }
+        [HttpGet]
+        public async Task<IActionResult> InformacionCiclo([FromRoute] int id)
+        {
+            ViewData["IdCiclo"]=id;
 
+
+            //IEnumerable<CicloformativoModel> listado = await _cicloformativoService.ListadoCicloformativo(id);
+            return View("~/Views/Admin/Ciclos/Informacion.cshtml");
+        }
+
+        #endregion
+
+        #region Estudios
+
+        [HttpGet]
+        public async Task<IActionResult> ListarAsignaturas([FromRoute] int id)
+        {
+            ViewData["IdAsignatura"]=id;
+
+
+            //IEnumerable<CicloformativoModel> listado = await _cicloformativoService.ListadoCicloformativo(id);
+            return View("~/Views/Admin/Asignaturas/Index.cshtml");
+        }
 
         #endregion
 
