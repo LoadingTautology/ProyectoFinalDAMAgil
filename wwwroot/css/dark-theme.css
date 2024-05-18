@@ -1,0 +1,332 @@
+﻿/* Estilos para tema oscuro */
+.dark-theme {
+    background-color: #343a40;
+    color: #f8f9fa;
+}
+
+    .dark-theme .navbar,
+    .dark-theme .navbar-expand-sm {
+        background-color: #343a40;
+        color: #f8f9fa;
+    }
+
+        .dark-theme .navbar .navbar-brand,
+        .dark-theme .navbar .nav-link,
+        .dark-theme .navbar .dropdown-item {
+            color: #f8f9fa;
+        }
+
+    .dark-theme .dropdown-menu {
+        background-color: #495057;
+        color: #f8f9fa;
+    }
+
+    .dark-theme .dropdown-item {
+        color: #f8f9fa;
+    }
+
+        .dark-theme .dropdown-item:hover {
+            background-color: #6c757d;
+        }
+
+    .dark-theme #sidebar {
+        background-color: #495057;
+        color: #f8f9fa;
+    }
+
+        .dark-theme #sidebar .nav-link {
+            color: #f8f9fa;
+        }
+
+    .dark-theme #content {
+        background-color: #343a40;
+        color: #f8f9fa;
+    }
+
+    .dark-theme .footer {
+        color: #f8f9fa;
+    }
+
+    .dark-theme .card {
+        background-color: #343a40;
+        color: #f8f9fa;
+    }
+
+    .dark-theme .card-title {
+        color: #f8f9fa;
+    }
+
+    .dark-theme .card-text {
+        color: #adb5bd;
+    }
+
+    .dark-theme .table {
+        background-color: #495057;
+        color: #f8f9fa;
+    }
+
+    .dark-theme .table-hover tbody tr:hover {
+        background-color: #6c757d;
+    }
+
+    .dark-theme .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+    .dark-theme .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .dark-theme .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+    .dark-theme .form-control {
+        background-color: #343a40;
+        color: #f8f9fa;
+        border: 1px solid #ced4da;
+    }
+
+    .dark-theme .form-label {
+        color: #f8f9fa;
+    }
+
+    .dark-theme .alert-danger {
+        background-color: #dc3545;
+        color: #f8f9fa;
+        border-color: #dc3545;
+    }
+
+    .dark-theme .modal-content {
+        background-color: #495057;
+        color: #f8f9fa;
+    }
+
+    .dark-theme .modal-header,
+    .dark-theme .modal-footer {
+        border-color: #6c757d;
+    }
+
+    .dark-theme .btn-close {
+        filter: invert(1);
+    }
+
+    /* Additional Dark Theme Styles */
+    .dark-theme .breadcrumb {
+        background-color: #343a40;
+        color: #f8f9fa;
+    }
+
+    .dark-theme .breadcrumb-item a {
+        color: #f8f9fa;
+    }
+
+    .dark-theme .breadcrumb-item.active {
+        color: #adb5bd;
+    }
+
+    .dark-theme .pagination {
+        background-color: #343a40;
+        color: #f8f9fa;
+    }
+
+    .dark-theme .page-link {
+        background-color: #495057;
+        color: #f8f9fa;
+    }
+
+        .dark-theme .page-link:hover {
+            background-color: #6c757d;
+        }
+
+    .dark-theme .badge {
+        background-color: #495057;
+        color: #f8f9fa;
+    }
+
+    .dark-theme .progress {
+        background-color: #495057;
+    }
+
+    .dark-theme .progress-bar {
+        background-color: #28a745;
+    }
+
+    .dark-theme .accordion-button {
+        background-color: #495057;
+        color: #f8f9fa;
+    }
+
+        .dark-theme .accordion-button:not(.collapsed) {
+            background-color: #6c757d;
+            color: #f8f9fa;
+        }
+
+    .dark-theme .accordion-body {
+        background-color: #343a40;
+        color: #f8f9fa;
+    }
+
+    .dark-theme .input-group-text {
+        background-color: #495057;
+        color: #f8f9fa;
+    }
+
+    .dark-theme .list-group-item {
+        background-color: #495057;
+        color: #f8f9fa;
+    }
+
+        .dark-theme .list-group-item:hover {
+            background-color: #6c757d;
+        }
+
+    .dark-theme .nav-tabs .nav-link {
+        background-color: #495057;
+        color: #f8f9fa;
+        border: 1px solid #343a40;
+    }
+
+        .dark-theme .nav-tabs .nav-link.active {
+            background-color: #343a40;
+            color: #f8f9fa;
+        }
+
+    .dark-theme .tooltip-inner {
+        background-color: #495057;
+        color: #f8f9fa;
+    }
+
+    .dark-theme .popover-header {
+        background-color: #495057;
+        color: #f8f9fa;
+    }
+
+    .dark-theme .popover-body {
+        background-color: #343a40;
+        color: #f8f9fa;
+    }
+
+    .dark-theme .spinner-border,
+    .dark-theme .spinner-grow {
+        color: #f8f9fa;
+    }
+
+    .dark-theme .table thead th {
+        background-color: #495057;
+        color: #f8f9fa;
+    }
+
+    .dark-theme .table tbody tr {
+        background-color: #343a40;
+        color: #f8f9fa;
+    }
+
+        .dark-theme .table tbody tr:hover {
+            background-color: #6c757d;
+        }
+
+    .dark-theme .dropdown-menu-end {
+        background-color: #495057;
+        color: #f8f9fa;
+    }
+
+    .dark-theme .dropdown-item.active,
+    .dark-theme .dropdown-item:active {
+        background-color: #6c757d;
+        color: #f8f9fa;
+    }
+
+    /* Bootstrap 5 Specific Additions */
+    .dark-theme .nav-pills .nav-link {
+        background-color: #495057;
+        color: #f8f9fa;
+    }
+
+        .dark-theme .nav-pills .nav-link.active {
+            background-color: #6c757d;
+        }
+
+    .dark-theme .offcanvas {
+        background-color: #343a40;
+        color: #f8f9fa;
+    }
+
+    .dark-theme .carousel-item {
+        background-color: #495057;
+        color: #f8f9fa;
+    }
+
+    .dark-theme .form-check-input {
+        background-color: #495057;
+        border-color: #ced4da;
+    }
+
+    .dark-theme .form-check-label {
+        color: #f8f9fa;
+    }
+
+    .dark-theme .form-switch .form-check-input {
+        background-color: #495057;
+        border-color: #ced4da;
+    }
+
+    .dark-theme .toast {
+        background-color: #495057;
+        color: #f8f9fa;
+    }
+
+    .dark-theme .toast-header {
+        background-color: #343a40;
+        color: #f8f9fa;
+    }
+
+    .dark-theme .close {
+        color: #f8f9fa;
+    }
+
+        .dark-theme .close:hover {
+            color: #adb5bd;
+        }
+
+        .dark-theme .close:focus {
+            color: #adb5bd;
+        }
+
+    /* Ensure Input Borders and Backgrounds Match */
+    .dark-theme input,
+    .dark-theme textarea,
+    .dark-theme select {
+        background-color: #343a40;
+        border-color: #495057;
+        color: #f8f9fa;
+    }
+
+    /* Style for Placeholder Text in Inputs */
+    .dark-theme ::placeholder {
+        color: #adb5bd;
+    }
+
+    /* Additional Form Control Styling */
+    .dark-theme .form-control:focus {
+        background-color: #495057;
+        border-color: #6c757d;
+        color: #f8f9fa;
+        box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25);
+    }
+
+    .dark-theme .form-select {
+        background-color: #343a40;
+        border-color: #495057;
+        color: #f8f9fa;
+    }
+
+        .dark-theme .form-select:focus {
+            background-color: #495057;
+            border-color: #6c757d;
+            color: #f8f9fa;
+            box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25);
+        }

@@ -1,0 +1,332 @@
+﻿/* Estilos para tema claro */
+.light-theme {
+    background-color: #ffffff;
+    color: #212529;
+}
+
+    .light-theme .navbar,
+    .light-theme .navbar-expand-sm {
+        background-color: #f8f9fa;
+        color: #212529;
+    }
+
+        .light-theme .navbar .navbar-brand,
+        .light-theme .navbar .nav-link,
+        .light-theme .navbar .dropdown-item {
+            color: #212529;
+        }
+
+    .light-theme .dropdown-menu {
+        background-color: #ffffff;
+        color: #212529;
+    }
+
+    .light-theme .dropdown-item {
+        color: #212529;
+    }
+
+        .light-theme .dropdown-item:hover {
+            background-color: #e9ecef;
+        }
+
+    .light-theme #sidebar {
+        background-color: #f8f9fa;
+        color: #212529;
+    }
+
+        .light-theme #sidebar .nav-link {
+            color: #212529;
+        }
+
+    .light-theme #content {
+        background-color: #ffffff;
+        color: #212529;
+    }
+
+    .light-theme .footer {
+        color: #212529;
+    }
+
+    .light-theme .card {
+        background-color: #ffffff;
+        color: #212529;
+    }
+
+    .light-theme .card-title {
+        color: #212529;
+    }
+
+    .light-theme .card-text {
+        color: #6c757d;
+    }
+
+    .light-theme .table {
+        background-color: #ffffff;
+        color: #212529;
+    }
+
+    .light-theme .table-hover tbody tr:hover {
+        background-color: #e9ecef;
+    }
+
+    .light-theme .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+    .light-theme .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .light-theme .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+    .light-theme .form-control {
+        background-color: #ffffff;
+        color: #212529;
+        border: 1px solid #ced4da;
+    }
+
+    .light-theme .form-label {
+        color: #212529;
+    }
+
+    .light-theme .alert-danger {
+        background-color: #dc3545;
+        color: #ffffff;
+        border-color: #dc3545;
+    }
+
+    .light-theme .modal-content {
+        background-color: #ffffff;
+        color: #212529;
+    }
+
+    .light-theme .modal-header,
+    .light-theme .modal-footer {
+        border-color: #e9ecef;
+    }
+
+    .light-theme .btn-close {
+        filter: invert(0);
+    }
+
+    /* Additional Light Theme Styles */
+    .light-theme .breadcrumb {
+        background-color: #f8f9fa;
+        color: #212529;
+    }
+
+    .light-theme .breadcrumb-item a {
+        color: #007bff;
+    }
+
+    .light-theme .breadcrumb-item.active {
+        color: #6c757d;
+    }
+
+    .light-theme .pagination {
+        background-color: #ffffff;
+        color: #212529;
+    }
+
+    .light-theme .page-link {
+        background-color: #f8f9fa;
+        color: #007bff;
+    }
+
+        .light-theme .page-link:hover {
+            background-color: #e9ecef;
+        }
+
+    .light-theme .badge {
+        background-color: #f8f9fa;
+        color: #212529;
+    }
+
+    .light-theme .progress {
+        background-color: #e9ecef;
+    }
+
+    .light-theme .progress-bar {
+        background-color: #28a745;
+    }
+
+    .light-theme .accordion-button {
+        background-color: #f8f9fa;
+        color: #212529;
+    }
+
+        .light-theme .accordion-button:not(.collapsed) {
+            background-color: #e9ecef;
+            color: #212529;
+        }
+
+    .light-theme .accordion-body {
+        background-color: #ffffff;
+        color: #212529;
+    }
+
+    .light-theme .input-group-text {
+        background-color: #f8f9fa;
+        color: #212529;
+    }
+
+    .light-theme .list-group-item {
+        background-color: #ffffff;
+        color: #212529;
+    }
+
+        .light-theme .list-group-item:hover {
+            background-color: #e9ecef;
+        }
+
+    .light-theme .nav-tabs .nav-link {
+        background-color: #f8f9fa;
+        color: #212529;
+        border: 1px solid #dee2e6;
+    }
+
+        .light-theme .nav-tabs .nav-link.active {
+            background-color: #ffffff;
+            color: #212529;
+        }
+
+    .light-theme .tooltip-inner {
+        background-color: #f8f9fa;
+        color: #212529;
+    }
+
+    .light-theme .popover-header {
+        background-color: #f8f9fa;
+        color: #212529;
+    }
+
+    .light-theme .popover-body {
+        background-color: #ffffff;
+        color: #212529;
+    }
+
+    .light-theme .spinner-border,
+    .light-theme .spinner-grow {
+        color: #212529;
+    }
+
+    .light-theme .table thead th {
+        background-color: #f8f9fa;
+        color: #212529;
+    }
+
+    .light-theme .table tbody tr {
+        background-color: #ffffff;
+        color: #212529;
+    }
+
+        .light-theme .table tbody tr:hover {
+            background-color: #e9ecef;
+        }
+
+    .light-theme .dropdown-menu-end {
+        background-color: #ffffff;
+        color: #212529;
+    }
+
+    .light-theme .dropdown-item.active,
+    .light-theme .dropdown-item:active {
+        background-color: #e9ecef;
+        color: #212529;
+    }
+
+    /* Bootstrap 5 Specific Additions */
+    .light-theme .nav-pills .nav-link {
+        background-color: #f8f9fa;
+        color: #212529;
+    }
+
+        .light-theme .nav-pills .nav-link.active {
+            background-color: #e9ecef;
+        }
+
+    .light-theme .offcanvas {
+        background-color: #ffffff;
+        color: #212529;
+    }
+
+    .light-theme .carousel-item {
+        background-color: #f8f9fa;
+        color: #212529;
+    }
+
+    .light-theme .form-check-input {
+        background-color: #f8f9fa;
+        border-color: #ced4da;
+    }
+
+    .light-theme .form-check-label {
+        color: #212529;
+    }
+
+    .light-theme .form-switch .form-check-input {
+        background-color: #f8f9fa;
+        border-color: #ced4da;
+    }
+
+    .light-theme .toast {
+        background-color: #f8f9fa;
+        color: #212529;
+    }
+
+    .light-theme .toast-header {
+        background-color: #ffffff;
+        color: #212529;
+    }
+
+    .light-theme .close {
+        color: #212529;
+    }
+
+        .light-theme .close:hover {
+            color: #6c757d;
+        }
+
+        .light-theme .close:focus {
+            color: #6c757d;
+        }
+
+    /* Ensure Input Borders and Backgrounds Match */
+    .light-theme input,
+    .light-theme textarea,
+    .light-theme select {
+        background-color: #ffffff;
+        border-color: #ced4da;
+        color: #212529;
+    }
+
+    /* Style for Placeholder Text in Inputs */
+    .light-theme ::placeholder {
+        color: #6c757d;
+    }
+
+    /* Additional Form Control Styling */
+    .light-theme .form-control:focus {
+        background-color: #f8f9fa;
+        border-color: #80bdff;
+        color: #212529;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .light-theme .form-select {
+        background-color: #ffffff;
+        border-color: #ced4da;
+        color: #212529;
+    }
+
+        .light-theme .form-select:focus {
+            background-color: #f8f9fa;
+            border-color: #80bdff;
+            color: #212529;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
