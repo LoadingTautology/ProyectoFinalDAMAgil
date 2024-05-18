@@ -33,6 +33,8 @@ namespace ProyectoFinalDAMAgil
             builder.Services.AddScoped<Services.Administrador.IAdministradorService, Services.Administrador.AdministradorService>();
             builder.Services.AddScoped<Services.Centroeducativo.ICentroeducativoService, Services.Centroeducativo.CentroeducativoService>();
             builder.Services.AddScoped<Services.Usuarioscentroeducativo.IUsuarioscentroeducativoService, Services.Usuarioscentroeducativo.UsuarioscentroeducativoService>();
+            builder.Services.AddScoped<Services.Cicloformativo.ICicloformativoService, Services.Cicloformativo.CicloformativoService>();
+
 
             // Authentication configuration
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
@@ -80,3 +82,9 @@ namespace ProyectoFinalDAMAgil
         }
     }
 }
+
+//"ConnectionStrings": {
+//  "Default": "server=database.proyectofinaldam2324.site;port=3306;database=proyecto;uid=root;password=pedrolachuspa"
+//}
+
+//Scaffold-DbContext "server=localhost;port=3306;database=DBAppProyectoFinal;uid=root;password=" Pomelo.EntityFrameworkCore.MySql -NoOnConfiguring -OutputDir Scaffold -Force
