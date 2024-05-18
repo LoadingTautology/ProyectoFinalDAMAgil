@@ -1,12 +1,12 @@
 ﻿@{
-    ViewData["Title"] = "Inicio";
+    ViewData["Title"] = Localizer["Title"];
 }
 
 <div class="container mt-4">
     <div class="row">
         <div class="col-12">
-            <h2>Bienvenido a GestaCentro</h2>
-            <p class="lead">Su plataforma de gestión de centros educativos.</p>
+            <h2>@Localizer["Bienvenido"]</h2>
+            <p class="lead">@Localizer["Plataforma"]</p>
         </div>
     </div>
 
@@ -17,9 +17,9 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <i class="bi bi-building display-4 mb-3"></i>
-                        <h5 class="card-title">Gestión de Centros</h5>
-                        <p class="card-text">Administrar y gestionar los centros educativos.</p>
-                        <a href="@Url.Action("ListarCentro", "Admin")" class="btn btn-primary">Ir a Centros</a>
+                        <h5 class="card-title">@Localizer["GestionCentros"]</h5>
+                        <p class="card-text">@Localizer["AdminCentros"]</p>
+                        <a href="@Url.Action("ListarCentro", "Admin")" class="btn btn-primary">@Localizer["IrCentros"]</a>
                     </div>
                 </div>
             </div>
@@ -27,9 +27,9 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <i class="bi bi-person display-4 mb-3"></i>
-                        <h5 class="card-title">Gestión de Profesores</h5>
-                        <p class="card-text">Administrar y gestionar los profesores.</p>
-                        <a href="@Url.Action("Index", "Profesores")" class="btn btn-primary">Ir a Profesores</a>
+                        <h5 class="card-title">@Localizer["GestionProfesores"]</h5>
+                        <p class="card-text">@Localizer["AdminProfesores"]</p>
+                        <a href="@Url.Action("Index", "Profesores")" class="btn btn-primary">@Localizer["IrProfesores"]</a>
                     </div>
                 </div>
             </div>
@@ -37,9 +37,9 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <i class="bi bi-people display-4 mb-3"></i>
-                        <h5 class="card-title">Gestión de Alumnos</h5>
-                        <p class="card-text">Administrar y gestionar los alumnos.</p>
-                        <a href="@Url.Action("Index", "Alumnos")" class="btn btn-primary">Ir a Alumnos</a>
+                        <h5 class="card-title">@Localizer["GestionAlumnos"]</h5>
+                        <p class="card-text">@Localizer["AdminAlumnos"]</p>
+                        <a href="@Url.Action("Index", "Alumnos")" class="btn btn-primary">@Localizer["IrAlumnos"]</a>
                     </div>
                 </div>
             </div>
@@ -50,9 +50,9 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <i class="bi bi-calendar display-4 mb-3"></i>
-                        <h5 class="card-title">Clases</h5>
-                        <p class="card-text">Ver el horario y las clases asignadas.</p>
-                        <a href="@Url.Action("Clases", "Estudiante")" class="btn btn-primary">Ver Clases</a>
+                        <h5 class="card-title">@Localizer["Clases"]</h5>
+                        <p class="card-text">@Localizer["VerClases"]</p>
+                        <a href="@Url.Action("Clases", "Estudiante")" class="btn btn-primary">@Localizer["IrClases"]</a>
                     </div>
                 </div>
             </div>
@@ -60,9 +60,9 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <i class="bi bi-journal-check display-4 mb-3"></i>
-                        <h5 class="card-title">Exámenes</h5>
-                        <p class="card-text">Ver fechas y resultados de exámenes.</p>
-                        <a href="@Url.Action("Examenes", "Estudiante")" class="btn btn-primary">Ver Exámenes</a>
+                        <h5 class="card-title">@Localizer["Examenes"]</h5>
+                        <p class="card-text">@Localizer["VerExamenes"]</p>
+                        <a href="@Url.Action("Examenes", "Estudiante")" class="btn btn-primary">@Localizer["IrExamenes"]</a>
                     </div>
                 </div>
             </div>
@@ -70,9 +70,9 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <i class="bi bi-file-earmark-text display-4 mb-3"></i>
-                        <h5 class="card-title">Notas</h5>
-                        <p class="card-text">Ver las notas obtenidas en las diferentes asignaturas.</p>
-                        <a href="@Url.Action("Notas", "Estudiante")" class="btn btn-primary">Ver Notas</a>
+                        <h5 class="card-title">@Localizer["Notas"]</h5>
+                        <p class="card-text">@Localizer["VerNotas"]</p>
+                        <a href="@Url.Action("Notas", "Estudiante")" class="btn btn-primary">@Localizer["IrNotas"]</a>
                     </div>
                 </div>
             </div>
