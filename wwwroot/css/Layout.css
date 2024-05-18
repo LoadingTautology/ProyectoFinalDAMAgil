@@ -8,8 +8,6 @@
     transition: width 0.3s, transform 0.3s;
     overflow-x: hidden;
     z-index: 1000;
-    background-color: #f8f9fa;
-    color: #212529;
 }
 
     #sidebar.collapsed {
@@ -20,7 +18,6 @@
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
-        color: #212529;
     }
 
     #sidebar.collapsed .nav-link {
@@ -35,8 +32,6 @@
     margin-left: 250px;
     transition: margin-left 0.3s;
     padding-top: 56px; /* Altura de la barra de navegación */
-    background-color: #ffffff;
-    color: #212529;
 }
 
     #content.collapsed {
