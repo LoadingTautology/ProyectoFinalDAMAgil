@@ -1,0 +1,38 @@
+﻿@model ProyectoFinalDAMAgil.Models.Admin.CicloformativoModel
+﻿@{
+    ViewData["Title"] = "Ciclo Formativo Guardar";
+}
+
+<div class="card">
+    <div class="card-header">
+        Crear Ciclo Formativo Nuevo
+    </div>
+    <div class="card-body">
+        <form asp-controller="Admin" asp-action="GuardarCiclo" method="post" enctype="multipart/form-data">
+
+            <input type="hidden" asp-for="IdCentro" />
+
+            <div class="mb-3">
+                <label class="form-label">Acronimo</label>
+                <input asp-for="Acronimo" type="text" class="form-control">
+                <span asp-validation-for="Acronimo" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Nombre del Ciclo</label>
+                <input asp-for="NombreCiclo" type="text" class="form-control">
+                <span asp-validation-for="NombreCiclo" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a asp-controller="Admin" asp-action="ListarCiclos" asp-route-id="@ViewData["IdCentro"]" class="btn btn-warning">Volver a la lista</a>
+
+        </form>
+        @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewData["Mensaje"]
+            </div>
+        }
+    </div>
+</div>

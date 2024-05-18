@@ -19,7 +19,7 @@ CREATE TABLE Usuario (
     Rol VARCHAR(50) NOT NULL DEFAULT 'ALUMNO',
     Email VARCHAR(100) NOT NULL,
     PRIMARY KEY (IdUsuario),
-    FOREIGN KEY (Email) REFERENCES CorreoElectronico(Email),
+    FOREIGN KEY (Email) REFERENCES CorreoElectronico(Email) ON DELETE CASCADE ON UPDATE CASCADE,
     UNIQUE(Email)
 );
 
@@ -28,7 +28,7 @@ CREATE TABLE Administrador (
     IdAdministrador INT,
     DNI VARCHAR(20) NOT NULL DEFAULT '',
     PRIMARY KEY (IdAdministrador),
-    FOREIGN KEY (IdAdministrador) REFERENCES Usuario(IdUsuario)
+    FOREIGN KEY (IdAdministrador) REFERENCES Usuario(IdUsuario) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Creación de la tabla CentroEducativo
@@ -39,7 +39,7 @@ CREATE TABLE CentroEducativo (
     IdAdministrador INT NOT NULL,
     PRIMARY KEY (IdCentro),
     UNIQUE(NombreCentro, Direccion),
-    FOREIGN KEY (IdAdministrador) REFERENCES Administrador(IdAdministrador)
+    FOREIGN KEY (IdAdministrador) REFERENCES Administrador(IdAdministrador) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Creación de la tabla UsuariosCentroEducativo
@@ -48,24 +48,10 @@ CREATE TABLE UsuariosCentroEducativo (
     IdCentro INT NOT NULL,
     IdUsuario INT NOT NULL,
     PRIMARY KEY (IdUsuariosCentroEducativo),
-    FOREIGN KEY (IdCentro) REFERENCES CentroEducativo(IdCentro) ON DELETE CASCADE,
-    FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario) ON DELETE CASCADE,
+    FOREIGN KEY (IdCentro) REFERENCES CentroEducativo(IdCentro) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario) ON DELETE CASCADE ON UPDATE CASCADE,
     UNIQUE (IdCentro, IdUsuario)
 );
-
-
-
-
-
-
-
-
-
-
-
-
-******************************************************************
-
 
 -- Creación de la tabla FranjaHoraria
 CREATE TABLE FranjaHoraria (
@@ -80,10 +66,12 @@ CREATE TABLE DiaSemana (
     PRIMARY KEY (Dia)
 );
 
+
 -- Creación de la tabla Aula
 CREATE TABLE Aula (
     IdAula INT AUTO_INCREMENT,
     NombreAula VARCHAR(50) NOT NULL DEFAULT 'Aula',
+    NumeroAula INT NOT NULL DEFAULT 0,
     AforoMax INT NOT NULL DEFAULT 0,
     PRIMARY KEY (IdAula)
 );
@@ -100,32 +88,41 @@ CREATE TABLE Asignatura (
 CREATE TABLE CicloFormativo (
     IdCiclo INT AUTO_INCREMENT,
     NombreCiclo VARCHAR(100) NOT NULL DEFAULT 'Ciclo',
-    PRIMARY KEY (IdCiclo)
+    Acronimo VARCHAR(30) NOT NULL DEFAULT 'Ciclo',
+    IdCentro INT NOT NULL, 
+    PRIMARY KEY (IdCiclo),
+    FOREIGN KEY (IdCentro) REFERENCES CentroEducativo(IdCentro) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Creación de la tabla AsignaturasCicloFormativo
 CREATE TABLE AsignaturasCicloFormativo (
-    IdAsignatura INT,
-    IdCiclo INT,
-    PRIMARY KEY (IdAsignatura, IdCiclo),
-    FOREIGN KEY (IdCiclo) REFERENCES CicloFormativo(IdCiclo),
-    FOREIGN KEY (IdAsignatura) REFERENCES Asignatura(IdAsignatura)
+    IdAsignaturasCicloFormativo INT AUTO_INCREMENT,
+    IdAsignatura INT NOT NULL,
+    IdCiclo INT NOT NULL,
+    PRIMARY KEY (IdAsignaturasCicloFormativo),
+    UNIQUE (IdAsignatura, IdCiclo),
+    FOREIGN KEY (IdCiclo) REFERENCES CicloFormativo(IdCiclo) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (IdAsignatura) REFERENCES Asignatura(IdAsignatura) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Creación de la tabla Ciclo_Asignatura_Aula_FranjaHoraria_Dia
 CREATE TABLE Horario (
-    IdAula INT,
-    HoraMinInicio TIME,
-    HoraMinFinal TIME,
-    Dia VARCHAR(10),
+    IdHorario INT AUTO_INCREMENT,
+    IdAula INT NOT NULL,
+    HoraMinInicio TIME NOT NULL,
+    HoraMinFinal TIME NOT NULL,
+    Dia VARCHAR(10) NOT NULL,
     IdAsignatura INT NOT NULL,
     IdCiclo INT NOT NULL,
-    PRIMARY KEY (IdAula, HoraMinInicio, HoraMinFinal, Dia, IdAsignatura, IdCiclo),
-    FOREIGN KEY (IdAsignatura, IdCiclo) REFERENCES AsignaturasCicloFormativo (IdAsignatura, IdCiclo),
-    FOREIGN KEY (IdAula) REFERENCES Aula(IdAula),
-    FOREIGN KEY (HoraMinInicio, HoraMinFinal) REFERENCES FranjaHoraria(HoraMinInicio, HoraMinFinal),
-    FOREIGN KEY (Dia) REFERENCES DiaSemana(Dia)
+    PRIMARY KEY (IdHorario),
+    UNIQUE (IdAula, HoraMinInicio, HoraMinFinal, Dia),
+    FOREIGN KEY (IdAsignatura, IdCiclo) REFERENCES AsignaturasCicloFormativo (IdAsignatura, IdCiclo) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (IdAula) REFERENCES Aula(IdAula) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (HoraMinInicio, HoraMinFinal) REFERENCES FranjaHoraria(HoraMinInicio, HoraMinFinal) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (Dia) REFERENCES DiaSemana(Dia) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+******************************************************************
 
 
 -- Creación de la tabla ExamenAsignaturas
@@ -154,10 +151,6 @@ CREATE TABLE Alumno (
     PRIMARY KEY (IdAlumno),
     FOREIGN KEY (IdAlumno) REFERENCES Usuario(IdUsuario)
 );
-
-
-
-
 
 -- Creación de la tabla AsistenciaAlumnos
 CREATE TABLE AsistenciaAlumnos (
@@ -213,3 +206,47 @@ CREATE TABLE DudasAlumnoProfesor (
     FOREIGN KEY (IdAsignatura, IdCiclo) REFERENCES AsignaturasCicloFormativo
 (IdAsignatura, IdCiclo)
 );
+
+
+*******************************************************************************
+
+
+-- Inserción de franjas horarias
+INSERT INTO FranjaHoraria (HoraMinInicio, HoraMinFinal) VALUES 
+('08:00', '08:30'),
+('08:30', '09:00'),
+('09:00', '09:30'),
+('09:30', '10:00'),
+('10:00', '10:30'),
+('10:30', '11:00'),
+('11:00', '11:30'),
+('11:30', '12:00'),
+('12:00', '12:30'),
+('12:30', '13:00'),
+('13:00', '13:30'),
+('13:30', '14:00'),
+('14:00', '14:30'),
+('14:30', '15:00'),
+('15:00', '15:30'),
+('15:30', '16:00'),
+('16:00', '16:30'),
+('16:30', '17:00'),
+('17:00', '17:30'),
+('17:30', '18:00'),
+('18:00', '18:30'),
+('18:30', '19:00'),
+('19:00', '19:30'),
+('19:30', '20:00'),
+('20:00', '20:30');
+
+
+-- Inserción de los días de la semana
+INSERT INTO DiaSemana (Dia) VALUES 
+('Lunes'),
+('Martes'),
+('Miércoles'),
+('Jueves'),
+('Viernes'),
+('Sábado'),
+('Domingo');
+

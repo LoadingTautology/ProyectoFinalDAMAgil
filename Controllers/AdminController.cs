@@ -8,6 +8,8 @@ using ProyectoFinalDAMAgil.Services.Usuarioscentroeducativo;
 using ProyectoFinalDAMAgil.Models.Admin;
 using System.Security.Claims;
 using ProyectoFinalDAMAgil.Scaffold;
+using ProyectoFinalDAMAgil.Services.Cicloformativo;
+using System.Runtime.InteropServices;
 
 namespace ProyectoFinalDAMAgil.Controllers
 {
@@ -19,18 +21,22 @@ namespace ProyectoFinalDAMAgil.Controllers
         private readonly IAdministradorService _administradorService;
         private readonly ICentroeducativoService _centroeducativoService;
         private readonly IUsuarioscentroeducativoService _usuarioscentroeducativoService;
+        private readonly ICicloformativoService _cicloformativoService;
 
         public AdminController(IUsuarioService usuarioService,
                                ICorreoelectronicoService correoelectronicoService,
                                IAdministradorService administradorService,
                                ICentroeducativoService centroeducativoService,
-                               IUsuarioscentroeducativoService usuarioscentroeducativo)
+                               IUsuarioscentroeducativoService usuarioscentroeducativo,
+                               ICicloformativoService cicloformativoService)
         {
             _usuarioService = usuarioService;
             _correoelectronicoService = correoelectronicoService;
             _administradorService = administradorService;
             _centroeducativoService = centroeducativoService;
-            this._usuarioscentroeducativoService = usuarioscentroeducativo;
+            _usuarioscentroeducativoService = usuarioscentroeducativo;
+            _cicloformativoService = cicloformativoService;
+
         }
 
 
@@ -134,7 +140,6 @@ namespace ProyectoFinalDAMAgil.Controllers
             await _centroeducativoService.UpdateCentroeducativo(centro);
 
             return RedirectToAction("ListarCentro");
-            //return View("~/Views/Admin/Centro/Editar.cshtml", datosCentro);
         }
 
         [HttpPost]
@@ -160,8 +165,6 @@ namespace ProyectoFinalDAMAgil.Controllers
             }
         }
 
-
-
         #endregion
 
         #region Gestion Profesores
@@ -175,11 +178,119 @@ namespace ProyectoFinalDAMAgil.Controllers
         #region Estudios
 
         [HttpGet]
-        [HttpPost]
-        public IActionResult Estudios(int Id)
+        public async Task<IActionResult> ListarCiclos([FromRoute] int id)
         {
-            // Aquí puedes agregar lógica adicional si es necesario
-            return View("~/Views/Admin/Estudios/Index.cshtml", Id);
+            ViewData["IdCentro"]=id;
+
+
+            IEnumerable<CicloformativoModel> listado = await _cicloformativoService.ListadoCicloformativo(id);
+            return View("~/Views/Admin/Ciclos/Index.cshtml",listado);
+        }
+
+        [HttpGet]
+        public IActionResult GuardarCiclo([FromRoute] int id)
+        {
+            ViewData["IdCentro"]=id;
+
+
+            return View("~/Views/Admin/Ciclos/Guardar.cshtml", new CicloformativoModel { IdCentro=id });
+
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> GuardarCiclo(CicloformativoModel datosCiclo)
+        {
+            ViewData["IdCentro"]=datosCiclo.IdCentro;
+            
+            if (!ModelState.IsValid) 
+            { 
+                return View("~/Views/Admin/Ciclo/Guardar.cshtml", datosCiclo); 
+            }              
+            else if (await _cicloformativoService.ExistCicloformativo(datosCiclo))
+            {
+                ViewData["Mensaje"] = "El nombre del ciclo o acrónimo ya existen";
+                return View("~/Views/Admin/Ciclos/Guardar.cshtml", datosCiclo );
+            }
+            else
+            {
+                await _cicloformativoService.CreateCicloformativo(datosCiclo);
+                return RedirectToAction("ListarCiclos", new { id = datosCiclo.IdCentro });
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditarCiclo([FromRoute] int id)
+        {
+            ViewData["IdCentro"]=id;
+            CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(id);
+
+            return View("~/Views/Admin/Ciclos/Editar.cshtml", cicloformativo);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditarCiclo(CicloformativoModel datosCiclo)
+        {
+            ViewData["IdCentro"]=datosCiclo.IdCentro;
+
+            if (await _cicloformativoService.ExistCicloformativo(datosCiclo))
+            {
+                ViewData["Mensaje"] = "El nombre del ciclo o acrónimo ya existen";
+                return View("~/Views/Admin/Ciclos/Editar.cshtml", datosCiclo);
+            }
+
+            await _cicloformativoService.UpdateCicloformativo(datosCiclo);
+
+            return RedirectToAction("ListarCiclos", new { id = datosCiclo.IdCentro });
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EliminarCiclo([FromRoute] int id)
+        {
+            try
+            {
+                CicloformativoModel ciclo =await _cicloformativoService.ReadCicloformativo(id);
+                await _cicloformativoService.DeleteCicloformativo(ciclo);
+                bool existe = await _cicloformativoService.ExistCicloformativo(ciclo);
+
+                if (existe)
+                {
+                    return Json(new { success = false, message = "El ciclo educativo no se pudo eliminar." });
+                }
+                else
+                {
+                    return Json(new { success = true });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Ocurrió un error al eliminar el ciclo formativo." });
+            }
+        }
+        [HttpGet]
+        public async Task<IActionResult> InformacionCiclo([FromRoute] int id)
+        {
+            ViewData["IdCiclo"]=id;
+
+
+            //IEnumerable<CicloformativoModel> listado = await _cicloformativoService.ListadoCicloformativo(id);
+            return View("~/Views/Admin/Ciclos/Informacion.cshtml");
+        }
+
+        #endregion
+
+        #region Estudios
+
+        [HttpGet]
+        public async Task<IActionResult> ListarAsignaturas([FromRoute] int id)
+        {
+            ViewData["IdAsignatura"]=id;
+
+
+            //IEnumerable<CicloformativoModel> listado = await _cicloformativoService.ListadoCicloformativo(id);
+            return View("~/Views/Admin/Asignaturas/Index.cshtml");
         }
 
         #endregion
