@@ -1,0 +1,56 @@
+﻿@model List<ProyectoFinalDAMAgil.Models.Admin.CicloformativoModel>
+
+@{
+    ViewData["Title"] = "Ciclo Formativo";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3>Lista de Ciclos Formativos</h3>
+    </div>
+    <div class="card-body">
+        <a asp-controller="Admin" asp-action="GuardarCiclo" class="btn btn-success mb-3">
+            <i class="bi bi-plus-circle"></i> Crear Nuevo
+        </a>
+        <table id="centrosTable" class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Acrónimo</th>
+                    <th>Nombre</th>                    
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr data-id="@item.IdCiclo">
+                            <td>@item.Acronimo</td>
+                            <td>@item.NombreCiclo</td>
+                            <td>
+                                <a asp-controller="Admin" asp-action="Asignaturas" asp-route-id="@item.IdCiclo" class="btn btn-primary btn-sm">
+                                    <i class="bi bi-gear"></i> Gestionar
+                                </a>
+
+                                <a asp-controller="Admin" asp-action="EditarCiclo" asp-route-id="@item.IdCiclo" class="btn btn-secondary btn-sm">
+                                    <i class="bi bi-pencil"></i> Editar
+                                </a>
+
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-url="@Url.Action("EliminarCentro", "Admin", new { id = @item.IdCiclo })">
+                                    <i class="bi bi-trash"></i> Eliminar
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3" class="text-center">No hay Ciclos Formativos disponibles.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -19,7 +19,7 @@ CREATE TABLE Usuario (
     Rol VARCHAR(50) NOT NULL DEFAULT 'ALUMNO',
     Email VARCHAR(100) NOT NULL,
     PRIMARY KEY (IdUsuario),
-    FOREIGN KEY (Email) REFERENCES CorreoElectronico(Email),
+    FOREIGN KEY (Email) REFERENCES CorreoElectronico(Email) ON DELETE CASCADE ON UPDATE CASCADE,
     UNIQUE(Email)
 );
 
@@ -28,7 +28,7 @@ CREATE TABLE Administrador (
     IdAdministrador INT,
     DNI VARCHAR(20) NOT NULL DEFAULT '',
     PRIMARY KEY (IdAdministrador),
-    FOREIGN KEY (IdAdministrador) REFERENCES Usuario(IdUsuario)
+    FOREIGN KEY (IdAdministrador) REFERENCES Usuario(IdUsuario) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Creación de la tabla CentroEducativo
@@ -39,7 +39,7 @@ CREATE TABLE CentroEducativo (
     IdAdministrador INT NOT NULL,
     PRIMARY KEY (IdCentro),
     UNIQUE(NombreCentro, Direccion),
-    FOREIGN KEY (IdAdministrador) REFERENCES Administrador(IdAdministrador)
+    FOREIGN KEY (IdAdministrador) REFERENCES Administrador(IdAdministrador) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Creación de la tabla UsuariosCentroEducativo
@@ -48,8 +48,8 @@ CREATE TABLE UsuariosCentroEducativo (
     IdCentro INT NOT NULL,
     IdUsuario INT NOT NULL,
     PRIMARY KEY (IdUsuariosCentroEducativo),
-    FOREIGN KEY (IdCentro) REFERENCES CentroEducativo(IdCentro) ON DELETE CASCADE,
-    FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario) ON DELETE CASCADE,
+    FOREIGN KEY (IdCentro) REFERENCES CentroEducativo(IdCentro) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (IdUsuario) REFERENCES Usuario(IdUsuario) ON DELETE CASCADE ON UPDATE CASCADE,
     UNIQUE (IdCentro, IdUsuario)
 );
 
@@ -89,35 +89,37 @@ CREATE TABLE CicloFormativo (
     IdCiclo INT AUTO_INCREMENT,
     NombreCiclo VARCHAR(100) NOT NULL DEFAULT 'Ciclo',
     Acronimo VARCHAR(30) NOT NULL DEFAULT 'Ciclo',
-    PRIMARY KEY (IdCiclo)
+    IdCentro INT NOT NULL, 
+    PRIMARY KEY (IdCiclo),
+    FOREIGN KEY (IdCentro) REFERENCES CentroEducativo(IdCentro) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Creación de la tabla AsignaturasCicloFormativo
 CREATE TABLE AsignaturasCicloFormativo (
     IdAsignaturasCicloFormativo INT AUTO_INCREMENT,
-    IdAsignatura INT,
-    IdCiclo INT,
+    IdAsignatura INT NOT NULL,
+    IdCiclo INT NOT NULL,
     PRIMARY KEY (IdAsignaturasCicloFormativo),
     UNIQUE (IdAsignatura, IdCiclo),
-    FOREIGN KEY (IdCiclo) REFERENCES CicloFormativo(IdCiclo) ON DELETE CASCADE,
-    FOREIGN KEY (IdAsignatura) REFERENCES Asignatura(IdAsignatura) ON DELETE CASCADE
+    FOREIGN KEY (IdCiclo) REFERENCES CicloFormativo(IdCiclo) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (IdAsignatura) REFERENCES Asignatura(IdAsignatura) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Creación de la tabla Ciclo_Asignatura_Aula_FranjaHoraria_Dia
 CREATE TABLE Horario (
     IdHorario INT AUTO_INCREMENT,
-    IdAula INT,
-    HoraMinInicio TIME,
-    HoraMinFinal TIME,
-    Dia VARCHAR(10),
+    IdAula INT NOT NULL,
+    HoraMinInicio TIME NOT NULL,
+    HoraMinFinal TIME NOT NULL,
+    Dia VARCHAR(10) NOT NULL,
     IdAsignatura INT NOT NULL,
     IdCiclo INT NOT NULL,
     PRIMARY KEY (IdHorario),
     UNIQUE (IdAula, HoraMinInicio, HoraMinFinal, Dia),
-    FOREIGN KEY (IdAsignatura, IdCiclo) REFERENCES AsignaturasCicloFormativo (IdAsignatura, IdCiclo) ON DELETE CASCADE,
-    FOREIGN KEY (IdAula) REFERENCES Aula(IdAula) ON DELETE CASCADE,
-    FOREIGN KEY (HoraMinInicio, HoraMinFinal) REFERENCES FranjaHoraria(HoraMinInicio, HoraMinFinal) ON DELETE CASCADE,
-    FOREIGN KEY (Dia) REFERENCES DiaSemana(Dia) ON DELETE CASCADE
+    FOREIGN KEY (IdAsignatura, IdCiclo) REFERENCES AsignaturasCicloFormativo (IdAsignatura, IdCiclo) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (IdAula) REFERENCES Aula(IdAula) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (HoraMinInicio, HoraMinFinal) REFERENCES FranjaHoraria(HoraMinInicio, HoraMinFinal) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (Dia) REFERENCES DiaSemana(Dia) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 ******************************************************************

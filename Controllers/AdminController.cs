@@ -177,7 +177,7 @@ namespace ProyectoFinalDAMAgil.Controllers
         public IActionResult Estudios(int Id)
         {
             // Aquí puedes agregar lógica adicional si es necesario
-            return View("~/Views/Admin/Estudios/Index.cshtml", Id);
+            return View("~/Views/Admin/Ciclos/Index.cshtml", Id);
         }
 
         #endregion

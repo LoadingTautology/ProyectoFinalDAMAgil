@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using ProyectoFinalDAMAgil.Scaffold;
 
+
 namespace ProyectoFinalDAMAgil
 { 
     public class Program
@@ -23,11 +24,14 @@ namespace ProyectoFinalDAMAgil
             builder.Services.AddScoped<Services.Administrador.IAdministradorService, Services.Administrador.AdministradorService>();
             builder.Services.AddScoped<Services.Centroeducativo.ICentroeducativoService, Services.Centroeducativo.CentroeducativoService>();
             builder.Services.AddScoped<Services.Usuarioscentroeducativo.IUsuarioscentroeducativoService, Services.Usuarioscentroeducativo.UsuarioscentroeducativoService>();
+			
+			builder.Services.AddScoped<Services.Cicloformativo.ICicloformativoService, Services.Cicloformativo.CicloformativoService>();
 
 
 
 
-            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+
+			builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 			{
 				options.LoginPath = "/Login/IniciarSesion";
 				options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
