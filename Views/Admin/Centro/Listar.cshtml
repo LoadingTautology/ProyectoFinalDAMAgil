@@ -29,9 +29,14 @@
                             <td>@item.NombreCentro</td>
                             <td>@item.Direccion</td>
                             <td>
-                                <a asp-controller="Admin" asp-action="EditarCentro" asp-route-id="@item.IdCentro" class="btn btn-primary btn-sm">
+                                <a asp-controller="Admin" asp-action="Estudios" asp-route-id="@item.IdCentro" class="btn btn-primary btn-sm">
+                                    <i class="bi bi-gear"></i> Gestionar
+                                </a>
+
+                                <a asp-controller="Admin" asp-action="EditarCentro" asp-route-id="@item.IdCentro" class="btn btn-secondary btn-sm">
                                     <i class="bi bi-pencil"></i> Editar
                                 </a>
+                                
                                 <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-url="@Url.Action("EliminarCentro", "Admin", new { id = item.IdCentro })">
                                     <i class="bi bi-trash"></i> Eliminar
                                 </button>
@@ -124,19 +129,6 @@
                             location.reload();
                         });
                     });
-            });
-
-            // Agregar el manejador de eventos para las filas
-            var table = document.getElementById('centrosTable');
-            table.addEventListener('click', function (event) {
-                var target = event.target;
-                var tr = target.closest('tr');
-                var tdIndex = Array.from(tr.children).indexOf(target.closest('td'));
-
-                if (tdIndex !== 2 && tr.dataset.id) { // Ignorar clics en la columna de acciones
-                    var centroId = tr.dataset.id;
-                    window.location.href = '@Url.Action("Estudios", "Admin")/' + centroId;
-                }
             });
         });
     </script>
