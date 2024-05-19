@@ -4,40 +4,41 @@
     ViewData["Title"] = "Editar Ciclo Formativo";
 }
 
-<div class="card">
-    <div class="card-header">
-        <h3>Editar Ciclo Formativo</h3>
-    </div>
-    <div class="card-body">
-        <form asp-controller="Admin" asp-action="EditarCiclo" method="post">
-            <input type="hidden" asp-for="IdCiclo" />
-            <input type="hidden" asp-for="IdCentro" />
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h3>Editar Ciclo Formativo</h3>
+        </div>
+        <div class="card-body">
+            <form asp-controller="Admin" asp-action="EditarCiclo" method="post">
+                <input type="hidden" asp-for="IdCiclo" />
+                <input type="hidden" asp-for="IdCentro" />
 
-            <div class="mb-3">
-                <label asp-for="Acronimo" class="form-label">Acronimo</label>
-                <input asp-for="Acronimo" type="text" class="form-control" />
-                <span asp-validation-for="Acronimo" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="NombreCiclo" class="form-label">Nombre Ciclo</label>
-                <input asp-for="NombreCiclo" type="text" class="form-control" />
-                <span asp-validation-for="NombreCiclo" class="text-danger"></span>
-            </div>
-            <div class="d-flex justify-content-between">
-                <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-save"></i> Guardar
-                </button>
-                <a asp-controller="Admin" asp-action="ListarCiclos" asp-route-id="@ViewData["IdCentro"]" class="btn btn-warning">
-                    <i class="bi bi-arrow-left"></i> Volver a la lista
-                </a>
-            </div>
-        </form>
-        @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
-        {
-            <div class="alert alert-danger" role="alert">
-                @ViewData["Mensaje"]
-            </div>
-        }
+                <div class="mb-3">
+                    <label asp-for="Acronimo" class="form-label">Acrónimo</label>
+                    <input asp-for="Acronimo" type="text" class="form-control" placeholder="Ingrese el acrónimo" />
+                    <span asp-validation-for="Acronimo" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="NombreCiclo" class="form-label">Nombre del Ciclo</label>
+                    <input asp-for="NombreCiclo" type="text" class="form-control" placeholder="Ingrese el nombre del ciclo" />
+                    <span asp-validation-for="NombreCiclo" class="text-danger"></span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save"></i> Guardar
+                    </button>
+                    <a asp-controller="Admin" asp-action="ListarCiclos" asp-route-id="@Model.IdCentro" class="btn btn-warning">
+                        <i class="bi bi-arrow-left"></i> Volver a la lista
+                    </a>
+                </div>
+            </form>
+            @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
+            {
+                <div class="alert alert-danger mt-3" role="alert">
+                    @ViewData["Mensaje"]
+                </div>
+            }
+        </div>
     </div>
 </div>
-
