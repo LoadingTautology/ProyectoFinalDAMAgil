@@ -118,24 +118,30 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Title" xml:space="preserve">
-    <value>Editar Centro Educativo</value>
+    <value>Save Educational Center</value>
   </data>
-  <data name="EditarCentroEducativo" xml:space="preserve">
-    <value>Editar Centro Educativo</value>
+  <data name="CrearCentroNuevo" xml:space="preserve">
+    <value>Create New Center</value>
   </data>
   <data name="NombreCentro" xml:space="preserve">
-    <value>Nombre Centro</value>
+    <value>Center Name</value>
+  </data>
+  <data name="NombreCentroPlaceholder" xml:space="preserve">
+    <value>Enter the center name</value>
   </data>
   <data name="DireccionCentro" xml:space="preserve">
-    <value>Dirección Centro</value>
+    <value>Center Address</value>
+  </data>
+  <data name="DireccionCentroPlaceholder" xml:space="preserve">
+    <value>Enter the center address</value>
   </data>
   <data name="Guardar" xml:space="preserve">
-    <value>Guardar</value>
+    <value>Save</value>
   </data>
   <data name="VolverALista" xml:space="preserve">
-    <value>Volver a la lista</value>
+    <value>Back to the list</value>
   </data>
   <data name="CentroDireccionYaExistente" xml:space="preserve">
-    <value>z</value>
+    <value>That center already exists at that address</value>
   </data>
 </root>
