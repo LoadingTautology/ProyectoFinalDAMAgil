@@ -5,44 +5,32 @@
 
 <div class="card">
     <div class="card-header">
-        Crear Centro nuevo
+        <h3>Crear Centro nuevo</h3>
     </div>
-     <div class="card-body">
+    <div class="card-body">
         <form asp-controller="Admin" asp-action="GuardarCentro" method="post" enctype="multipart/form-data">
-
-@*             <div class="mb-3">
-                <input class="form-control" type="text" placeholder="Nombre Centro" asp-for="NombreCentro" required />
-            </div>
-
             <div class="mb-3">
-                <input class="form-control" type="text" placeholder="Dirección del centro" asp-for="DireccionCentro" required />
-            </div>
-
-            <div class="d-grid gap-2 mb-3">
-                <button class="btn btn-primary" type="submit">Registrar</button>
-            </div>
-            
-            <a asp-controller="Admin" asp-action="ListarCentro" class="btn btn-warning">Volver a la lista</a> *@
-
-            <div class="mb-3">
-                <label class="form-label">Nombre del centro</label>
-                <input asp-for="NombreCentro" type="text" class="form-control">
+                <label asp-for="NombreCentro" class="form-label">Nombre del centro</label>
+                <input asp-for="NombreCentro" type="text" class="form-control" id="NombreCentro" placeholder="Ingrese el nombre del centro" required>
                 <span asp-validation-for="NombreCentro" class="text-danger"></span>
             </div>
-
             <div class="mb-3">
-                <label class="form-label">Dirección del centro</label>
-                <input asp-for="DireccionCentro" type="text" class="form-control">
+                <label asp-for="DireccionCentro" class="form-label">Dirección del centro</label>
+                <input asp-for="DireccionCentro" type="text" class="form-control" id="DireccionCentro" placeholder="Ingrese la dirección del centro" required>
                 <span asp-validation-for="DireccionCentro" class="text-danger"></span>
             </div>
-
-            <button type="submit" class="btn btn-primary">Guardar</button>
-            <a asp-controller="Admin" asp-action="ListarCentro" class="btn btn-warning">Volver a la lista</a>
-
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> Guardar
+                </button>
+                <a asp-controller="Admin" asp-action="ListarCentro" class="btn btn-warning">
+                    <i class="bi bi-arrow-left"></i> Volver a la lista
+                </a>
+            </div>
         </form>
         @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
         {
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger mt-3" role="alert">
                 @ViewData["Mensaje"]
             </div>
         }
