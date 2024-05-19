@@ -32,9 +32,9 @@
             padding: 2rem 0;
         }
 
-            .footer h5 {
-                margin-bottom: 1rem;
-            }
+        .footer h5 {
+            margin-bottom: 1rem;
+        }
 
         .footer-links li {
             margin-bottom: 0.5rem;
@@ -43,6 +43,28 @@
         .footer .social-icons a {
             margin: 0 0.5rem;
             color: #343a40;
+        }
+
+        @@media (max-width: 767px) {
+            .navbar-brand {
+                display: flex;
+                align-items: center;
+            }
+        }
+
+        @@media (max-width: 575px) {
+            .navbar-brand img {
+                width: 24px;
+                height: 24px;
+            }
+
+            .footer h5, .footer p {
+                text-align: center;
+            }
+
+            .footer .social-icons {
+                justify-content: center;
+            }
         }
     </style>
 </head>

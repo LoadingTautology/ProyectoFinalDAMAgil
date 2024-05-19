@@ -1,38 +1,44 @@
 ﻿@model ProyectoFinalDAMAgil.Models.Admin.CicloformativoModel
-﻿@{
-    ViewData["Title"] = "Ciclo Formativo Guardar";
+@{
+    ViewData["Title"] = "Guardar Ciclo Formativo";
 }
 
-<div class="card">
-    <div class="card-header">
-        Crear Ciclo Formativo Nuevo
-    </div>
-    <div class="card-body">
-        <form asp-controller="Admin" asp-action="GuardarCiclo" method="post" enctype="multipart/form-data">
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h3>Crear Nuevo Ciclo Formativo </h3>
+        </div>
+        <div class="card-body">
+            <form asp-controller="Admin" asp-action="GuardarCiclo" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="IdCentro" />
 
-            <input type="hidden" asp-for="IdCentro" />
+                <div class="mb-3">
+                    <label class="form-label" for="Acronimo">Acrónimo</label>
+                    <input asp-for="Acronimo" type="text" class="form-control" id="Acronimo" placeholder="Ingrese el acrónimo">
+                    <span asp-validation-for="Acronimo" class="text-danger"></span>
+                </div>
 
-            <div class="mb-3">
-                <label class="form-label">Acronimo</label>
-                <input asp-for="Acronimo" type="text" class="form-control">
-                <span asp-validation-for="Acronimo" class="text-danger"></span>
-            </div>
+                <div class="mb-3">
+                    <label class="form-label" for="NombreCiclo">Nombre del Ciclo</label>
+                    <input asp-for="NombreCiclo" type="text" class="form-control" id="NombreCiclo" placeholder="Ingrese el nombre del ciclo">
+                    <span asp-validation-for="NombreCiclo" class="text-danger"></span>
+                </div>
 
-            <div class="mb-3">
-                <label class="form-label">Nombre del Ciclo</label>
-                <input asp-for="NombreCiclo" type="text" class="form-control">
-                <span asp-validation-for="NombreCiclo" class="text-danger"></span>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Guardar</button>
-            <a asp-controller="Admin" asp-action="ListarCiclos" asp-route-id="@ViewData["IdCentro"]" class="btn btn-warning">Volver a la lista</a>
-
-        </form>
-        @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
-        {
-            <div class="alert alert-danger" role="alert">
-                @ViewData["Mensaje"]
-            </div>
-        }
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save"></i> Guardar
+                    </button>
+                    <a asp-controller="Admin" asp-action="ListarCiclos" asp-route-id="@ViewData["IdCentro"]" class="btn btn-warning">
+                        <i class="bi bi-arrow-left"></i> Volver a la lista
+                    </a>
+                </div>
+            </form>
+            @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
+            {
+                <div class="alert alert-danger mt-3" role="alert">
+                    @ViewData["Mensaje"]
+                </div>
+            }
+        </div>
     </div>
 </div>
