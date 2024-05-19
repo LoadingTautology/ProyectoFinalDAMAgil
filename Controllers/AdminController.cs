@@ -133,7 +133,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 
             if (await _centroeducativoService.ExisteCentroEducativo(centro.NombreCentro, centro.Direccion))
             {
-                ViewData["Mensaje"] = "Ese centro ya existe en esa dirección";
+                ViewData["Mensaje"] = "CentroDireccionYaExistente";
                 return View("~/Views/Admin/Centro/Editar.cshtml", centro);
             }
 

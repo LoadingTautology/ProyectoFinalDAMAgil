@@ -35,7 +35,11 @@
         @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
         {
             <div class="alert alert-danger" role="alert">
-                @ViewData["Mensaje"]
+                @{
+                    string vartempmensaje = ViewData["Mensaje"] as string;
+
+                }
+                @Localizer[vartempmensaje]
             </div>
         }
     </div>
