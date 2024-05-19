@@ -1,29 +1,29 @@
 ﻿@model List<ProyectoFinalDAMAgil.Models.Admin.CicloformativoModel>
 
 @{
-    ViewData["Title"] = "Ciclo Formativo";
+    ViewData["Title"] = Localizer["Title"];
 }
 
 <div class="container mt-5">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Lista de Ciclos Formativos</h3>
+            <h3 class="card-title">@Localizer["ListaDeEstudios"]</h3>
         </div>
         <div class="card-body">
             <div class="d-flex justify-content-between mb-3">
                 <a asp-controller="Admin" asp-action="GuardarCiclo" asp-route-id="@ViewData["IdCentro"]" class="btn btn-success">
-                    <i class="bi bi-plus-circle"></i> Crear Nuevo
+                    <i class="bi bi-plus-circle"></i> @Localizer["CrearNuevo"]
                 </a>
                 <a asp-controller="Admin" asp-action="ListarCentro" class="btn btn-warning">
-                    <i class="bi bi-arrow-left"></i> Volver a la lista
+                    <i class="bi bi-arrow-left"></i> @Localizer["VolverALista"]
                 </a>
             </div>
             <table id="centrosTable" class="table table-hover table-striped">
                 <thead>
                     <tr>
-                        <th>Acrónimo</th>
-                        <th>Nombre</th>
-                        <th>Acciones</th>
+                        <th>@Localizer["Acronimo"]</th>
+                        <th>@Localizer["Nombre"]</th>
+                        <th>@Localizer["Acciones"]</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,13 +37,13 @@
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Acciones">
                                         <a asp-controller="Admin" asp-action="InformacionCiclo" asp-route-id="@item.IdCiclo" class="btn btn-primary btn-sm">
-                                            <i class="bi bi-gear"></i> Información
+                                            <i class="bi bi-gear"></i> @Localizer["Informacion"]
                                         </a>
                                         <a asp-controller="Admin" asp-action="EditarCiclo" asp-route-id="@item.IdCiclo" class="btn btn-secondary btn-sm">
-                                            <i class="bi bi-pencil"></i> Editar
+                                            <i class="bi bi-pencil"></i> @Localizer["Editar"]
                                         </a>
                                         <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-url="@Url.Action("EliminarCiclo", new { id = @item.IdCiclo })">
-                                            <i class="bi bi-trash"></i> Eliminar
+                                            <i class="bi bi-trash"></i> @Localizer["Eliminar"]
                                         </button>
                                     </div>
                                 </td>
@@ -53,7 +53,7 @@
                     else
                     {
                         <tr>
-                            <td colspan="3" class="text-center">No hay Ciclos Formativos disponibles.</td>
+                            <td colspan="3" class="text-center">@Localizer["NoHayEstudios"]</td>
                         </tr>
                     }
                 </tbody>
@@ -66,15 +66,15 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar eliminación</h5>
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">@Localizer["ConfirmarEliminacion"]</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    ¿Está seguro que desea eliminar este centro educativo?
+                    @Localizer["SeguroEliminar"]
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <a id="confirmDeleteButton" class="btn btn-danger">Eliminar</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancelar"]</button>
+                    <a id="confirmDeleteButton" class="btn btn-danger">@Localizer["Eliminar"]</a>
                 </div>
             </div>
         </div>
@@ -112,16 +112,16 @@
                         if (data.success) {
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Centro eliminado',
-                                text: 'El centro educativo ha sido eliminado correctamente.'
+                                title: '@Localizer["CentroEliminado"]',
+                                text: '@Localizer["CentroEliminadoMensaje"]'
                             }).then(() => {
                                 location.reload();
                             });
                         } else {
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Error',
-                                text: 'No se pudo eliminar el centro educativo.'
+                                title: '@Localizer["Error"]',
+                                text: '@Localizer["ErrorEliminarCentro"]'
                             }).then(() => {
                                 location.reload();
                             });
@@ -130,8 +130,8 @@
                     .catch(error => {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Error',
-                            text: 'Ocurrió un error al eliminar el centro educativo.'
+                            title: '@Localizer["Error"]',
+                            text: '@Localizer["ErrorGeneral"]'
                         }).then(() => {
                             location.reload();
                         });
