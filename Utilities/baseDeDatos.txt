@@ -250,3 +250,71 @@ INSERT INTO DiaSemana (Dia) VALUES
 ('Sábado'),
 ('Domingo');
 
+*********************************************************************************
+@model YourNamespace.Models.HorarioViewModel
+    <table>
+        <thead>
+            <tr>
+                <th>Hora</th>
+                @foreach (var dia in Model.DiasSemana)
+                {
+                    <th>@dia.Dia</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var franja in Model.FranjasHorarias)
+            {
+                <tr>
+                    <td>@franja.HoraMinInicio.ToString(@"hh\:mm") - @franja.HoraMinFinal.ToString(@"hh\:mm")</td>
+                    @for (int i = 0; i < Model.DiasSemana.Count; i++)
+                    {
+                        <td></td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+
+    public class FranjaHoraria
+    {
+        public TimeSpan HoraMinInicio { get; set; }
+        public TimeSpan HoraMinFinal { get; set; }
+    }
+
+    public class DiaSemana
+    {
+        public string Dia { get; set; }
+    }
+
+    public class HorarioViewModel
+    {
+        public List<FranjaHoraria> FranjasHorarias { get; set; }
+        public List<DiaSemana> DiasSemana { get; set; }
+    }
+
+
+
+
+
+
+
+
+
+
+        var model = new HorarioViewModel
+    {
+        FranjasHorarias = franjas,
+        DiasSemana = dias
+    };
+
+    return View(model);
