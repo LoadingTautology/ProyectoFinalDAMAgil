@@ -6,13 +6,7 @@
             <h3>Información</h3>
         </div>
         <div class="card-body">
-            <a asp-controller="Admin" asp-action="GuardarAsignatura" asp-route-id="@ViewData["idEstudios"]" class="btn btn-success  mb-3">
-                <i class="bi bi-plus-circle"></i> @Localizer["CrearNuevo"]
-            </a>
-            <a asp-controller="Admin" asp-action="ListarAsignaturasCentro" asp-route-id="@ViewData["idEstudios"]" class="btn btn-success  mb-3">
-                <i class="bi bi-plus-circle"></i> Añadir Existente
-            </a>
-            <a asp-controller="Admin" asp-action="ListarEstudios" asp-route-id="@ViewData["idCentro"]" class="btn btn-warning mb-3">
+            <a asp-controller="Admin" asp-action="ListarAsignaturas" asp-route-id="@ViewData["idEstudios"]" class="btn btn-warning mb-3">
                 <i class="bi bi-arrow-left"></i> Volver a estudios
             </a>
         </div>
@@ -29,20 +23,22 @@
                 {
                     @foreach (var item in Model)
                     {
-                        <tr data-id="@item.IdAsignatura">
+                        <tr>
                             <td>@item.NombreAsignatura</td>
                             <td>@item.Curso</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Acciones">
-                                    <a asp-controller="Admin" asp-action="InformacionAsignatura" asp-route-id="@item.IdAsignatura" class="btn btn-primary btn-sm">
-                                        <i class="bi bi-gear"></i> @Localizer["Informacion"]
+@*                                     <form asp-controller="Admin" asp-action="GuardarAsignaturaExistente" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" asp-for="@item.IdAsignatura" />
+                                        <button type="submit" class="btn btn-primary" asp-route-id="@ViewData["idCiclo"]">
+                                            <i class="bi bi-save"></i> Guardar
+                                        </button>
+                                    </form> *@
+
+
+                                    <a asp-controller="Admin" asp-action="GuardarAsignaturaExistente" asp-route-id="@item.IdAsignatura" asp-route-idEstudios="@ViewData["idEstudios"]" class="btn btn-primary btn-sm">
+                                        <i class="bi bi-gear"></i> Seleccionar
                                     </a>
-                                    <a asp-controller="Admin" asp-action="EditarAsignatura" asp-route-id="@item.IdAsignatura" class="btn btn-secondary btn-sm">
-                                        <i class="bi bi-pencil"></i> @Localizer["Editar"]
-                                    </a>
-                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-url="@Url.Action("EliminarAsignatura", new { id = @item.IdAsignatura, idEstudios = ViewData["idEstudios"] })">
-                                        <i class="bi bi-trash"></i> @Localizer["Eliminar"]
-                                    </button>
                                 </div>
                             </td>
                         </tr>

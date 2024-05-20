@@ -10,25 +10,33 @@ using System.Security.Claims;
 using ProyectoFinalDAMAgil.Scaffold;
 using ProyectoFinalDAMAgil.Services.Cicloformativo;
 using System.Runtime.InteropServices;
+using ProyectoFinalDAMAgil.Services.Asignatura;
+using System.Collections.Generic;
 
 namespace ProyectoFinalDAMAgil.Controllers
 {
     [Authorize(Roles = "ADMINISTRADOR")]
     public class AdminController : Controller
     {
+        private int? _identificadorCentros = null;
+        private int? _identificadorEstudios = null;
+        private int? _identicadoAsignaturas = null;
+
         private readonly IUsuarioService _usuarioService;
         private readonly ICorreoelectronicoService _correoelectronicoService;
         private readonly IAdministradorService _administradorService;
         private readonly ICentroeducativoService _centroeducativoService;
         private readonly IUsuarioscentroeducativoService _usuarioscentroeducativoService;
         private readonly ICicloformativoService _cicloformativoService;
+        private readonly IAsignaturaService _asignaturaService;
 
         public AdminController(IUsuarioService usuarioService,
                                ICorreoelectronicoService correoelectronicoService,
                                IAdministradorService administradorService,
                                ICentroeducativoService centroeducativoService,
                                IUsuarioscentroeducativoService usuarioscentroeducativo,
-                               ICicloformativoService cicloformativoService)
+                               ICicloformativoService cicloformativoService,
+                               IAsignaturaService asignaturaService)
         {
             _usuarioService = usuarioService;
             _correoelectronicoService = correoelectronicoService;
@@ -36,6 +44,7 @@ namespace ProyectoFinalDAMAgil.Controllers
             _centroeducativoService = centroeducativoService;
             _usuarioscentroeducativoService = usuarioscentroeducativo;
             _cicloformativoService = cicloformativoService;
+            _asignaturaService = asignaturaService;
 
         }
 
@@ -45,6 +54,10 @@ namespace ProyectoFinalDAMAgil.Controllers
         [HttpGet]
         public async Task<IActionResult> ListarCentro()
         {
+            _identificadorCentros=null;
+            _identificadorEstudios=null;
+            _identicadoAsignaturas=null;
+
             ClaimsPrincipal claimsUser = HttpContext.User;
             string emailUsuario = "";
             if (claimsUser.Identity!.IsAuthenticated)
@@ -167,91 +180,84 @@ namespace ProyectoFinalDAMAgil.Controllers
 
         #endregion
 
-        #region Gestion Profesores
-
-        #endregion
-
-        #region Gestion Alumnos
-
-        #endregion
-
+        /* ********************ESTUDIOS******************** */
         #region Estudios
 
         [HttpGet]
-        public async Task<IActionResult> ListarCiclos([FromRoute] int id)
+        public async Task<IActionResult> ListarEstudios([FromRoute] int id)
         {
+
             ViewData["IdCentro"]=id;
 
-
             IEnumerable<CicloformativoModel> listado = await _cicloformativoService.ListadoCicloformativo(id);
-            return View("~/Views/Admin/Ciclos/Index.cshtml",listado);
+            return View("~/Views/Admin/Estudios/Index.cshtml", listado);
         }
 
         [HttpGet]
-        public IActionResult GuardarCiclo([FromRoute] int id)
+        public IActionResult GuardarEstudios([FromRoute] int id)
         {
             ViewData["IdCentro"]=id;
 
 
-            return View("~/Views/Admin/Ciclos/Guardar.cshtml", new CicloformativoModel { IdCentro=id });
+            return View("~/Views/Admin/Estudios/Guardar.cshtml", new CicloformativoModel { IdCentro=id });
 
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> GuardarCiclo(CicloformativoModel datosCiclo)
+        public async Task<IActionResult> GuardarEstudios(CicloformativoModel datosCiclo)
         {
             ViewData["IdCentro"]=datosCiclo.IdCentro;
-            
-            if (!ModelState.IsValid) 
-            { 
-                return View("~/Views/Admin/Ciclo/Guardar.cshtml", datosCiclo); 
-            }              
+
+            if (!ModelState.IsValid)
+            {
+                return View("~/Views/Admin/Estudios/Guardar.cshtml", datosCiclo);
+            }
             else if (await _cicloformativoService.ExistCicloformativo(datosCiclo))
             {
                 ViewData["Mensaje"] = "El nombre del ciclo o acrónimo ya existen";
-                return View("~/Views/Admin/Ciclos/Guardar.cshtml", datosCiclo );
+                return View("~/Views/Admin/Estudios/Guardar.cshtml", datosCiclo);
             }
             else
             {
                 await _cicloformativoService.CreateCicloformativo(datosCiclo);
-                return RedirectToAction("ListarCiclos", new { id = datosCiclo.IdCentro });
+                return RedirectToAction("ListarEstudios", new { id = datosCiclo.IdCentro });
             }
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditarCiclo([FromRoute] int id)
+        public async Task<IActionResult> EditarEstudios([FromRoute] int id)
         {
             ViewData["IdCentro"]=id;
             CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(id);
 
-            return View("~/Views/Admin/Ciclos/Editar.cshtml", cicloformativo);
+            return View("~/Views/Admin/Estudios/Editar.cshtml", cicloformativo);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> EditarCiclo(CicloformativoModel datosCiclo)
+        public async Task<IActionResult> EditarEstudios(CicloformativoModel datosCiclo)
         {
             ViewData["IdCentro"]=datosCiclo.IdCentro;
 
             if (await _cicloformativoService.ExistCicloformativo(datosCiclo))
             {
                 ViewData["Mensaje"] = "El nombre del ciclo o acrónimo ya existen";
-                return View("~/Views/Admin/Ciclos/Editar.cshtml", datosCiclo);
+                return View("~/Views/Admin/Estudios/Editar.cshtml", datosCiclo);
             }
 
             await _cicloformativoService.UpdateCicloformativo(datosCiclo);
 
-            return RedirectToAction("ListarCiclos", new { id = datosCiclo.IdCentro });
+            return RedirectToAction("ListarEstudios", new { id = datosCiclo.IdCentro });
 
         }
 
         [HttpPost]
-        public async Task<IActionResult> EliminarCiclo([FromRoute] int id)
+        public async Task<IActionResult> EliminarEstudios([FromRoute] int id)
         {
             try
             {
-                CicloformativoModel ciclo =await _cicloformativoService.ReadCicloformativo(id);
+                CicloformativoModel ciclo = await _cicloformativoService.ReadCicloformativo(id);
                 await _cicloformativoService.DeleteCicloformativo(ciclo);
                 bool existe = await _cicloformativoService.ExistCicloformativo(ciclo);
 
@@ -269,29 +275,171 @@ namespace ProyectoFinalDAMAgil.Controllers
                 return Json(new { success = false, message = "Ocurrió un error al eliminar el ciclo formativo." });
             }
         }
-        [HttpGet]
-        public async Task<IActionResult> InformacionCiclo([FromRoute] int id)
-        {
-            ViewData["IdCiclo"]=id;
 
 
-            //IEnumerable<CicloformativoModel> listado = await _cicloformativoService.ListadoCicloformativo(id);
-            return View("~/Views/Admin/Ciclos/Informacion.cshtml");
-        }
+
+
+
 
         #endregion
 
-        #region Estudios
+        /* ********************ASIGNATURAS******************** */
+        #region Asignaturas
 
         [HttpGet]
         public async Task<IActionResult> ListarAsignaturas([FromRoute] int id)
         {
-            ViewData["IdAsignatura"]=id;
 
+            ViewData["idEstudios"]=id;
 
-            //IEnumerable<CicloformativoModel> listado = await _cicloformativoService.ListadoCicloformativo(id);
-            return View("~/Views/Admin/Asignaturas/Index.cshtml");
+            CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(id);
+            ViewData["IdCentro"]= cicloformativo.IdCentro;
+
+            IEnumerable<AsignaturaModel> listadoAsignaturas = await _asignaturaService.ListadoAsignatura(id);
+
+            return View("~/Views/Admin/Asignaturas/Index.cshtml", listadoAsignaturas);
         }
+
+        [HttpGet]
+        public IActionResult GuardarAsignatura([FromRoute] int id)
+        {
+            ViewData["idCiclo"]=id;
+
+            return View("~/Views/Admin/Asignaturas/Guardar.cshtml");
+
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> GuardarAsignatura([FromRoute] int id, AsignaturaModel datosAsignaturas)
+        {
+            ViewData["idCiclo"]=id;
+
+            CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(id);
+
+            if (!ModelState.IsValid)
+            {
+                return View("~/Views/Admin/Asignaturas/Guardar.cshtml", datosAsignaturas);
+            }
+            else if (await _asignaturaService.ExistAsignatura(datosAsignaturas, id, cicloformativo.IdCentro))
+            {
+                ViewData["Mensaje"] = "El nombre de la asignatura ya existe en este centro";
+                return View("~/Views/Admin/Asignaturas/Guardar.cshtml", datosAsignaturas);
+            }
+            else
+            {
+                await _asignaturaService.CreateAsignatura(datosAsignaturas,id);
+                return RedirectToAction("ListarAsignaturas", new { id = id} );
+            }
+        }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> EditarAsignatura([FromRoute] int id)
+        {
+            int idAsignatura = id;           
+            AsignaturaModel asignaturaModel = await _asignaturaService.ReadAsignatura(idAsignatura);
+            IEnumerable<CicloformativoModel> listadoCiclosIEnumerable = await _asignaturaService.ListadoCiclos(asignaturaModel);
+            CicloformativoModel cicloformativoModel= listadoCiclosIEnumerable.ToList().FirstOrDefault();
+            ViewData["idCiclo"]= cicloformativoModel.IdCiclo;
+
+            return View("~/Views/Admin/Asignaturas/Editar.cshtml", asignaturaModel);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditarAsignatura([FromRoute] int id, AsignaturaModel datosAsignatura)
+        {
+            ViewData["idCiclo"]=id;            
+            CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(id);
+
+            if (await _asignaturaService.ExistAsignatura(datosAsignatura,id , cicloformativo.IdCentro))
+            {
+                ViewData["Mensaje"] = "El nombre de la asignatura ya existe en este centro";
+                return View("~/Views/Admin/Asignaturas/Guardar.cshtml", datosAsignatura);
+            }
+
+            await _asignaturaService.UpdateAsignatura(datosAsignatura);
+
+            return RedirectToAction("ListarAsignaturas", new { id = id });
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EliminarAsignatura([FromRoute] int id, int idEstudios)
+        {
+            int idAsignatura = id;
+            try
+            {
+                AsignaturaModel asignaturaModel = await _asignaturaService.ReadAsignatura(idAsignatura);
+                CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(idEstudios);
+
+                await _asignaturaService.DeleteAsignatura(asignaturaModel);
+                bool existe = await _asignaturaService.ExistAsignatura(asignaturaModel, idEstudios, cicloformativo.IdCentro) ;
+
+                if (existe)
+                {
+                    return Json(new { success = false, message = "La asignatura no se pudo eliminar." });
+                }
+                else
+                {
+                    return Json(new { success = true });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Ocurrió un error al eliminar la asignatura." });
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ListarAsignaturasCentro([FromRoute] int id)
+        {
+            ViewData["idEstudios"]=id;
+            CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(id);
+            ViewData["idCentros"]= cicloformativo.IdCentro;
+
+            IEnumerable<AsignaturaModel> listadoAsignaturasCicloIEnumerable = await _asignaturaService.ListadoAsignatura(id);
+            List<int> idAsignaturasCiclo = new List<int>();
+            foreach (var item in listadoAsignaturasCicloIEnumerable)
+            {
+                idAsignaturasCiclo.Add(item.IdAsignatura);
+            }
+
+            IEnumerable<AsignaturaModel> listadoAsignaturasCentroIEnumerable = await _asignaturaService.ListadoAsignaturaCentro(cicloformativo.IdCentro);
+            List<int> idAsignaturasCentro = new List<int>();
+            foreach (var item in listadoAsignaturasCentroIEnumerable)
+            {
+                idAsignaturasCentro.Add(item.IdAsignatura);
+            }
+
+            IEnumerable<int> idlistadoCentroDiferenciaCiclo = from idLista in idAsignaturasCentro.Except(idAsignaturasCiclo) select idLista;
+            List<AsignaturaModel> listadoCentroDiferenciaCiclo = new List<AsignaturaModel>();
+            foreach (int item in idlistadoCentroDiferenciaCiclo)
+            {
+                listadoCentroDiferenciaCiclo.Add(await _asignaturaService.ReadAsignatura(item));
+            }
+
+            return View("~/Views/Admin/Asignaturas/AddExistente.cshtml", listadoCentroDiferenciaCiclo);
+        }
+
+        public async Task<IActionResult> GuardarAsignaturaExistente([FromRoute] int id, int idEstudios)//, IEnumerable<AsignaturaModel> datosAsignaturas)
+        {
+
+            AsignaturaModel asignaturaModel = await _asignaturaService.ReadAsignatura(id);
+            await _asignaturaService.VincularAsignaturaCiclo(asignaturaModel, idEstudios);
+
+            return RedirectToAction("ListarAsignaturas", new { id = idEstudios }); //idCiclo
+        }
+
+        #endregion
+
+        #region Gestion Profesores
+
+        #endregion
+
+        #region Gestion Alumnos
 
         #endregion
 

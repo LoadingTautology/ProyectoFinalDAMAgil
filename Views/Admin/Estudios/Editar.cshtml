@@ -10,7 +10,7 @@
             <h3>Editar Ciclo Formativo</h3>
         </div>
         <div class="card-body">
-            <form asp-controller="Admin" asp-action="EditarCiclo" method="post">
+            <form asp-controller="Admin" asp-action="EditarEstudios" method="post">
                 <input type="hidden" asp-for="IdCiclo" />
                 <input type="hidden" asp-for="IdCentro" />
 
@@ -28,7 +28,7 @@
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-save"></i> Guardar
                     </button>
-                    <a asp-controller="Admin" asp-action="ListarCiclos" asp-route-id="@Model.IdCentro" class="btn btn-warning">
+                    <a asp-controller="Admin" asp-action="ListarEstudios" asp-route-id="@Model.IdCentro" class="btn btn-warning">
                         <i class="bi bi-arrow-left"></i> Volver a la lista
                     </a>
                 </div>

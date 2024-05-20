@@ -1,0 +1,43 @@
+﻿@model ProyectoFinalDAMAgil.Models.Admin.AsignaturaModel
+@{
+    ViewData["Title"] = "Guardar Asignatura";
+}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h3>Crear Nuevo Asignatura </h3>
+        </div>
+        <div class="card-body">
+            <form asp-controller="Admin" asp-action="GuardarAsignatura" method="post" enctype="multipart/form-data">
+
+                <div class="mb-3">
+                    <label class="form-label" for="Acronimo">Nombre Asignatura</label>
+                    <input asp-for="NombreAsignatura" type="text" class="form-control" id="IdAsignatura" placeholder="Ingrese nombre asignatura">
+                    <span asp-validation-for="NombreAsignatura" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="NombreCiclo">Curso</label>
+                    <input asp-for="Curso" type="text" class="form-control" id="Curso" placeholder="Ingrese el número del curso: 1,2,...">
+                    <span asp-validation-for="Curso" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary" asp-route="@ViewData["idCiclo"]">
+                        <i class="bi bi-save"></i> Guardar
+                    </button>
+                    <a asp-controller="Admin" asp-action="ListarAsignaturas" asp-route-id="@ViewData["IdCiclo"]" class="btn btn-warning">
+                        <i class="bi bi-arrow-left"></i> Volver a la lista
+                    </a>
+                </div>
+            </form>
+            @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
+            {
+                <div class="alert alert-danger mt-3" role="alert">
+                    @ViewData["Mensaje"]
+                </div>
+            }
+        </div>
+    </div>
+</div>

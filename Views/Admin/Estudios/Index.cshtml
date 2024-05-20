@@ -11,7 +11,7 @@
         </div>
         <div class="card-body">
             <div class="d-flex justify-content-between mb-3">
-                <a asp-controller="Admin" asp-action="GuardarCiclo" asp-route-id="@ViewData["IdCentro"]" class="btn btn-success">
+                <a asp-controller="Admin" asp-action="GuardarEstudios" asp-route-id="@ViewData["IdCentro"]" class="btn btn-success">
                     <i class="bi bi-plus-circle"></i> @Localizer["CrearNuevo"]
                 </a>
                 <a asp-controller="Admin" asp-action="ListarCentro" class="btn btn-warning">
@@ -36,13 +36,13 @@
                                 <td>@item.NombreCiclo</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Acciones">
-                                        <a asp-controller="Admin" asp-action="InformacionCiclo" asp-route-id="@item.IdCiclo" class="btn btn-primary btn-sm">
+                                        <a asp-controller="Admin" asp-action="ListarAsignaturas" asp-route-id="@item.IdCiclo" class="btn btn-primary btn-sm">
                                             <i class="bi bi-gear"></i> @Localizer["Informacion"]
                                         </a>
-                                        <a asp-controller="Admin" asp-action="EditarCiclo" asp-route-id="@item.IdCiclo" class="btn btn-secondary btn-sm">
+                                        <a asp-controller="Admin" asp-action="EditarEstudios" asp-route-id="@item.IdCiclo" class="btn btn-secondary btn-sm">
                                             <i class="bi bi-pencil"></i> @Localizer["Editar"]
                                         </a>
-                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-url="@Url.Action("EliminarCiclo", new { id = @item.IdCiclo })">
+                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-url="@Url.Action("EliminarEstudios", new { id = @item.IdCiclo })">
                                             <i class="bi bi-trash"></i> @Localizer["Eliminar"]
                                         </button>
                                     </div>

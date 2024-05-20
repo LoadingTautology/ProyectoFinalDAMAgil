@@ -38,6 +38,7 @@ namespace ProyectoFinalDAMAgil
 
 
 
+
             // Authentication configuration
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
             {

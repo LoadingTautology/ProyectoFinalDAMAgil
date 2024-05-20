@@ -9,7 +9,7 @@
             <h3>Crear Nuevo Ciclo Formativo </h3>
         </div>
         <div class="card-body">
-            <form asp-controller="Admin" asp-action="GuardarCiclo" method="post" enctype="multipart/form-data">
+            <form asp-controller="Admin" asp-action="GuardarEstudios" method="post" enctype="multipart/form-data">
                 <input type="hidden" asp-for="IdCentro" />
 
                 <div class="mb-3">
@@ -28,7 +28,7 @@
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-save"></i> Guardar
                     </button>
-                    <a asp-controller="Admin" asp-action="ListarCiclos" asp-route-id="@ViewData["IdCentro"]" class="btn btn-warning">
+                    <a asp-controller="Admin" asp-action="ListarEstudios" asp-route-id="@ViewData["IdCentro"]" class="btn btn-warning">
                         <i class="bi bi-arrow-left"></i> Volver a la lista
                     </a>
                 </div>

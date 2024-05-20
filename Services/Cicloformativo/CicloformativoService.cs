@@ -42,8 +42,8 @@ namespace ProyectoFinalDAMAgil.Services.Cicloformativo
             Scaffold.Cicloformativo cicloformativoDB = cicloformativoListaDB.FirstOrDefault();
             CicloformativoModel cicloformativoModel = null;
 
-            if (cicloformativoDB != null) {
-
+            if (cicloformativoDB != null) 
+            {
                 cicloformativoModel= new CicloformativoModel()
                 {
                     IdCiclo=cicloformativoDB.IdCiclo,
@@ -102,8 +102,7 @@ namespace ProyectoFinalDAMAgil.Services.Cicloformativo
         }
 
         public async Task<bool> ExistCicloformativo(CicloformativoModel cicloformativoModel)
-        {
-            Console.WriteLine("**********************"+cicloformativoModel.IdCentro+"****"+cicloformativoModel.NombreCiclo+"*******"+cicloformativoModel.Acronimo);
+        {           
 
             bool existe = false;
 
