@@ -36,8 +36,10 @@ namespace ProyectoFinalDAMAgil
             builder.Services.AddScoped<Services.Cicloformativo.ICicloformativoService, Services.Cicloformativo.CicloformativoService>();
             builder.Services.AddScoped<Services.Asignatura.IAsignaturaService, Services.Asignatura.AsignaturaService>();
 
-           // Authentication configuration
-           builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+
+
+            // Authentication configuration
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
             {
                 options.LoginPath = "/Login/IniciarSesion";
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(20);

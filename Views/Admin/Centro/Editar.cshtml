@@ -1,12 +1,12 @@
 ﻿@model ProyectoFinalDAMAgil.Scaffold.Centroeducativo
 
 @{
-    ViewData["Title"] = "Editar Centro Educativo";
+    ViewData["Title"] = Localizer["Title"];
 }
 
 <div class="card">
     <div class="card-header">
-        <h3>Editar Centro Educativo</h3>
+        <h3>@Localizer["EditarCentroEducativo"]</h3>
     </div>
     <div class="card-body">
         <form asp-controller="Admin" asp-action="EditarCentro" method="post">
@@ -14,28 +14,32 @@
             <input type="hidden" asp-for="IdCentro" />
 
             <div class="mb-3">
-                <label asp-for="NombreCentro" class="form-label">Nombre Centro</label>
+                <label asp-for="NombreCentro" class="form-label">@Localizer["NombreCentro"]</label>
                 <input asp-for="NombreCentro" type="text" class="form-control" />
                 <span asp-validation-for="NombreCentro" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for="Direccion" class="form-label">Dirección Centro</label>
+                <label asp-for="Direccion" class="form-label">@Localizer["DireccionCentro"]</label>
                 <input asp-for="Direccion" type="text" class="form-control" />
                 <span asp-validation-for="Direccion" class="text-danger"></span>
             </div>
             <div class="d-flex justify-content-between">
                 <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-save"></i> Guardar
+                    <i class="bi bi-save"></i> @Localizer["Guardar"]
                 </button>
                 <a asp-controller="Admin" asp-action="ListarCentro" class="btn btn-warning">
-                    <i class="bi bi-arrow-left"></i> Volver a la lista
+                    <i class="bi bi-arrow-left"></i> @Localizer["VolverALista"]
                 </a>
             </div>
         </form>
         @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
         {
-            <div class="alert alert-danger" role="alert">
-                @ViewData["Mensaje"]
+            <div class="alert alert-danger mt-3" role="alert">
+                @{
+                    string vartempmensaje = ViewData["Mensaje"] as string;
+
+                }
+                @Localizer[vartempmensaje]
             </div>
         }
     </div>
