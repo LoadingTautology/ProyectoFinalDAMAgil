@@ -37,13 +37,6 @@ namespace ProyectoFinalDAMAgil.Services.Asignatura
             AsignaturaModel asignaturaDB = asignaturaListaDB.FirstOrDefault();
 
             this.VincularAsignaturaCiclo(asignaturaDB, idCiclo);
-            //Scaffold.Asignaturascicloformativo asignaturascicloformativo = new Scaffold.Asignaturascicloformativo()
-            //{   
-            //    IdAsignatura = asignaturaDB.IdAsignatura,
-            //    IdCiclo = idCiclo 
-            //};
-            //_context.Add(asignaturascicloformativo);
-            //_context.SaveChanges();
 
             return asignaturaModel;
         }
@@ -93,14 +86,33 @@ namespace ProyectoFinalDAMAgil.Services.Asignatura
 
         public async Task<AsignaturaModel> DeleteAsignatura(AsignaturaModel asignaturaModel, int idEstudios)
         {
-            Scaffold.Asignatura asignatura = new Scaffold.Asignatura()
+            this.DesvincularAsignaturaCiclo(asignaturaModel, idEstudios);
+
+
+            IQueryable<AsignaturaModel> asignaturaListaDB
+                = from asignatura in _context.Asignaturas
+                  join asignaturaciclo in _context.Asignaturascicloformativos on asignatura.IdAsignatura equals asignaturaciclo.IdAsignatura                
+                  where asignaturaciclo.IdAsignatura== asignaturaModel.IdAsignatura
+                  select new AsignaturaModel()
+                  {
+                      IdAsignatura = asignatura.IdAsignatura,
+                      NombreAsignatura = asignatura.NombreAsignatura,
+                      Curso =asignatura.Curso
+                  };
+
+
+            if (asignaturaListaDB.Count()==0)
             {
-                IdAsignatura = asignaturaModel.IdAsignatura,
-                NombreAsignatura = asignaturaModel.NombreAsignatura,
-                Curso =asignaturaModel.Curso
-            };
-            _context.Asignaturas.Remove(asignatura);
-            await _context.SaveChangesAsync();
+                Scaffold.Asignatura asignaturaDB = new Scaffold.Asignatura()
+                {
+                    IdAsignatura = asignaturaModel.IdAsignatura,
+                    NombreAsignatura = asignaturaModel.NombreAsignatura,
+                    Curso =asignaturaModel.Curso
+                };
+                _context.Asignaturas.Remove(asignaturaDB);
+                await _context.SaveChangesAsync();
+            }
+
             return asignaturaModel;
 
         }
@@ -198,12 +210,18 @@ namespace ProyectoFinalDAMAgil.Services.Asignatura
 
         public async Task<AsignaturaModel> DesvincularAsignaturaCiclo(AsignaturaModel asignaturaModel, int idCiclo)
         {
-            Scaffold.Asignaturascicloformativo asignaturascicloformativo = new Scaffold.Asignaturascicloformativo()
-            {
-                IdAsignatura = asignaturaModel.IdAsignatura,
-                IdCiclo = idCiclo
-            };
-            _context.Remove(asignaturascicloformativo);
+            IQueryable<Scaffold.Asignaturascicloformativo> asignaturaCicloListaDB
+               = from asignaturaciclo in _context.Asignaturascicloformativos
+                 where asignaturaciclo.IdAsignatura == asignaturaModel.IdAsignatura && asignaturaciclo.IdCiclo == idCiclo
+                 select new Scaffold.Asignaturascicloformativo()
+                 {
+                     IdAsignaturasCicloFormativo = asignaturaciclo.IdAsignaturasCicloFormativo,
+                     IdAsignatura = asignaturaciclo.IdAsignatura,
+                     IdCiclo = asignaturaciclo.IdCiclo
+                 };
+
+            Scaffold.Asignaturascicloformativo asignaturaCicloDB = asignaturaCicloListaDB.FirstOrDefault();
+            _context.Remove(asignaturaCicloDB);
             _context.SaveChanges();
 
             return asignaturaModel;

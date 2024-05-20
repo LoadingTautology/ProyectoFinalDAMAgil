@@ -375,7 +375,7 @@ namespace ProyectoFinalDAMAgil.Controllers
                 AsignaturaModel asignaturaModel = await _asignaturaService.ReadAsignatura(idAsignatura);
                 CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(idEstudios);
 
-                await _asignaturaService.DeleteAsignatura(asignaturaModel);
+                await _asignaturaService.DeleteAsignatura(asignaturaModel,idEstudios);
                 bool existe = await _asignaturaService.ExistAsignatura(asignaturaModel, idEstudios, cicloformativo.IdCentro) ;
 
                 if (existe)
@@ -431,6 +431,12 @@ namespace ProyectoFinalDAMAgil.Controllers
             await _asignaturaService.VincularAsignaturaCiclo(asignaturaModel, idEstudios);
 
             return RedirectToAction("ListarAsignaturas", new { id = idEstudios }); //idCiclo
+        }
+
+
+        public async Task<IActionResult> InformacionAsignatura() 
+        {
+            return View("~/Views/Admin/Asignaturas/Informacion.cshtml");
         }
 
         #endregion
