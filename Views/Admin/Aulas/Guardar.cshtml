@@ -1,0 +1,52 @@
+﻿@model ProyectoFinalDAMAgil.Models.Admin.AulaModel
+@{
+    ViewData["Title"] = "Guardar Asignatura";
+}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h3>Crear Nuevo Asignatura </h3>
+        </div>
+        <div class="card-body">
+            <form asp-controller="Admin" asp-action="GuardarAula" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="IdCentro" />
+
+                <div class="mb-3">
+                    <label class="form-label" for="NumeroAula">Numero de Aula</label>
+                    <input asp-for="NumeroAula" type="numnber" class="form-control" id="NumeroAula" placeholder="Numero de aula: 1, 2,...">
+                    <span asp-validation-for="NumeroAula" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="NombreAula">Nombre del Aula</label>
+                    <input asp-for="NombreAula" type="text" class="form-control" id="Curso" placeholder="Nombre del Aula">
+                    <span asp-validation-for="NombreAula" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="AforoMax">Aforo Máximo</label>
+                    <input asp-for="AforoMax" type="number" class="form-control" id="AforoMax" placeholder="Aforo Máximo: 1, 2,...">
+                    <span asp-validation-for="AforoMax" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary" asp-route="@ViewData["idCiclo"]">
+                        <i class="bi bi-save"></i> Guardar
+                    </button>
+                    <a asp-controller="Admin" asp-action="ListarEstudios" asp-route-id="@ViewData["idCentro"]" class="btn btn-warning mb-3">
+                        <i class="bi bi-arrow-left"></i> Volver a estudios
+                    </a>
+                </div>
+
+
+            </form>
+            @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
+            {
+                <div class="alert alert-danger mt-3" role="alert">
+                    @ViewData["Mensaje"]
+                </div>
+            }
+        </div>
+    </div>
+</div>

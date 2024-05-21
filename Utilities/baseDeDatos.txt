@@ -70,10 +70,12 @@ CREATE TABLE DiaSemana (
 -- Creación de la tabla Aula
 CREATE TABLE Aula (
     IdAula INT AUTO_INCREMENT,
-    NombreAula VARCHAR(50) NOT NULL DEFAULT 'Aula',
     NumeroAula INT NOT NULL DEFAULT 0,
+    NombreAula VARCHAR(50) NOT NULL DEFAULT 'Aula',
     AforoMax INT NOT NULL DEFAULT 0,
-    PRIMARY KEY (IdAula)
+    IdCentro INT NOT NULL,
+    PRIMARY KEY (IdAula),
+    FOREIGN KEY (IdCentro) REFERENCES CentroEducativo(IdCentro) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Creación de la tabla Asignatura

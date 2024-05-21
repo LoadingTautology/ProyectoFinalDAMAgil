@@ -38,8 +38,8 @@ public partial class DbappProyectoFinalContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
-            .UseCollation("utf8mb4_general_ci")
-            .HasCharSet("utf8mb4");
+            .UseCollation("latin1_swedish_ci")
+            .HasCharSet("latin1");
 
         modelBuilder.Entity<Administrador>(entity =>
         {
@@ -102,12 +102,19 @@ public partial class DbappProyectoFinalContext : DbContext
 
             entity.ToTable("aula");
 
+            entity.HasIndex(e => e.IdCentro, "IdCentro");
+
             entity.Property(e => e.IdAula).HasColumnType("int(11)");
             entity.Property(e => e.AforoMax).HasColumnType("int(11)");
+            entity.Property(e => e.IdCentro).HasColumnType("int(11)");
             entity.Property(e => e.NombreAula)
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'Aula'");
             entity.Property(e => e.NumeroAula).HasColumnType("int(11)");
+
+            entity.HasOne(d => d.IdCentroNavigation).WithMany(p => p.Aulas)
+                .HasForeignKey(d => d.IdCentro)
+                .HasConstraintName("aula_ibfk_1");
         });
 
         modelBuilder.Entity<Centroeducativo>(entity =>

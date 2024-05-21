@@ -10,5 +10,7 @@
 
         public int AforoMax { get; set; }
 
+        public int IdCentro { get; set; }
+
     }
 }

@@ -17,25 +17,27 @@ namespace ProyectoFinalDAMAgil.Services.Aula
             Scaffold.Aula aulaDB = new Scaffold.Aula() 
             { 
                 IdAula = aulaModel.IdAula,
-                NombreAula = aulaModel.NombreAula,
                 NumeroAula = aulaModel.NumeroAula,
-                AforoMax = aulaModel.AforoMax
+                NombreAula = aulaModel.NombreAula,
+                AforoMax = aulaModel.AforoMax,
+                IdCentro = aulaModel.IdCentro
             };
             _context.Add(aulaDB);
             _context.SaveChanges();
             return aulaModel;
         }
 
-        public async Task<AulaModel> ReadAula(int idAula)
+        public async Task<AulaModel> ReadAula(int NumeroAula, int IdCentro)
         {
             IQueryable<Scaffold.Aula> aulaListaDB = from aula in _context.Aulas
-                                                    where aula.IdAula == idAula
+                                                    where aula.NumeroAula == NumeroAula && aula.IdCentro == IdCentro
                                                     select new Scaffold.Aula
                                                     {
                                                         IdAula = aula.IdAula,
-                                                        NombreAula = aula.NombreAula,
                                                         NumeroAula = aula.NumeroAula,
-                                                        AforoMax = aula.AforoMax
+                                                        NombreAula = aula.NombreAula,
+                                                        AforoMax = aula.AforoMax,
+                                                        IdCentro = aula.IdCentro
                                                     };
 
             Scaffold.Aula aulaDB = aulaListaDB.FirstOrDefault();
@@ -47,9 +49,10 @@ namespace ProyectoFinalDAMAgil.Services.Aula
                 aulaModel= new AulaModel()
                 {
                     IdAula = aulaDB.IdAula,
-                    NombreAula = aulaDB.NombreAula,
                     NumeroAula = aulaDB.NumeroAula,
-                    AforoMax = aulaDB.AforoMax
+                    NombreAula = aulaDB.NombreAula,
+                    AforoMax = aulaDB.AforoMax,
+                    IdCentro = aulaDB.IdCentro
                 };
 
             }
@@ -63,8 +66,9 @@ namespace ProyectoFinalDAMAgil.Services.Aula
             Scaffold.Aula aula = new Scaffold.Aula()
             {
                 IdAula = aulaModel.IdAula,
-                NombreAula = aulaModel.NombreAula,
                 NumeroAula = aulaModel.NumeroAula,
+                NombreAula = aulaModel.NombreAula,
+                IdCentro = aulaModel.IdCentro,
                 AforoMax = aulaModel.AforoMax
             };
             _context.Aulas.Update(aula);
@@ -76,9 +80,10 @@ namespace ProyectoFinalDAMAgil.Services.Aula
             Scaffold.Aula aula = new Scaffold.Aula()
             {
                 IdAula = aulaModel.IdAula,
-                NombreAula = aulaModel.NombreAula,
                 NumeroAula = aulaModel.NumeroAula,
-                AforoMax = aulaModel.AforoMax
+                NombreAula = aulaModel.NombreAula,
+                AforoMax = aulaModel.AforoMax,
+                IdCentro = aulaModel.IdCentro
             };
 
             _context.Aulas.Remove(aula);
@@ -86,16 +91,18 @@ namespace ProyectoFinalDAMAgil.Services.Aula
             return aulaModel;
         }
 
-        public async Task<IEnumerable<AulaModel>> ListadoAula(int idAula)
+        public async Task<IEnumerable<AulaModel>> ListadoAulas(int idCentro)
         {
             IQueryable<AulaModel> aulaListaDB = from aula in _context.Aulas
-                                                where aula.IdAula == idAula
+                                                where aula.IdCentro == idCentro
                                                 select new AulaModel
                                                 {
                                                     IdAula = aula.IdAula,
-                                                    NombreAula = aula.NombreAula,
                                                     NumeroAula = aula.NumeroAula,
-                                                    AforoMax = aula.AforoMax
+                                                    NombreAula = aula.NombreAula,
+                                                    AforoMax = aula.AforoMax,
+                                                    IdCentro = aula.IdCentro
+
                                                 };
 
             return aulaListaDB.ToList();
@@ -107,7 +114,7 @@ namespace ProyectoFinalDAMAgil.Services.Aula
 
             IQueryable<AulaModel> aulaListaDB
                     = from aula in _context.Aulas
-                      where aula.IdAula == aulaModel.IdAula
+                      where aula.NumeroAula == aulaModel.NumeroAula && aula.IdCentro == aulaModel.IdCentro
                       //where cicloformativo.IdCentro==cicloformativoModel.IdCentro &&
                       //  (cicloformativo.Acronimo== cicloformativoModel.Acronimo || cicloformativo.NombreCiclo == cicloformativoModel.NombreCiclo)
                       select new AulaModel
@@ -115,7 +122,8 @@ namespace ProyectoFinalDAMAgil.Services.Aula
                           IdAula = aula.IdAula,
                           NombreAula = aula.NombreAula,
                           NumeroAula = aula.NumeroAula,
-                          AforoMax = aula.AforoMax
+                          AforoMax = aula.AforoMax,
+                          IdCentro = aula.IdCentro
                       };
 
             if (aulaListaDB.Count()!=0)
