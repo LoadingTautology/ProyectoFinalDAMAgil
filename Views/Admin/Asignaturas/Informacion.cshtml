@@ -1,2 +1,85 @@
-﻿
-Asignatura/Información: EN CONSTRUCCIÓN
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            const table = document.querySelector('table');
+            table.addEventListener('click', function (event) {
+                const cell = event.target;
+                if (cell.tagName === 'TD' && cell.cellIndex > 0) { // Ignorar clics en la primera columna
+                    const row = cell.parentElement;
+                    const time = row.children[0].textContent;
+                    const dayIndex = cell.cellIndex;
+                    const days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
+                    const day = days[dayIndex - 1]; // Ajustando para la primera columna siendo horas
+                    console.log(`Día: ${day}, Hora: ${time}`);
+                    if (cell.style.backgroundColor === 'blue') {
+                        cell.style.backgroundColor = ''; // Restablecer al color original
+                    } else {
+                        cell.style.backgroundColor = 'blue'; // Cambiar color de fondo a azul
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Horario Semanal</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Hora</th>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miércoles</th>
+                <th>Jueves</th>
+                <th>Viernes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>08:00 - 08:30</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>08:30 - 09:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>09:00 - 09:30</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>09:30 - 10:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>10:00 - 10:30</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>10:30 - 11:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>11:00 - 11:30</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>11:30 - 12:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>12:00 - 12:30</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>12:30 - 13:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>13:00 - 13:30</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>13:30 - 14:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>14:00 - 14:30</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>14:30 - 15:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>15:00 - 15:30</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>15:30 - 16:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>16:00 - 16:30</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>16:30 - 17:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>17:00 - 17:30</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>17:30 - 18:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>18:00 - 18:30</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>18:30 - 19:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>19:00 - 19:30</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>19:30 - 20:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>20:00 - 20:30</td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+    </table>
+</body>
+</html>
