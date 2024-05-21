@@ -18,9 +18,6 @@ namespace ProyectoFinalDAMAgil.Controllers
     [Authorize(Roles = "ADMINISTRADOR")]
     public class AdminController : Controller
     {
-        private int? _identificadorCentros = null;
-        private int? _identificadorEstudios = null;
-        private int? _identicadoAsignaturas = null;
 
         private readonly IUsuarioService _usuarioService;
         private readonly ICorreoelectronicoService _correoelectronicoService;
@@ -54,9 +51,6 @@ namespace ProyectoFinalDAMAgil.Controllers
         [HttpGet]
         public async Task<IActionResult> ListarCentro()
         {
-            _identificadorCentros=null;
-            _identificadorEstudios=null;
-            _identicadoAsignaturas=null;
 
             ClaimsPrincipal claimsUser = HttpContext.User;
             string emailUsuario = "";
