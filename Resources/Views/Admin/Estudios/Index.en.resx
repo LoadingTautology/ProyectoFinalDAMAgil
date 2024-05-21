@@ -138,8 +138,8 @@
   <data name="Acciones" xml:space="preserve">
     <value>Actions</value>
   </data>
-  <data name="Informacion" xml:space="preserve">
-    <value>Information</value>
+  <data name="Asignaturas" xml:space="preserve">
+    <value>Subjects</value>
   </data>
   <data name="Editar" xml:space="preserve">
     <value>Edit</value>
