@@ -60,7 +60,6 @@ namespace ProyectoFinalDAMAgil.Controllers
             /*            */
             IEnumerable<Scaffold.Centroeducativo> listado = await _centroeducativoService.ListadoCentroEducativo(emailUsuario);
 
-            Console.WriteLine("AQUI LLEGA LISTAR CENTRO");
             return View("~/Views/Admin/Centro/Listar.cshtml", listado);
         }
 
