@@ -541,6 +541,7 @@ namespace ProyectoFinalDAMAgil.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.ToString());
                 return Json(new { success = false, message = "Ocurrió un error al eliminar el aula." });
             }
         }
