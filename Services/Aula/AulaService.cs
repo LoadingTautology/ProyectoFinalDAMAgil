@@ -134,5 +134,36 @@ namespace ProyectoFinalDAMAgil.Services.Aula
             return existe;
         }
 
+        public async Task<AulaModel> ReadAula(int idAula)
+        {
+            IQueryable<Scaffold.Aula> aulaListaDB = from aula in _context.Aulas
+                                                    where aula.IdAula == idAula
+                                                    select new Scaffold.Aula
+                                                    {
+                                                        IdAula = aula.IdAula,
+                                                        NumeroAula = aula.NumeroAula,
+                                                        NombreAula = aula.NombreAula,
+                                                        AforoMax = aula.AforoMax,
+                                                        IdCentro = aula.IdCentro
+                                                    };
+
+            Scaffold.Aula aulaDB = aulaListaDB.FirstOrDefault();
+
+            AulaModel aulaModel = null;
+
+            if (aulaDB != null)
+            {
+                aulaModel= new AulaModel()
+                {
+                    IdAula = aulaDB.IdAula,
+                    NumeroAula = aulaDB.NumeroAula,
+                    NombreAula = aulaDB.NombreAula,
+                    AforoMax = aulaDB.AforoMax,
+                    IdCentro = aulaDB.IdCentro
+                };
+
+            }
+            return aulaModel;
+        }
     }
 }

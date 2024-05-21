@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoFinalDAMAgil.Models.Admin;
+using ProyectoFinalDAMAgil.Scaffold;
 using ProyectoFinalDAMAgil.Services.Administrador;
 using ProyectoFinalDAMAgil.Services.Asignatura;
 using ProyectoFinalDAMAgil.Services.Aula;
@@ -62,7 +63,6 @@ namespace ProyectoFinalDAMAgil.Controllers
             /*            */
             IEnumerable<Scaffold.Centroeducativo> listado = await _centroeducativoService.ListadoCentroEducativo(emailUsuario);
 
-            Console.WriteLine("AQUI LLEGA LISTAR CENTRO");
             return View("~/Views/Admin/Centro/Listar.cshtml", listado);
         }
 
@@ -462,19 +462,20 @@ namespace ProyectoFinalDAMAgil.Controllers
         [HttpPost]
         public async Task<IActionResult> GuardarAula([FromRoute] int id, AulaModel datosAulas)
         {
+            datosAulas.IdCentro = id;
             Console.WriteLine("************NumeroAula:" +datosAulas.NumeroAula+ " ************IDCentro:" +datosAulas.IdCentro+ " ************Nombre: "+datosAulas.NombreAula+" ************Aforo: "+datosAulas.AforoMax);
 
             ViewData["idCentro"]=id;
 
             AulaModel aulaModel = await _aulaService.ReadAula(datosAulas.NumeroAula, datosAulas.IdCentro);
 
-            if (!ModelState.IsValid) /*HAY UN ERROR */
+            if (!ModelState.IsValid)
             {
                 return View("~/Views/Admin/Aulas/Guardar.cshtml", datosAulas);
             }
             else if (await _aulaService.ExistAula(datosAulas))
             {
-                ViewData["Mensaje"] = "El nombre de la asignatura ya existe en este centro";
+                ViewData["Mensaje"] = "Ese número de aula ya existe";
                 return View("~/Views/Admin/Aulas/Guardar.cshtml", datosAulas);
             }
             else
@@ -483,6 +484,69 @@ namespace ProyectoFinalDAMAgil.Controllers
                 return RedirectToAction("ListarAulas", new { id = id });
             }
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> EditarAula([FromRoute] int id)//idAula
+        {
+            ViewData["idAula"] = id;
+
+            AulaModel aulaModel = await _aulaService.ReadAula(id);
+            ViewData["idCentro"]= aulaModel.IdCentro;
+
+            return View("~/Views/Admin/Aulas/Editar.cshtml", aulaModel);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditarAula([FromRoute] int id, int idAula, AulaModel aulaModel)
+        {
+            ViewData["idCentro"]=id;
+            ViewData["idAula"] = idAula;
+
+            if (!ModelState.IsValid)
+            {
+                return View("~/Views/Admin/Aulas/Editar.cshtml", aulaModel);
+            }
+
+            if (idAula != aulaModel.IdAula && await _aulaService.ExistAula(aulaModel))
+            {
+                ViewData["Mensaje"] = "Ese número de aula ya existe";
+                return View("~/Views/Admin/Aulas/Editar.cshtml", aulaModel);
+            }
+
+            await _aulaService.UpdateAula(aulaModel);
+
+            return RedirectToAction("ListarAulas", new { id = id });
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EliminarAula([FromRoute] int id)//idAula
+        {
+            try
+            {
+                AulaModel aulaModel = await _aulaService.ReadAula(id);
+                await _aulaService.DeleteAula(aulaModel);
+                bool existe = await _aulaService.ExistAula(aulaModel);
+
+                if (existe)
+                {
+                    return Json(new { success = false, message = "El aula no se pudo eliminar." });
+                }
+                else
+                {
+                    return Json(new { success = true });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Ocurrió un error al eliminar el aula." });
+            }
+        }
+
+
+
 
 
         #endregion

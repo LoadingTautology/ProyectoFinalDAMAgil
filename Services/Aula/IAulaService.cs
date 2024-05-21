@@ -11,6 +11,7 @@ namespace ProyectoFinalDAMAgil.Services.Aula
 
         Task<IEnumerable<AulaModel>> ListadoAulas(int idCentro);
         Task<bool> ExistAula(AulaModel aulaModel);
+        Task<AulaModel> ReadAula(int idAula);
 
     }
 }
