@@ -35,7 +35,7 @@ namespace ProyectoFinalDAMAgil
             builder.Services.AddScoped<Services.Usuarioscentroeducativo.IUsuarioscentroeducativoService, Services.Usuarioscentroeducativo.UsuarioscentroeducativoService>();
             builder.Services.AddScoped<Services.Cicloformativo.ICicloformativoService, Services.Cicloformativo.CicloformativoService>();
             builder.Services.AddScoped<Services.Asignatura.IAsignaturaService, Services.Asignatura.AsignaturaService>();
-
+            builder.Services.AddScoped<Services.Aula.IAulaService, Services.Aula.AulaService>();
 
 
 
