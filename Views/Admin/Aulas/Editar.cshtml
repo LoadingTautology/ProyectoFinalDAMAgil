@@ -1,0 +1,52 @@
+﻿@model ProyectoFinalDAMAgil.Models.Admin.AulaModel
+
+@{
+    ViewData["Title"] = "Editar Aula";
+}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h3>Editar Aula</h3>
+        </div>
+        <div class="card-body">
+            <form asp-controller="Admin" asp-action="EditarAula" method="post">
+                <input type="hidden" asp-for="IdAula" />
+                <input type="hidden" asp-for="IdCentro" />
+
+                <div class="mb-3">
+                    <label class="form-label" for="NumeroAula">Numero Aula</label>
+                    <input asp-for="NumeroAula" type="number" class="form-control" id="NumeroAula" placeholder="Ingrese un numero para el aula: 1, 2,...">
+                    <span asp-validation-for="NumeroAula" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="NombreAula">Nombre Aula</label>
+                    <input asp-for="NombreAula" type="text" class="form-control" id="NombreAula" placeholder="Ingrese el nombre del aula">
+                    <span asp-validation-for="NombreAula" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="AforoMax">Aforo Máximo</label>
+                    <input asp-for="AforoMax" type="number" class="form-control" id="AforoMax" placeholder="Ingrese aforo máximo">
+                    <span asp-validation-for="AforoMax" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary" asp-route-id="@ViewData["idCentro"]">
+                        <i class="bi bi-save"></i> Guardar
+                    </button>
+                    <a asp-controller="Admin" asp-action="ListarAulas" asp-route-id="@ViewData["idCentro"]" asp-route-idAula="@ViewData["idAula"]" class="btn btn-warning">
+                        <i class="bi bi-arrow-left"></i> Volver a Aulas
+                    </a>
+                </div>
+            </form>
+            @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
+            {
+                <div class="alert alert-danger mt-3" role="alert">
+                    @ViewData["Mensaje"]
+                </div>
+            }
+        </div>
+    </div>
+</div>

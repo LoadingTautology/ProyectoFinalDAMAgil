@@ -1,17 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProyectoFinalDAMAgil.Models.Admin;
+using ProyectoFinalDAMAgil.Scaffold;
 using ProyectoFinalDAMAgil.Services.Administrador;
+using ProyectoFinalDAMAgil.Services.Asignatura;
+using ProyectoFinalDAMAgil.Services.Aula;
 using ProyectoFinalDAMAgil.Services.Centroeducativo;
+using ProyectoFinalDAMAgil.Services.Cicloformativo;
 using ProyectoFinalDAMAgil.Services.Correoelectronico;
 using ProyectoFinalDAMAgil.Services.Usuario;
 using ProyectoFinalDAMAgil.Services.Usuarioscentroeducativo;
-using ProyectoFinalDAMAgil.Models.Admin;
 using System.Security.Claims;
-using ProyectoFinalDAMAgil.Scaffold;
-using ProyectoFinalDAMAgil.Services.Cicloformativo;
-using System.Runtime.InteropServices;
-using ProyectoFinalDAMAgil.Services.Asignatura;
-using System.Collections.Generic;
 
 namespace ProyectoFinalDAMAgil.Controllers
 {
@@ -26,6 +25,8 @@ namespace ProyectoFinalDAMAgil.Controllers
         private readonly IUsuarioscentroeducativoService _usuarioscentroeducativoService;
         private readonly ICicloformativoService _cicloformativoService;
         private readonly IAsignaturaService _asignaturaService;
+        private readonly IAulaService _aulaService;
+
 
         public AdminController(IUsuarioService usuarioService,
                                ICorreoelectronicoService correoelectronicoService,
@@ -33,7 +34,8 @@ namespace ProyectoFinalDAMAgil.Controllers
                                ICentroeducativoService centroeducativoService,
                                IUsuarioscentroeducativoService usuarioscentroeducativo,
                                ICicloformativoService cicloformativoService,
-                               IAsignaturaService asignaturaService)
+                               IAsignaturaService asignaturaService,
+                               IAulaService aulaService)
         {
             _usuarioService = usuarioService;
             _correoelectronicoService = correoelectronicoService;
@@ -42,11 +44,12 @@ namespace ProyectoFinalDAMAgil.Controllers
             _usuarioscentroeducativoService = usuarioscentroeducativo;
             _cicloformativoService = cicloformativoService;
             _asignaturaService = asignaturaService;
+            _aulaService = aulaService;
 
         }
 
 
-
+        /* ********************CENTROS******************** */
         #region Gestion Centro
         [HttpGet]
         public async Task<IActionResult> ListarCentro()
@@ -177,7 +180,7 @@ namespace ProyectoFinalDAMAgil.Controllers
         #region Estudios
 
         [HttpGet]
-        public async Task<IActionResult> ListarEstudios([FromRoute] int id)
+        public async Task<IActionResult> ListarEstudios([FromRoute] int id)//idCentro
         {
 
             ViewData["IdCentro"]=id;
@@ -321,8 +324,8 @@ namespace ProyectoFinalDAMAgil.Controllers
             }
             else
             {
-                await _asignaturaService.CreateAsignatura(datosAsignaturas,id);
-                return RedirectToAction("ListarAsignaturas", new { id = id} );
+                await _asignaturaService.CreateAsignatura(datosAsignaturas, id);
+                return RedirectToAction("ListarAsignaturas", new { id = id });
             }
         }
 
@@ -331,10 +334,10 @@ namespace ProyectoFinalDAMAgil.Controllers
         [HttpGet]
         public async Task<IActionResult> EditarAsignatura([FromRoute] int id)
         {
-            int idAsignatura = id;           
+            int idAsignatura = id;
             AsignaturaModel asignaturaModel = await _asignaturaService.ReadAsignatura(idAsignatura);
             IEnumerable<CicloformativoModel> listadoCiclosIEnumerable = await _asignaturaService.ListadoCiclos(asignaturaModel);
-            CicloformativoModel cicloformativoModel= listadoCiclosIEnumerable.ToList().FirstOrDefault();
+            CicloformativoModel cicloformativoModel = listadoCiclosIEnumerable.ToList().FirstOrDefault();
             ViewData["idCiclo"]= cicloformativoModel.IdCiclo;
 
             return View("~/Views/Admin/Asignaturas/Editar.cshtml", asignaturaModel);
@@ -344,10 +347,10 @@ namespace ProyectoFinalDAMAgil.Controllers
         [HttpPost]
         public async Task<IActionResult> EditarAsignatura([FromRoute] int id, AsignaturaModel datosAsignatura)
         {
-            ViewData["idCiclo"]=id;            
+            ViewData["idCiclo"]=id;
             CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(id);
 
-            if (await _asignaturaService.ExistAsignatura(datosAsignatura,id , cicloformativo.IdCentro))
+            if (await _asignaturaService.ExistAsignatura(datosAsignatura, id, cicloformativo.IdCentro))
             {
                 ViewData["Mensaje"] = "El nombre de la asignatura ya existe en este centro";
                 return View("~/Views/Admin/Asignaturas/Guardar.cshtml", datosAsignatura);
@@ -368,8 +371,8 @@ namespace ProyectoFinalDAMAgil.Controllers
                 AsignaturaModel asignaturaModel = await _asignaturaService.ReadAsignatura(idAsignatura);
                 CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(idEstudios);
 
-                await _asignaturaService.DeleteAsignatura(asignaturaModel,idEstudios);
-                bool existe = await _asignaturaService.ExistAsignatura(asignaturaModel, idEstudios, cicloformativo.IdCentro) ;
+                await _asignaturaService.DeleteAsignatura(asignaturaModel, idEstudios);
+                bool existe = await _asignaturaService.ExistAsignatura(asignaturaModel, idEstudios, cicloformativo.IdCentro);
 
                 if (existe)
                 {
@@ -427,12 +430,127 @@ namespace ProyectoFinalDAMAgil.Controllers
         }
 
 
-        public async Task<IActionResult> InformacionAsignatura() 
+        public async Task<IActionResult> InformacionAsignatura()
         {
             return View("~/Views/Admin/Asignaturas/Informacion.cshtml");
         }
 
         #endregion
+
+        /* ********************AULAS******************** */
+        #region Aulas
+
+        [HttpGet]
+        public async Task<IActionResult> ListarAulas([FromRoute] int id)
+        {
+            @ViewData["idCentro"] =id;
+
+            IEnumerable<AulaModel> listadoAulas = await _aulaService.ListadoAulas(id);
+
+            return View("~/Views/Admin/Aulas/Index.cshtml", listadoAulas);
+        }
+
+        [HttpGet]
+        public IActionResult GuardarAula([FromRoute] int id)
+        {
+            ViewData["idCentro"]=id;
+
+            return View("~/Views/Admin/Aulas/Guardar.cshtml");
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GuardarAula([FromRoute] int id, AulaModel datosAulas)
+        {
+            datosAulas.IdCentro = id;
+            Console.WriteLine("************NumeroAula:" +datosAulas.NumeroAula+ " ************IDCentro:" +datosAulas.IdCentro+ " ************Nombre: "+datosAulas.NombreAula+" ************Aforo: "+datosAulas.AforoMax);
+
+            ViewData["idCentro"]=id;
+
+            AulaModel aulaModel = await _aulaService.ReadAula(datosAulas.NumeroAula, datosAulas.IdCentro);
+
+            if (!ModelState.IsValid)
+            {
+                return View("~/Views/Admin/Aulas/Guardar.cshtml", datosAulas);
+            }
+            else if (await _aulaService.ExistAula(datosAulas))
+            {
+                ViewData["Mensaje"] = "Ese número de aula ya existe";
+                return View("~/Views/Admin/Aulas/Guardar.cshtml", datosAulas);
+            }
+            else
+            {
+                await _aulaService.CreateAula(datosAulas);
+                return RedirectToAction("ListarAulas", new { id = id });
+            }
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> EditarAula([FromRoute] int id)//idAula
+        {
+            ViewData["idAula"] = id;
+
+            AulaModel aulaModel = await _aulaService.ReadAula(id);
+            ViewData["idCentro"]= aulaModel.IdCentro;
+
+            return View("~/Views/Admin/Aulas/Editar.cshtml", aulaModel);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditarAula([FromRoute] int id, int idAula, AulaModel aulaModel)
+        {
+            ViewData["idCentro"]=id;
+            ViewData["idAula"] = idAula;
+
+            if (!ModelState.IsValid)
+            {
+                return View("~/Views/Admin/Aulas/Editar.cshtml", aulaModel);
+            }
+
+            if (idAula != aulaModel.IdAula && await _aulaService.ExistAula(aulaModel))
+            {
+                ViewData["Mensaje"] = "Ese número de aula ya existe";
+                return View("~/Views/Admin/Aulas/Editar.cshtml", aulaModel);
+            }
+
+            await _aulaService.UpdateAula(aulaModel);
+
+            return RedirectToAction("ListarAulas", new { id = id });
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EliminarAula([FromRoute] int id)//idAula
+        {
+            try
+            {
+                AulaModel aulaModel = await _aulaService.ReadAula(id);
+                await _aulaService.DeleteAula(aulaModel);
+                bool existe = await _aulaService.ExistAula(aulaModel);
+
+                if (existe)
+                {
+                    return Json(new { success = false, message = "El aula no se pudo eliminar." });
+                }
+                else
+                {
+                    return Json(new { success = true });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Ocurrió un error al eliminar el aula." });
+            }
+        }
+
+
+
+
+
+        #endregion
+
 
         #region Gestion Profesores
 

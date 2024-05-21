@@ -89,7 +89,7 @@ namespace ProyectoFinalDAMAgil.Services.Cicloformativo
         public async Task<IEnumerable<CicloformativoModel>> ListadoCicloformativo(int idCentro)
         {
             IQueryable<CicloformativoModel> cicloformativoListaDB = from cicloformativo in _context.Cicloformativos
-                                                                        where cicloformativo.IdCentro == idCentro
+                                                                    where cicloformativo.IdCentro == idCentro
                                                                     select new CicloformativoModel
                                                                         {
                                                                             IdCiclo=cicloformativo.IdCiclo,
@@ -124,9 +124,6 @@ namespace ProyectoFinalDAMAgil.Services.Cicloformativo
             }
 
             return existe;
-
-
-
 
         }
 
