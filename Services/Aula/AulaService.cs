@@ -72,7 +72,7 @@ namespace ProyectoFinalDAMAgil.Services.Aula
                 AforoMax = aulaModel.AforoMax
             };
             _context.Aulas.Update(aula);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
             return aulaModel;
         }
         public async Task<AulaModel> DeleteAula(AulaModel aulaModel)
@@ -87,7 +87,7 @@ namespace ProyectoFinalDAMAgil.Services.Aula
             };
 
             _context.Aulas.Remove(aula);
-            _context.SaveChangesAsync();         
+            _context.SaveChanges();         
             return aulaModel;
         }
 
