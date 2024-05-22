@@ -38,6 +38,8 @@
 
                 <form asp-controller="Admin" asp-action="GuardarHorario" asp-route-id="@ViewData["idAsignatura"]" asp-route-idestudios="@ViewData["idEstudios"] method="post">
 
+                    <input type="hidden" name="idAsignatura" value="@ViewData["idAsignatura"]" />
+                    <input type="hidden" name="idEstudios" value="@ViewData["idEstudios"]" />
 
 
                     <div class="d-flex justify-content-between mb-3">
@@ -83,7 +85,7 @@
                                         {
                                             <td>
 
-                                                <button type="submit" class="btn btn-warning btn-sm">
+                                                <button type="submit" class="btn btn-warning btn-sm" name="IdDiaSemanaFranjaHoraria" value="@contador">
                                                     <i class="bi bi-save"></i> @contador
                                                 </button>
                                                 

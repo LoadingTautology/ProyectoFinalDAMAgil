@@ -581,17 +581,18 @@ namespace ProyectoFinalDAMAgil.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GuardarHorario([FromRoute] int id, [FromRoute] int idestudios, HorarioModel modeloHorario)//idAsignatura [FromRoute]      asp-route-idDiaFranja="@contador"  int idDiaFranja,
+        public async Task<IActionResult> GuardarHorario(HorarioModel modeloHorario)
         {
-            //Console.WriteLine("*************idDiaFranja: "+idDiaFranja);
-            Console.WriteLine("*************GuardarHorario   idEstudios: "+idestudios);
-            Console.WriteLine("*************GuardarHorario   idAsignatura: "+id);
+
+            Console.WriteLine("*************GuardarHorario   modeloHorario.IdAsignatura: "+modeloHorario.IdAsignatura);
+            Console.WriteLine("*************GuardarHorario   modeloHorario.IdEstudios: "+modeloHorario.IdEstudios);
             Console.WriteLine("*************GuardarHorario   modeloHorario.IdAula: "+modeloHorario.IdAula);
             Console.WriteLine("*************GuardarHorario   modeloHorario.ColorAsignatura: "+modeloHorario.ColorAsignatura);
+            Console.WriteLine("*************GuardarHorario   modeloHorario.IdDiaSemanaFranjaHoraria: "+modeloHorario.IdDiaSemanaFranjaHoraria);
 
 
 
-            return RedirectToAction("ListarHorarios", new { id = 100 }); // new { id = idEstudios }
+            return RedirectToAction("ListarHorarios", new { id = modeloHorario.IdAsignatura, idEstudios= modeloHorario.IdEstudios }); // new { id = idEstudios }
 
         }
 
