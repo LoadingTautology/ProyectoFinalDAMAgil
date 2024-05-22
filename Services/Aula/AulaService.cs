@@ -87,8 +87,7 @@ namespace ProyectoFinalDAMAgil.Services.Aula
             };
 
             _context.Aulas.Remove(aula);
-            _context.SaveChanges();
-
+            _context.SaveChanges();         
             return aulaModel;
         }
 
