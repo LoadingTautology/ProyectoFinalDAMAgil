@@ -511,7 +511,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 
             if (idAula != aulaModel.IdAula && await _aulaService.ExistAula(aulaModel))
             {
-                ViewData["Mensaje"] = "Ese número de aula ya existe";
+                ViewData["Mensaje"] = "AulaYaExiste";
                 return View("~/Views/Admin/Aulas/Editar.cshtml", aulaModel);
             }
 
