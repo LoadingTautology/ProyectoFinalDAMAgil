@@ -174,4 +174,7 @@
   <data name="ErrorGeneral" xml:space="preserve">
     <value>Ocurrió un error al eliminar.</value>
   </data>
+  <data name="GestionarAulas" xml:space="preserve">
+    <value>Gestionar aulas</value>
+  </data>
 </root>
