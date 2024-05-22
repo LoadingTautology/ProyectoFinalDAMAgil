@@ -238,7 +238,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 
             if (await _cicloformativoService.ExistCicloformativo(datosCiclo))
             {
-                ViewData["Mensaje"] = "El nombre del ciclo o acrónimo ya existen";
+                ViewData["Mensaje"] = "EstudioYaExiste";
                 return View("~/Views/Admin/Estudios/Editar.cshtml", datosCiclo);
             }
 
