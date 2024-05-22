@@ -569,6 +569,8 @@ namespace ProyectoFinalDAMAgil.Controllers
                                                     "20:00", "20:30"
                                                 };
 
+            ViewData["Aulas"] = new List<int> { 1, 2, 3, 4, 5 };
+
             //@ViewData["idCentro"] =id;
             //IEnumerable<AulaModel> listadoAulas = await _aulaService.ListadoAulas(id);
 
