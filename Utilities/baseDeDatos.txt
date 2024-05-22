@@ -55,15 +55,30 @@ CREATE TABLE UsuariosCentroEducativo (
 
 -- Creación de la tabla FranjaHoraria
 CREATE TABLE FranjaHoraria (
+    IdFranja INT AUTO_INCREMENT,
     HoraMinInicio TIME,
     HoraMinFinal TIME,
-    PRIMARY KEY (HoraMinInicio, HoraMinFinal)
+    PRIMARY KEY (IdFranja),
+    UNIQUE (HoraMinInicio, HoraMinFinal)
 );
 
 -- Creación de la tabla DiaSemana
 CREATE TABLE DiaSemana (
+    IdDiaSemana INT AUTO_INCREMENT,
     Dia VARCHAR(10),
-    PRIMARY KEY (Dia)
+    PRIMARY KEY (IdDiaSemana),
+    UNIQUE (Dia)
+);
+
+-- Creación de la tabla DiaSemana
+CREATE TABLE DiaSemanaFranjaHoraria (
+    IdDiaFranja INT AUTO_INCREMENT,
+    IdDiaSemana INT NOT NULL,
+    IdFranja INT NOT NULL,
+    PRIMARY KEY (IdDiaFranja),
+    FOREIGN KEY (IdDiaSemana ) REFERENCES DiaSemana(IdDiaSemana ) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (IdFranja) REFERENCES FranjaHoraria(IdFranja) ON DELETE CASCADE ON UPDATE CASCADE,
+    UNIQUE (IdDiaSemana,IdFranja)
 );
 
 
@@ -214,109 +229,102 @@ CREATE TABLE DudasAlumnoProfesor (
 
 
 -- Inserción de franjas horarias
-INSERT INTO FranjaHoraria (HoraMinInicio, HoraMinFinal) VALUES 
-('08:00', '08:30'),
-('08:30', '09:00'),
-('09:00', '09:30'),
-('09:30', '10:00'),
-('10:00', '10:30'),
-('10:30', '11:00'),
-('11:00', '11:30'),
-('11:30', '12:00'),
-('12:00', '12:30'),
-('12:30', '13:00'),
-('13:00', '13:30'),
-('13:30', '14:00'),
-('14:00', '14:30'),
-('14:30', '15:00'),
-('15:00', '15:30'),
-('15:30', '16:00'),
-('16:00', '16:30'),
-('16:30', '17:00'),
-('17:00', '17:30'),
-('17:30', '18:00'),
-('18:00', '18:30'),
-('18:30', '19:00'),
-('19:00', '19:30'),
-('19:30', '20:00'),
-('20:00', '20:30');
+INSERT INTO FranjaHoraria (IdFranja, HoraMinInicio, HoraMinFinal) VALUES 
+(1, '08:00', '08:30'),
+(2, '08:30', '09:00'),
+(3, '09:00', '09:30'),
+(4, '09:30', '10:00'),
+(5, '10:00', '10:30'),
+(6, '10:30', '11:00'),
+(7, '11:00', '11:30'),
+(8, '11:30', '12:00'),
+(9, '12:00', '12:30'),
+(10, '12:30', '13:00'),
+(11, '13:00', '13:30'),
+(12, '13:30', '14:00'),
+(13, '14:00', '14:30'),
+(14, '14:30', '15:00'),
+(15, '15:00', '15:30'),
+(16, '15:30', '16:00'),
+(17, '16:00', '16:30'),
+(18, '16:30', '17:00'),
+(19, '17:00', '17:30'),
+(20, '17:30', '18:00'),
+(21, '18:00', '18:30'),
+(22, '18:30', '19:00'),
+(23, '19:00', '19:30'),
+(24, '19:30', '20:00'),
+(25, '20:00', '20:30');
 
 
 -- Inserción de los días de la semana
-INSERT INTO DiaSemana (Dia) VALUES 
-('Lunes'),
-('Martes'),
-('Miércoles'),
-('Jueves'),
-('Viernes'),
-('Sábado'),
-('Domingo');
+INSERT INTO DiaSemana (IdDiaSemana, Dia) VALUES 
+(1, 'Lunes'),
+(2, 'Martes'),
+(3, 'Miércoles'),
+(4, 'Jueves'),
+(5, 'Viernes'),
+(6, 'Sábado'),
+(7, 'Domingo');
 
-*********************************************************************************
-@model YourNamespace.Models.HorarioViewModel
-    <table>
-        <thead>
-            <tr>
-                <th>Hora</th>
-                @foreach (var dia in Model.DiasSemana)
-                {
-                    <th>@dia.Dia</th>
-                }
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var franja in Model.FranjasHorarias)
-            {
-                <tr>
-                    <td>@franja.HoraMinInicio.ToString(@"hh\:mm") - @franja.HoraMinFinal.ToString(@"hh\:mm")</td>
-                    @for (int i = 0; i < Model.DiasSemana.Count; i++)
-                    {
-                        <td></td>
-                    }
-                </tr>
-            }
-        </tbody>
-    </table>
-
-
-
+INSERT INTO DiaSemanaFranjaHoraria (IdDiaFranja,IdFranja,IdDiaSemana) VALUES 
+(1,1,1),(2,1,2),(3,1,3),(4,1,4),(5,1,5),(6,1,6),(7,1,7),
+(8,2,1),(9,2,2),(10,2,3),(11,2,4),(12,2,5),(13,2,6),(14,2,7),
+(15,3,1),(16,3,2),(17,3,3),(18,3,4),(19,3,5),(20,3,6),(21,3,7),
+(22,4,1),(23,4,2),(24,4,3),(25,4,4),(26,4,5),(27,4,6),(28,4,7),
+(29,5,1),(30,5,2),(31,5,3),(32,5,4),(33,5,5),(34,5,6),(35,5,7),
+(36,6,1),(37,6,2),(38,6,3),(39,6,4),(40,6,5),(41,6,6),(42,6,7),
+(43,7,1),(44,7,2),(45,7,3),(46,7,4),(47,7,5),(48,7,6),(49,7,7),
+(50,8,1),(51,8,2),(52,8,3),(53,8,4),(54,8,5),(55,8,6),(56,8,7),
+(57,9,1),(58,9,2),(59,9,3),(60,9,4),(61,9,5),(62,9,6),(63,9,7),
+(64,10,1),(65,10,2),(66,10,3),(67,10,4),(68,10,5),(69,10,6),(70,10,7),
+(71,11,1),(72,11,2),(73,11,3),(74,11,4),(75,11,5),(76,11,6),(77,11,7),
+(78,12,1),(79,12,2),(80,12,3),(81,12,4),(82,12,5),(83,12,6),(84,12,7),
+(85,13,1),(86,13,2),(87,13,3),(88,13,4),(89,13,5),(90,13,6),(91,13,7),
+(92,14,1),(93,14,2),(94,14,3),(95,14,4),(96,14,5),(97,14,6),(98,14,7),
+(99,15,1),(100,15,2),(101,15,3),(102,15,4),(103,15,5),(104,15,6),(105,15,7),
+(106,16,1),(107,16,2),(108,16,3),(109,16,4),(110,16,5),(111,16,6),(112,16,7),
+(113,17,1),(114,17,2),(115,17,3),(116,17,4),(117,17,5),(118,17,6),(119,17,7),
+(120,18,1),(121,18,2),(122,18,3),(123,18,4),(124,18,5),(125,18,6),(126,18,7),
+(127,19,1),(128,19,2),(129,19,3),(130,19,4),(131,19,5),(132,19,6),(133,19,7),
+(134,20,1),(135,20,2),(136,20,3),(137,20,4),(138,20,5),(139,20,6),(140,20,7),
+(141,21,1),(142,21,2),(143,21,3),(144,21,4),(145,21,5),(146,21,6),(147,21,7),
+(148,22,1),(149,22,2),(150,22,3),(151,22,4),(152,22,5),(153,22,6),(154,22,7),
+(155,23,1),(156,23,2),(157,23,3),(158,23,4),(159,23,5),(160,23,6),(161,23,7),
+(162,24,1),(163,24,2),(164,24,3),(165,24,4),(166,24,5),(167,24,6),(168,24,7),
+(169,25,1),(170,25,2),(171,25,3),(172,25,4),(173,25,5),(174,25,6),(175,25,7);
 
 
 
 
 
 
+@{
+    // Lista de elementos para el dropdown
+    List<int> numeros = new List<int> { 1, 2, 3, 4, 5 };
+}
 
-    public class FranjaHoraria
+<!-- Dropdown list -->
+<select id="miDropdown" onchange="actualizarId()">
+    @foreach (var numero in numeros)
     {
-        public TimeSpan HoraMinInicio { get; set; }
-        public TimeSpan HoraMinFinal { get; set; }
+        <option value="@numero">@numero</option>
     }
+</select>
 
-    public class DiaSemana
-    {
-        public string Dia { get; set; }
+<!-- Enlace -->
+<a asp-controller="Controlador" asp-action="Accion" asp-route-id="" id="miEnlace">Enlace</a>
+
+<script>
+    // Función para actualizar el atributo asp-route-id del enlace
+    function actualizarId() {
+        var dropdown = document.getElementById("miDropdown");
+        var enlace = document.getElementById("miEnlace");
+        
+        // Obtener el valor seleccionado del dropdown
+        var selectedId = dropdown.value;
+        
+        // Actualizar el atributo asp-route-id del enlace con el valor seleccionado
+        enlace.setAttribute("asp-route-id", selectedId);
     }
-
-    public class HorarioViewModel
-    {
-        public List<FranjaHoraria> FranjasHorarias { get; set; }
-        public List<DiaSemana> DiasSemana { get; set; }
-    }
-
-
-
-
-
-
-
-
-
-
-        var model = new HorarioViewModel
-    {
-        FranjasHorarias = franjas,
-        DiasSemana = dias
-    };
-
-    return View(model);
+</script>
