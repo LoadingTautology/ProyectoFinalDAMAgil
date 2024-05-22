@@ -1,5 +1,9 @@
 ﻿@model List<ProyectoFinalDAMAgil.Models.Admin.AsignaturaModel>
 
+@{
+    ViewData["Title"] = "Añadir";
+}
+
 <div class="container mt-5">
     <div class="card">
         <div class="card-header">
@@ -15,7 +19,7 @@
                 <tr>
                     <th>Nombre Asignatura</th>
                     <th>Curso</th>
-                    <th>@Localizer["Acciones"]</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,14 +32,6 @@
                             <td>@item.Curso</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Acciones">
-@*                                     <form asp-controller="Admin" asp-action="GuardarAsignaturaExistente" method="post" enctype="multipart/form-data">
-                                        <input type="hidden" asp-for="@item.IdAsignatura" />
-                                        <button type="submit" class="btn btn-primary" asp-route-id="@ViewData["idCiclo"]">
-                                            <i class="bi bi-save"></i> Guardar
-                                        </button>
-                                    </form> *@
-
-
                                     <a asp-controller="Admin" asp-action="GuardarAsignaturaExistente" asp-route-id="@item.IdAsignatura" asp-route-idEstudios="@ViewData["idEstudios"]" class="btn btn-primary btn-sm">
                                         <i class="bi bi-gear"></i> Seleccionar
                                     </a>
@@ -54,86 +50,3 @@
         </table>
     </div>
 </div>
-
-
-
-<!-- Modal -->
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmDeleteModalLabel">@Localizer["ConfirmarEliminacion"]</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                @Localizer["SeguroEliminar"]
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancelar"]</button>
-                <a id="confirmDeleteButton" class="btn btn-danger">@Localizer["Eliminar"]</a>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-
-@section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var confirmDeleteModal = document.getElementById('confirmDeleteModal');
-            confirmDeleteModal.addEventListener('show.bs.modal', function (event) {
-                var button = event.relatedTarget; // Botón que disparó el modal
-                var url = button.getAttribute('data-url'); // Extraer la URL de los atributos data-*
-
-                // Actualizar el enlace del botón de confirmación
-                var confirmDeleteButton = confirmDeleteModal.querySelector('#confirmDeleteButton');
-                confirmDeleteButton.setAttribute('href', url);
-            });
-
-            var confirmDeleteButton = document.getElementById('confirmDeleteButton');
-            confirmDeleteButton.addEventListener('click', function (event) {
-                event.preventDefault();
-                var url = confirmDeleteButton.getAttribute('href');
-
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: '@Localizer["CentroEliminado"]',
-                                text: '@Localizer["CentroEliminadoMensaje"]'
-                            }).then(() => {
-                                location.reload();
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: '@Localizer["Error"]',
-                                text: '@Localizer["ErrorEliminarCentro"]'
-                            }).then(() => {
-                                location.reload();
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        Swal.fire({
-                            icon: 'error',
-                            title: '@Localizer["Error"]',
-                            text: '@Localizer["ErrorGeneral"]'
-                        }).then(() => {
-                            location.reload();
-                        });
-                    });
-            });
-        });
-    </script>
-}
-

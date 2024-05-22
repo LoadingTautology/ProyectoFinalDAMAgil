@@ -174,4 +174,7 @@
   <data name="ErrorGeneral" xml:space="preserve">
     <value>An error occurred while deleting the educational center.</value>
   </data>
+  <data name="BuscarCentros" xml:space="preserve">
+    <value>Search Center</value>
+  </data>
 </root>
