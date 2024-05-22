@@ -475,7 +475,7 @@ namespace ProyectoFinalDAMAgil.Controllers
             }
             else if (await _aulaService.ExistAula(datosAulas))
             {
-                ViewData["Mensaje"] = "Ese número de aula ya existe";
+                ViewData["Mensaje"] = "AulaYaExiste";
                 return View("~/Views/Admin/Aulas/Guardar.cshtml", datosAulas);
             }
             else
