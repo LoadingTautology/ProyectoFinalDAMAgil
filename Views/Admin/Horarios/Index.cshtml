@@ -36,13 +36,14 @@
             </div>
             <div class="card-body">
 
-                <form asp-controller="Admin" asp-action="GuardarHorario" method="post">
+                <form asp-controller="Admin" asp-action="GuardarHorario" asp-route-id="@ViewData["idAsignatura"]" asp-route-idestudios="@ViewData["idEstudios"] method="post">
+
+
 
                     <div class="d-flex justify-content-between mb-3">
 
                         <select asp-for="IdAula">
-                            <option value="">--Aula--</option>
-                            @foreach (var item in (IEnumerable<string>)ViewData["Aulas"])
+                            @foreach (var item in (IEnumerable<int>)ViewData["Aulas"])
                             {
                                 <option value="@item">@item</option>
                             }
@@ -50,10 +51,54 @@
 
                         <input type="color" asp-for="ColorAsignatura"></input>
 
-                        <a asp-controller="Admin" asp-action="ListarAsignaturas" asp-route-id="@ViewData["idEstudios"]" class="btn btn-warning mb-3">
+                        <a asp-controller="Admin" asp-action="ListarAsignaturas" class="btn btn-warning mb-3">
                             <i class="bi bi-arrow-left"></i> Volver a Asignaturas
                         </a>
                     </div>
+
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Hora/Día</th>
+                                @foreach (var dia in (IEnumerable<string>)ViewData["DiasSemana"])
+                                {
+                                    <th>@dia</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var hora in (IEnumerable<string>)ViewData["Horas"])
+                            {
+                                <tr>
+                                    <td>@hora</td>
+                                    @foreach (var dia in (IEnumerable<string>)ViewData["DiasSemana"])
+                                    {
+                                        contador++;
+                                        @if (contador==45 || contador==52 || contador==59 || contador==66)
+                                        {
+                                            <td> </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+
+                                                <button type="submit" class="btn btn-warning btn-sm">
+                                                    <i class="bi bi-save"></i> @contador
+                                                </button>
+                                                
+
+
+                                            </td> <!-- Aquí puedes poner el contenido del horario, por ejemplo, una clase, evento, etc. -->
+                                        }
+
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+
 
                 </form>
 
@@ -62,7 +107,8 @@
             </div>
         </div>
     </div>
-
+</body>
+</html>
 
 
 
@@ -71,43 +117,7 @@
 
     
 
-    <table>
-        <thead>
-            <tr>
-                <th>Hora/Día</th>
-                @foreach (var dia in (IEnumerable<string>)ViewData["DiasSemana"])
-                {
-                    <th>@dia</th>
-                }
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var hora in (IEnumerable<string>)ViewData["Horas"])
-            {
-                <tr>
-                    <td>@hora</td>
-                    @foreach (var dia in (IEnumerable<string>)ViewData["DiasSemana"])
-                    {
-                        contador++;
-                        @if (contador==45 || contador==52 || contador==59 || contador==66)
-                        {
-                            <td> </td>
-                        }
-                        else
-                        {
-                            <td>
-                                <a asp-controller="Admin" asp-action="ListarHorarios" asp-route-id="@contador" class="btn btn-warning btn-sm">
-                                    <i class="bi bi-arrow-left"></i> @contador
-                                </a>
 
-                            </td> <!-- Aquí puedes poner el contenido del horario, por ejemplo, una clase, evento, etc. -->
-                        }
-
-                    }
-                </tr>
-            }
-        </tbody>
-    </table>
 
 
 @*     <table>
@@ -146,8 +156,7 @@
             }
         </tbody>
     </table> *@
-</body>
-</html>
+
 
 
 @* <a asp-controller="Admin" asp-action="InformacionAsignatura" asp-route-id="@item.IdAsignatura" class="btn btn-primary btn-sm">

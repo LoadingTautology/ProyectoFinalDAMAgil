@@ -10,6 +10,7 @@ using ProyectoFinalDAMAgil.Services.Cicloformativo;
 using ProyectoFinalDAMAgil.Services.Correoelectronico;
 using ProyectoFinalDAMAgil.Services.Usuario;
 using ProyectoFinalDAMAgil.Services.Usuarioscentroeducativo;
+using System;
 using System.Security.Claims;
 
 namespace ProyectoFinalDAMAgil.Controllers
@@ -283,7 +284,7 @@ namespace ProyectoFinalDAMAgil.Controllers
         #region Asignaturas
 
         [HttpGet]
-        public async Task<IActionResult> ListarAsignaturas([FromRoute] int id)
+        public async Task<IActionResult> ListarAsignaturas([FromRoute] int id)//idEstudios
         {
 
             ViewData["idEstudios"]=id;
@@ -555,11 +556,13 @@ namespace ProyectoFinalDAMAgil.Controllers
         /* ********************HORARIOS******************** */
         #region Vincular Horarios, Asignaturas y Aulas
 
-        [HttpGet]
-        public async Task<IActionResult> ListarHorarios([FromRoute] int id)//idAsignatura
+        [HttpGet]                                                     //idAsignatura
+        public async Task<IActionResult> ListarHorarios([FromRoute] int id, int idEstudios)
         {
-            Console.WriteLine("******************************ID:"+id);
-
+            Console.WriteLine("****************************** ListarHorarios idAsignatura:"+id);
+            Console.WriteLine("****************************** ListarHorarios idEstudios:"+idEstudios);
+            ViewData["idAsignatura"]=id;
+            ViewData["idEstudios"]=idEstudios;
             ViewData["DiasSemana"] = new List<string> { "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo" };
             ViewData["Horas"] = new List<string>
                                                 {
@@ -577,7 +580,20 @@ namespace ProyectoFinalDAMAgil.Controllers
             return View("~/Views/Admin/Horarios/Index.cshtml");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> GuardarHorario([FromRoute] int id, [FromRoute] int idestudios, HorarioModel modeloHorario)//idAsignatura [FromRoute]      asp-route-idDiaFranja="@contador"  int idDiaFranja,
+        {
+            //Console.WriteLine("*************idDiaFranja: "+idDiaFranja);
+            Console.WriteLine("*************GuardarHorario   idEstudios: "+idestudios);
+            Console.WriteLine("*************GuardarHorario   idAsignatura: "+id);
+            Console.WriteLine("*************GuardarHorario   modeloHorario.IdAula: "+modeloHorario.IdAula);
+            Console.WriteLine("*************GuardarHorario   modeloHorario.ColorAsignatura: "+modeloHorario.ColorAsignatura);
 
+
+
+            return RedirectToAction("ListarHorarios", new { id = 100 }); // new { id = idEstudios }
+
+        }
 
 
 
