@@ -177,4 +177,10 @@
   <data name="GestionarAulas" xml:space="preserve">
     <value>Gestionar aulas</value>
   </data>
+  <data name="BuscarCentros" xml:space="preserve">
+    <value>Buscar Estudios</value>
+  </data>
+  <data name="BuscarEstudios" xml:space="preserve">
+    <value>Buscar Estudios</value>
+  </data>
 </root>

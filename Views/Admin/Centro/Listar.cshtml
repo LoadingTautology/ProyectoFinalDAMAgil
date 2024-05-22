@@ -1,6 +1,4 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization
-@inject IViewLocalizer Localizer
-@model List<ProyectoFinalDAMAgil.Scaffold.Centroeducativo>
+﻿@model List<ProyectoFinalDAMAgil.Scaffold.Centroeducativo>
 
 @{
     ViewData["Title"] = Localizer["Title"];
@@ -16,6 +14,7 @@
                 <a asp-controller="Admin" asp-action="GuardarCentro" class="btn btn-success">
                     <i class="bi bi-plus-circle"></i> @Localizer["CrearNuevo"]
                 </a>
+                <input type="text" id="searchInput" class="form-control w-50" placeholder="@Localizer["BuscarCentros"]">
             </div>
             <table id="centrosTable" class="table table-hover table-striped">
                 <thead class="table-dark">
@@ -134,6 +133,21 @@
                                 location.reload();
                             });
                         });
+                });
+
+                // Funcionalidad de búsqueda
+                document.getElementById('searchInput').addEventListener('keyup', function () {
+                    var searchTerm = this.value.toLowerCase();
+                    var rows = document.querySelectorAll('#centrosTable tbody tr');
+                    rows.forEach(function (row) {
+                        var nombre = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+                        var direccion = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                        if (nombre.includes(searchTerm) || direccion.includes(searchTerm)) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
                 });
             });
         </script>
