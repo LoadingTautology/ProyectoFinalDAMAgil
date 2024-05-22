@@ -12,5 +12,11 @@
 
         public int IdCentro { get; set; }
 
+
+        public override string ToString()
+        {
+            return "IdAula: "+IdAula+" NumeroAula: "+NumeroAula+" NombreAula: "+NombreAula+" AforoMax: "+AforoMax+" IdCentro: "+IdCentro;
+        }
+
     }
 }
