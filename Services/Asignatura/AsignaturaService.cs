@@ -80,7 +80,7 @@ namespace ProyectoFinalDAMAgil.Services.Asignatura
             };
 
             _context.Asignaturas.Update(asignatura);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return asignaturaModel;
         }
 
@@ -110,7 +110,7 @@ namespace ProyectoFinalDAMAgil.Services.Asignatura
                     Curso =asignaturaModel.Curso
                 };
                 _context.Asignaturas.Remove(asignaturaDB);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
             }
 
             return asignaturaModel;

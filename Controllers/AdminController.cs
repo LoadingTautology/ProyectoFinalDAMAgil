@@ -11,6 +11,7 @@ using ProyectoFinalDAMAgil.Services.Cicloformativo;
 using ProyectoFinalDAMAgil.Services.Correoelectronico;
 using ProyectoFinalDAMAgil.Services.Diasemana;
 using ProyectoFinalDAMAgil.Services.Franjahorarium;
+using ProyectoFinalDAMAgil.Services.Horario;
 using ProyectoFinalDAMAgil.Services.Usuario;
 using ProyectoFinalDAMAgil.Services.Usuarioscentroeducativo;
 using System;
@@ -31,6 +32,7 @@ namespace ProyectoFinalDAMAgil.Controllers
         private readonly ICorreoelectronicoService _correoelectronicoService;
         private readonly IDiasemanaService _diasemanaService;
         private readonly IFranjahorariumService _franjahorariumService;
+        private readonly IHorarioService _horarioService;
         private readonly IUsuarioService _usuarioService;
         private readonly IUsuarioscentroeducativoService _usuarioscentroeducativoService;
 
@@ -44,6 +46,7 @@ namespace ProyectoFinalDAMAgil.Controllers
                                 ICorreoelectronicoService correoelectronicoService,
                                 IDiasemanaService diasemanaService,
                                 IFranjahorariumService franjahorariumService,
+                                IHorarioService horarioService,
                                 IUsuarioService usuarioService,
                                 IUsuarioscentroeducativoService usuarioscentroeducativo)
 
@@ -58,6 +61,7 @@ namespace ProyectoFinalDAMAgil.Controllers
             _correoelectronicoService = correoelectronicoService;
             _diasemanaService = diasemanaService;
             _franjahorariumService = franjahorariumService;
+            _horarioService = horarioService;
             _usuarioService = usuarioService;
             _usuarioscentroeducativoService = usuarioscentroeducativo;
         }
@@ -477,8 +481,7 @@ namespace ProyectoFinalDAMAgil.Controllers
         public async Task<IActionResult> GuardarAula([FromRoute] int id, AulaModel datosAulas)
         {
             datosAulas.IdCentro = id;
-            Console.WriteLine("************NumeroAula:" +datosAulas.NumeroAula+ " ************IDCentro:" +datosAulas.IdCentro+ " ************Nombre: "+datosAulas.NombreAula+" ************Aforo: "+datosAulas.AforoMax);
-
+            
             ViewData["idCentro"]=id;
 
             AulaModel aulaModel = await _aulaService.ReadAula(datosAulas.NumeroAula, datosAulas.IdCentro);
@@ -576,13 +579,19 @@ namespace ProyectoFinalDAMAgil.Controllers
 
             ViewData["idAsignatura"]=id;
             ViewData["idEstudios"]=idEstudios;
-            ViewData["DiasSemana"] = await _diasemanaService.ListDiasemana(); //new List<string> { "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo" };
+            ViewData["DiasSemana"] = await _diasemanaService.ListDiasemana(); 
 
             ViewData["Horas"] = await _franjahorariumService.ListFranjahorarium();
 
             CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(idEstudios);
             IEnumerable<AulaModel> aulaModelList = await _aulaService.ListadoAulas(cicloformativo.IdCentro);
-            ViewData["Aulas"] =aulaModelList ;
+            ViewData["ListaAulas"] =aulaModelList ;
+
+
+            IEnumerable<HorarioModel> horario = await _horarioService.ListHorariosEstudio(idEstudios);
+            ViewData["Horarios"] = horario;
+            ViewData["ListaAsignaturas"] = await _asignaturaService.ListadoAsignatura(idEstudios);
+
 
              return View("~/Views/Admin/Horarios/Index.cshtml");
         }
@@ -592,9 +601,39 @@ namespace ProyectoFinalDAMAgil.Controllers
         {
             Console.WriteLine("*************GuardarHorario    modeloHorario: "+modeloHorario);
 
+            if (await _horarioService.ExistHorario(modeloHorario))
+            {
+                await _horarioService.DeleteHorario(await _horarioService.ReadHorario(modeloHorario.IdAula, modeloHorario.IdDiaFranja));
+            }
+            else
+            {
+                await _horarioService.CambiarColor(modeloHorario);
 
-            return RedirectToAction("ListarHorarios", new { id = modeloHorario.IdAsignatura, idEstudios= modeloHorario.IdEstudios }); // new { id = idEstudios }
+                if (await _horarioService.ExistHorarioSinAula(modeloHorario))
+                {
+                    await _horarioService.UpdateHorario(modeloHorario);
+                }
+                else
+                {
+                    await _horarioService.CreateHorario(modeloHorario);
+                }
+            }
 
+            ViewData["idAsignatura"]=modeloHorario.IdAsignatura;
+            ViewData["idEstudios"]=modeloHorario.IdEstudio;
+            ViewData["DiasSemana"] = await _diasemanaService.ListDiasemana();
+
+            ViewData["Horas"] = await _franjahorariumService.ListFranjahorarium();
+
+            CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(modeloHorario.IdEstudio);
+            IEnumerable<AulaModel> aulaModelList = await _aulaService.ListadoAulas(cicloformativo.IdCentro);
+            ViewData["ListaAulas"] =aulaModelList;
+
+            IEnumerable<HorarioModel> horario = await _horarioService.ListHorariosEstudio(modeloHorario.IdEstudio);
+            ViewData["Horarios"] = horario;
+            ViewData["ListaAsignaturas"] = await _asignaturaService.ListadoAsignatura(modeloHorario.IdEstudio);
+
+            return View("~/Views/Admin/Horarios/Index.cshtml", modeloHorario);
         }
 
 

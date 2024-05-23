@@ -126,21 +126,15 @@ CREATE TABLE AsignaturasCicloFormativo (
 CREATE TABLE Horario (
     IdHorario INT AUTO_INCREMENT,
     IdAula INT NOT NULL,
-
-    HoraMinInicio TIME NOT NULL,
-    HoraMinFinal TIME NOT NULL,
-    Dia VARCHAR(10) NOT NULL,
-
+    IdDiaFranja INT NOT NULL,
     IdAsignatura INT NOT NULL,
     IdEstudio INT NOT NULL,
-
+    ColorAsignatura VARCHAR(25) NOT NULL,
     PRIMARY KEY (IdHorario),
-    UNIQUE (IdAula, HoraMinInicio, HoraMinFinal, Dia),
-    
+    UNIQUE (IdAula, IdDiaFranja),    
     FOREIGN KEY (IdAsignatura, IdEstudio) REFERENCES AsignaturasCicloFormativo (IdAsignatura, IdCiclo) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (IdAula) REFERENCES Aula(IdAula) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (HoraMinInicio, HoraMinFinal) REFERENCES FranjaHoraria(HoraMinInicio, HoraMinFinal) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (Dia) REFERENCES DiaSemana(Dia) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (IdDiaFranja) REFERENCES DiaSemanaFranjaHoraria(IdDiaFranja) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 ******************************************************************

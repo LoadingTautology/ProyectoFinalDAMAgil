@@ -2,23 +2,21 @@
 {
     public class HorarioModel
     {
+        public int IdHorario { get; set; }
+
         public int IdAula { get; set; }
 
-        public int IdDiaSemanaFranjaHoraria { get; set; }
-
-        public string ColorAsignatura { get; set; }
+        public int IdDiaFranja { get; set; }
 
         public int IdAsignatura { get; set; }
 
-        public int IdEstudios { get; set; }
+        public int IdEstudio { get; set; }
 
-        //public int IdAsignaturasEstudios { get; set; }
-
+        public string ColorAsignatura { get; set; } = null!;
 
         public override string ToString()
         {
-            return "IdAula: "+IdAula+" IdDiaFranja: "+IdDiaSemanaFranjaHoraria+" ColorAsignatura: "+ColorAsignatura+" IdAsignatura: "+IdAsignatura+" IdEstudios: "+IdEstudios;
-            //return "IdAula: "+IdAula+" IdDiaFranja: "+IdDiaSemanaFranjaHoraria+" ColorAsignatura: "+ColorAsignatura+" IdAsignaturasEstudios: "+IdAsignaturasEstudios; 
+            return "IdAula: "+IdAula+" IdDiaFranja: "+IdDiaFranja+" ColorAsignatura: "+ColorAsignatura+" IdAsignatura: "+IdAsignatura+" IdEstudios: "+IdEstudio;
         }
 
     }

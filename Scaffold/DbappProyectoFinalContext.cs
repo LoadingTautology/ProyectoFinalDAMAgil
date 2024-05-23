@@ -31,6 +31,8 @@ public partial class DbappProyectoFinalContext : DbContext
 
     public virtual DbSet<Franjahorarium> Franjahoraria { get; set; }
 
+    public virtual DbSet<Horario> Horarios { get; set; }
+
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
     public virtual DbSet<Usuarioscentroeducativo> Usuarioscentroeducativos { get; set; }
@@ -219,6 +221,39 @@ public partial class DbappProyectoFinalContext : DbContext
             entity.Property(e => e.IdFranja).HasColumnType("int(11)");
             entity.Property(e => e.HoraMinFinal).HasColumnType("time");
             entity.Property(e => e.HoraMinInicio).HasColumnType("time");
+        });
+
+        modelBuilder.Entity<Horario>(entity =>
+        {
+            entity.HasKey(e => e.IdHorario).HasName("PRIMARY");
+
+            entity.ToTable("horario");
+
+            entity.HasIndex(e => new { e.IdAsignatura, e.IdEstudio }, "IdAsignatura");
+
+            entity.HasIndex(e => new { e.IdAula, e.IdDiaFranja }, "IdAula").IsUnique();
+
+            entity.HasIndex(e => e.IdDiaFranja, "IdDiaFranja");
+
+            entity.Property(e => e.IdHorario).HasColumnType("int(11)");
+            entity.Property(e => e.ColorAsignatura).HasMaxLength(25);
+            entity.Property(e => e.IdAsignatura).HasColumnType("int(11)");
+            entity.Property(e => e.IdAula).HasColumnType("int(11)");
+            entity.Property(e => e.IdDiaFranja).HasColumnType("int(11)");
+            entity.Property(e => e.IdEstudio).HasColumnType("int(11)");
+
+            entity.HasOne(d => d.IdAulaNavigation).WithMany(p => p.Horarios)
+                .HasForeignKey(d => d.IdAula)
+                .HasConstraintName("horario_ibfk_2");
+
+            entity.HasOne(d => d.IdDiaFranjaNavigation).WithMany(p => p.Horarios)
+                .HasForeignKey(d => d.IdDiaFranja)
+                .HasConstraintName("horario_ibfk_3");
+
+            entity.HasOne(d => d.Asignaturascicloformativo).WithMany(p => p.Horarios)
+                .HasPrincipalKey(p => new { p.IdAsignatura, p.IdCiclo })
+                .HasForeignKey(d => new { d.IdAsignatura, d.IdEstudio })
+                .HasConstraintName("horario_ibfk_1");
         });
 
         modelBuilder.Entity<Usuario>(entity =>
