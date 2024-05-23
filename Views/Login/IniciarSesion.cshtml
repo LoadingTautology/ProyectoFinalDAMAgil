@@ -1,5 +1,6 @@
 ﻿@{
     Layout = null;
+    ViewData["Title"] = Localizer["Title"];
 }
 
 <!DOCTYPE html>
@@ -7,7 +8,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Iniciar Sesión</title>
+    <title>@Localizer["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <style>
         body {
@@ -40,20 +41,20 @@
             <div class="col-12 col-xl-4 col-md-6">
                 <div class="card shadow-sm">
                     <div class="card-header bg-primary text-white text-center">
-                        <h4>Inicia Sesión</h4>
+                        <h4>@Localizer["IniciaSesion"]</h4>
                     </div>
                     <div class="card-body">
                         <form asp-controller="Login" asp-action="IniciarSesion" method="post" novalidate>
                             <div class="mb-3">
-                                <label for="correo" class="form-label">Correo</label>
-                                <input class="form-control" type="email" id="correo" name="correo" placeholder="Correo" required aria-describedby="emailHelp" />
+                                <label for="correo" class="form-label">@Localizer["Correo"]</label>
+                                <input class="form-control" type="email" id="correo" name="correo" placeholder="@Localizer["CorreoPlaceholder"]" required aria-describedby="emailHelp" />
                             </div>
                             <div class="mb-3">
-                                <label for="clave" class="form-label">Contraseña</label>
-                                <input class="form-control" type="password" id="clave" name="clave" placeholder="Contraseña" required />
+                                <label for="clave" class="form-label">@Localizer["Clave"]</label>
+                                <input class="form-control" type="password" id="clave" name="clave" placeholder="@Localizer["ClavePlaceholder"]" required />
                             </div>
                             <div class="d-grid gap-2 mb-3">
-                                <button class="btn btn-primary" type="submit">Iniciar Sesión</button>
+                                <button class="btn btn-primary" type="submit">@Localizer["IniciarSesionButton"]</button>
                             </div>
                             @if (ViewData["Mensaje"] != null)
                             {
@@ -62,12 +63,12 @@
                                 </div>
                             }
                             <div class="text-center">
-                                ¿No tienes una cuenta? <a href="@Url.Action("Registro", "Login")">¡Regístrate!</a>
+                                @Localizer["NoCuenta"] <a href="@Url.Action("Registro", "Login")">@Localizer["Registrate"]</a>
                             </div>
                         </form>
                     </div>
                     <div class="card-footer text-center">
-                        <a href="@Url.Action("Index", "MainPage")" class="btn btn-secondary">Volver</a>
+                        <a href="@Url.Action("Index", "MainPage")" class="btn btn-secondary">@Localizer["Volver"]</a>
                     </div>
                 </div>
             </div>
