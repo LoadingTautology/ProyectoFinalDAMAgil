@@ -1,7 +1,7 @@
 ﻿@model ProyectoFinalDAMAgil.Models.UsuarioCorreo
-
 @{
     Layout = null;
+    ViewData["Title"] = Localizer["Title"];
 }
 
 <!DOCTYPE html>
@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Registrarse</title>
+    <title>@Localizer["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <style>
         body {
@@ -42,41 +42,41 @@
             <div class="col-12 col-xl-4 col-md-6">
                 <div class="card shadow-sm">
                     <div class="card-header bg-primary text-white text-center">
-                        <h4>Registrate</h4>
+                        <h4>@Localizer["Registrate"]</h4>
                     </div>
                     <div class="card-body">
                         <form id="registroForm" asp-controller="Login" asp-action="Registro" method="post" enctype="multipart/form-data" novalidate>
                             <div class="mb-3">
-                                <label for="NombreUsuario" class="form-label">Nombre</label>
-                                <input class="form-control" type="text" id="NombreUsuario" asp-for="NombreUsuario" placeholder="Nombre" required />
+                                <label for="NombreUsuario" class="form-label">@Localizer["Nombre"]</label>
+                                <input class="form-control" type="text" id="NombreUsuario" asp-for="NombreUsuario" placeholder="@Localizer["Nombre"]" required />
                                 <span asp-validation-for="NombreUsuario" class="text-danger"></span>
                             </div>
                             <div class="mb-3">
-                                <label for="ApellidosUsuario" class="form-label">Apellidos</label>
-                                <input class="form-control" type="text" id="ApellidosUsuario" asp-for="ApellidosUsuario" placeholder="Apellidos" required />
+                                <label for="ApellidosUsuario" class="form-label">@Localizer["Apellidos"]</label>
+                                <input class="form-control" type="text" id="ApellidosUsuario" asp-for="ApellidosUsuario" placeholder="@Localizer["Apellidos"]" required />
                                 <span asp-validation-for="ApellidosUsuario" class="text-danger"></span>
                             </div>
                             <div class="mb-3">
-                                <label for="DNI" class="form-label">DNI</label>
-                                <input class="form-control" type="text" id="DNI" asp-for="DNI" placeholder="DNI" required />
+                                <label for="DNI" class="form-label">@Localizer["DNI"]</label>
+                                <input class="form-control" type="text" id="DNI" asp-for="DNI" placeholder="@Localizer["DNI"]" required />
                                 <span asp-validation-for="DNI" class="text-danger"></span>
                             </div>
                             <div class="mb-3">
-                                <label for="Correo" class="form-label">Correo</label>
-                                <input class="form-control" type="email" id="Correo" asp-for="Correo" placeholder="Correo" required />
+                                <label for="Correo" class="form-label">@Localizer["Correo"]</label>
+                                <input class="form-control" type="email" id="Correo" asp-for="Correo" placeholder="@Localizer["Correo"]" required />
                                 <span asp-validation-for="Correo" class="text-danger"></span>
                             </div>
                             <div class="mb-3">
-                                <label for="Clave" class="form-label">Contraseña</label>
-                                <input class="form-control" type="password" id="Clave" asp-for="Clave" placeholder="Contraseña" required />
+                                <label for="Clave" class="form-label">@Localizer["Clave"]</label>
+                                <input class="form-control" type="password" id="Clave" asp-for="Clave" placeholder="@Localizer["Clave"]" required />
                                 <span asp-validation-for="Clave" class="text-danger"></span>
                             </div>
                             <div class="mb-3">
-                                <label for="ClaveRepetida" class="form-label">Repite Contraseña</label>
-                                <input class="form-control" type="password" id="ClaveRepetida" name="ClaveRepetida" placeholder="Repite Contraseña" required />
+                                <label for="ClaveRepetida" class="form-label">@Localizer["RepiteClave"]</label>
+                                <input class="form-control" type="password" id="ClaveRepetida" name="ClaveRepetida" placeholder="@Localizer["RepiteClave"]" required />
                             </div>
                             <div class="d-grid gap-2 mb-3">
-                                <button class="btn btn-primary" type="submit">Registrarse</button>
+                                <button class="btn btn-primary" type="submit">@Localizer["Registrarse"]</button>
                             </div>
                             @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
                             {
@@ -85,12 +85,12 @@
                                 </div>
                             }
                             <div class="text-center">
-                                ¿Ya tienes una cuenta? <a href="@Url.Action("IniciarSesion","Login")">Iniciar Sesión</a>
+                                @Localizer["YaCuenta"] <a href="@Url.Action("IniciarSesion","Login")">@Localizer["IniciarSesion"]</a>
                             </div>
                         </form>
                     </div>
                     <div class="card-footer text-center">
-                        <a href="@Url.Action("Index", "MainPage")" class="btn btn-secondary">Volver</a>
+                        <a href="@Url.Action("Index", "MainPage")" class="btn btn-secondary">@Localizer["Volver"]</a>
                     </div>
                 </div>
             </div>
