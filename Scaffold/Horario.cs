@@ -17,7 +17,7 @@ public partial class Horario
 
     public int IdAsignatura { get; set; }
 
-    public int IdCiclo { get; set; }
+    public int IdEstudio { get; set; }
 
     public virtual Asignaturascicloformativo Asignaturascicloformativo { get; set; } = null!;
 

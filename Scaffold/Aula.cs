@@ -15,7 +15,5 @@ public partial class Aula
 
     public int IdCentro { get; set; }
 
-    public virtual ICollection<Horario> Horarios { get; set; } = new List<Horario>();
-
     public virtual Centroeducativo IdCentroNavigation { get; set; } = null!;
 }

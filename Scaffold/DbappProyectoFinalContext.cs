@@ -27,9 +27,9 @@ public partial class DbappProyectoFinalContext : DbContext
 
     public virtual DbSet<Diasemana> Diasemanas { get; set; }
 
-    public virtual DbSet<Franjahorarium> Franjahoraria { get; set; }
+    public virtual DbSet<Diasemanafranjahorarium> Diasemanafranjahoraria { get; set; }
 
-    public virtual DbSet<Horario> Horarios { get; set; }
+    public virtual DbSet<Franjahorarium> Franjahoraria { get; set; }
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
@@ -38,8 +38,8 @@ public partial class DbappProyectoFinalContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
-            .UseCollation("latin1_swedish_ci")
-            .HasCharSet("latin1");
+            .UseCollation("utf8mb4_general_ci")
+            .HasCharSet("utf8mb4");
 
         modelBuilder.Entity<Administrador>(entity =>
         {
@@ -175,63 +175,52 @@ public partial class DbappProyectoFinalContext : DbContext
 
         modelBuilder.Entity<Diasemana>(entity =>
         {
-            entity.HasKey(e => e.Dia).HasName("PRIMARY");
+            entity.HasKey(e => e.IdDia).HasName("PRIMARY");
 
             entity.ToTable("diasemana");
 
-            entity.Property(e => e.Dia).HasMaxLength(10);
+            entity.HasIndex(e => e.DiaSemana1, "DiaSemana").IsUnique();
+
+            entity.Property(e => e.IdDia).HasColumnType("int(11)");
+            entity.Property(e => e.DiaSemana1)
+                .HasMaxLength(10)
+                .HasColumnName("DiaSemana");
+        });
+
+        modelBuilder.Entity<Diasemanafranjahorarium>(entity =>
+        {
+            entity.HasKey(e => e.IdDiaFranja).HasName("PRIMARY");
+
+            entity.ToTable("diasemanafranjahoraria");
+
+            entity.HasIndex(e => new { e.IdDia, e.IdFranja }, "IdDia").IsUnique();
+
+            entity.HasIndex(e => e.IdFranja, "IdFranja");
+
+            entity.Property(e => e.IdDiaFranja).HasColumnType("int(11)");
+            entity.Property(e => e.IdDia).HasColumnType("int(11)");
+            entity.Property(e => e.IdFranja).HasColumnType("int(11)");
+
+            entity.HasOne(d => d.IdDiaNavigation).WithMany(p => p.Diasemanafranjahoraria)
+                .HasForeignKey(d => d.IdDia)
+                .HasConstraintName("diasemanafranjahoraria_ibfk_1");
+
+            entity.HasOne(d => d.IdFranjaNavigation).WithMany(p => p.Diasemanafranjahoraria)
+                .HasForeignKey(d => d.IdFranja)
+                .HasConstraintName("diasemanafranjahoraria_ibfk_2");
         });
 
         modelBuilder.Entity<Franjahorarium>(entity =>
         {
-            entity.HasKey(e => new { e.HoraMinInicio, e.HoraMinFinal })
-                .HasName("PRIMARY")
-                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+            entity.HasKey(e => e.IdFranja).HasName("PRIMARY");
 
             entity.ToTable("franjahoraria");
 
-            entity.Property(e => e.HoraMinInicio).HasColumnType("time");
-            entity.Property(e => e.HoraMinFinal).HasColumnType("time");
-        });
+            entity.HasIndex(e => new { e.HoraMinInicio, e.HoraMinFinal }, "HoraMinInicio").IsUnique();
 
-        modelBuilder.Entity<Horario>(entity =>
-        {
-            entity.HasKey(e => e.IdHorario).HasName("PRIMARY");
-
-            entity.ToTable("horario");
-
-            entity.HasIndex(e => e.Dia, "Dia");
-
-            entity.HasIndex(e => new { e.HoraMinInicio, e.HoraMinFinal }, "HoraMinInicio");
-
-            entity.HasIndex(e => new { e.IdAsignatura, e.IdCiclo }, "IdAsignatura");
-
-            entity.HasIndex(e => new { e.IdAula, e.HoraMinInicio, e.HoraMinFinal, e.Dia }, "IdAula").IsUnique();
-
-            entity.Property(e => e.IdHorario).HasColumnType("int(11)");
-            entity.Property(e => e.Dia).HasMaxLength(10);
+            entity.Property(e => e.IdFranja).HasColumnType("int(11)");
             entity.Property(e => e.HoraMinFinal).HasColumnType("time");
             entity.Property(e => e.HoraMinInicio).HasColumnType("time");
-            entity.Property(e => e.IdAsignatura).HasColumnType("int(11)");
-            entity.Property(e => e.IdAula).HasColumnType("int(11)");
-            entity.Property(e => e.IdCiclo).HasColumnType("int(11)");
-
-            entity.HasOne(d => d.DiaNavigation).WithMany(p => p.Horarios)
-                .HasForeignKey(d => d.Dia)
-                .HasConstraintName("horario_ibfk_4");
-
-            entity.HasOne(d => d.IdAulaNavigation).WithMany(p => p.Horarios)
-                .HasForeignKey(d => d.IdAula)
-                .HasConstraintName("horario_ibfk_2");
-
-            entity.HasOne(d => d.Franjahorarium).WithMany(p => p.Horarios)
-                .HasForeignKey(d => new { d.HoraMinInicio, d.HoraMinFinal })
-                .HasConstraintName("horario_ibfk_3");
-
-            entity.HasOne(d => d.Asignaturascicloformativo).WithMany(p => p.Horarios)
-                .HasPrincipalKey(p => new { p.IdAsignatura, p.IdCiclo })
-                .HasForeignKey(d => new { d.IdAsignatura, d.IdCiclo })
-                .HasConstraintName("horario_ibfk_1");
         });
 
         modelBuilder.Entity<Usuario>(entity =>

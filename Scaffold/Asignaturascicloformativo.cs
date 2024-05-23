@@ -11,8 +11,6 @@ public partial class Asignaturascicloformativo
 
     public int IdCiclo { get; set; }
 
-    public virtual ICollection<Horario> Horarios { get; set; } = new List<Horario>();
-
     public virtual Asignatura IdAsignaturaNavigation { get; set; } = null!;
 
     public virtual Cicloformativo IdCicloNavigation { get; set; } = null!;

@@ -28,10 +28,10 @@ namespace ProyectoFinalDAMAgil.Services.Cicloformativo
             return cicloformativoModel;
         }
 
-        public async Task<CicloformativoModel> ReadCicloformativo(int idCiclo)
+        public async Task<CicloformativoModel> ReadCicloformativo(int idEstudio)
         {
             IQueryable<Scaffold.Cicloformativo> cicloformativoListaDB = from cicloformativo in _context.Cicloformativos 
-                                                                        where cicloformativo.IdCiclo == idCiclo
+                                                                        where cicloformativo.IdCiclo == idEstudio
                                                                         select new Scaffold.Cicloformativo
                                                                         {
                                                                             IdCiclo=cicloformativo.IdCiclo,

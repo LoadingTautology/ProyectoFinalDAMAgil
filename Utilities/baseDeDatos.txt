@@ -56,29 +56,29 @@ CREATE TABLE UsuariosCentroEducativo (
 -- Creación de la tabla FranjaHoraria
 CREATE TABLE FranjaHoraria (
     IdFranja INT AUTO_INCREMENT,
-    HoraMinInicio TIME,
-    HoraMinFinal TIME,
+    HoraMinInicio TIME NOT NULL,
+    HoraMinFinal TIME NOT NULL,
     PRIMARY KEY (IdFranja),
     UNIQUE (HoraMinInicio, HoraMinFinal)
 );
 
 -- Creación de la tabla DiaSemana
 CREATE TABLE DiaSemana (
-    IdDiaSemana INT AUTO_INCREMENT,
-    Dia VARCHAR(10),
-    PRIMARY KEY (IdDiaSemana),
-    UNIQUE (Dia)
+    IdDia INT AUTO_INCREMENT,
+    DiaSemana VARCHAR(10) NOT NULL,
+    PRIMARY KEY (IdDia),
+    UNIQUE (DiaSemana)
 );
 
--- Creación de la tabla DiaSemana
+-- Creación de la tabla DiaSemanaFranjaHoraria
 CREATE TABLE DiaSemanaFranjaHoraria (
     IdDiaFranja INT AUTO_INCREMENT,
-    IdDiaSemana INT NOT NULL,
+    IdDia INT NOT NULL,
     IdFranja INT NOT NULL,
     PRIMARY KEY (IdDiaFranja),
-    FOREIGN KEY (IdDiaSemana ) REFERENCES DiaSemana(IdDiaSemana ) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (IdDia ) REFERENCES DiaSemana(IdDia ) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (IdFranja) REFERENCES FranjaHoraria(IdFranja) ON DELETE CASCADE ON UPDATE CASCADE,
-    UNIQUE (IdDiaSemana,IdFranja)
+    UNIQUE (IdDia,IdFranja)
 );
 
 
@@ -126,14 +126,18 @@ CREATE TABLE AsignaturasCicloFormativo (
 CREATE TABLE Horario (
     IdHorario INT AUTO_INCREMENT,
     IdAula INT NOT NULL,
+
     HoraMinInicio TIME NOT NULL,
     HoraMinFinal TIME NOT NULL,
     Dia VARCHAR(10) NOT NULL,
+
     IdAsignatura INT NOT NULL,
-    IdCiclo INT NOT NULL,
+    IdEstudio INT NOT NULL,
+
     PRIMARY KEY (IdHorario),
     UNIQUE (IdAula, HoraMinInicio, HoraMinFinal, Dia),
-    FOREIGN KEY (IdAsignatura, IdCiclo) REFERENCES AsignaturasCicloFormativo (IdAsignatura, IdCiclo) ON DELETE CASCADE ON UPDATE CASCADE,
+    
+    FOREIGN KEY (IdAsignatura, IdEstudio) REFERENCES AsignaturasCicloFormativo (IdAsignatura, IdCiclo) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (IdAula) REFERENCES Aula(IdAula) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (HoraMinInicio, HoraMinFinal) REFERENCES FranjaHoraria(HoraMinInicio, HoraMinFinal) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (Dia) REFERENCES DiaSemana(Dia) ON DELETE CASCADE ON UPDATE CASCADE
@@ -258,7 +262,7 @@ INSERT INTO FranjaHoraria (IdFranja, HoraMinInicio, HoraMinFinal) VALUES
 
 
 -- Inserción de los días de la semana
-INSERT INTO DiaSemana (IdDiaSemana, Dia) VALUES 
+INSERT INTO DiaSemana (IdDia, DiaSemana) VALUES 
 (1, 'Lunes'),
 (2, 'Martes'),
 (3, 'Miércoles'),
@@ -267,7 +271,7 @@ INSERT INTO DiaSemana (IdDiaSemana, Dia) VALUES
 (6, 'Sábado'),
 (7, 'Domingo');
 
-INSERT INTO DiaSemanaFranjaHoraria (IdDiaFranja,IdFranja,IdDiaSemana) VALUES 
+INSERT INTO DiaSemanaFranjaHoraria (IdDiaFranja,IdFranja,IdDia) VALUES 
 (1,1,1),(2,1,2),(3,1,3),(4,1,4),(5,1,5),(6,1,6),(7,1,7),
 (8,2,1),(9,2,2),(10,2,3),(11,2,4),(12,2,5),(13,2,6),(14,2,7),
 (15,3,1),(16,3,2),(17,3,3),(18,3,4),(19,3,5),(20,3,6),(21,3,7),

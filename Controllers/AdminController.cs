@@ -560,11 +560,13 @@ namespace ProyectoFinalDAMAgil.Controllers
         [HttpGet]                                                     //idAsignatura
         public async Task<IActionResult> ListarHorarios([FromRoute] int id, int idEstudios)
         {
+
             Console.WriteLine("****************************** ListarHorarios idAsignatura:"+id);
             Console.WriteLine("****************************** ListarHorarios idEstudios:"+idEstudios);
             ViewData["idAsignatura"]=id;
             ViewData["idEstudios"]=idEstudios;
             ViewData["DiasSemana"] = new List<string> { "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo" };
+
             ViewData["Horas"] = new List<string>
                                                 {
                                                     "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
@@ -573,7 +575,11 @@ namespace ProyectoFinalDAMAgil.Controllers
                                                     "20:00", "20:30"
                                                 };
 
-            ViewData["Aulas"] = new List<int> { 1, 2, 3, 4, 5 };
+            CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(idEstudios);
+            IEnumerable<AulaModel> aulaModelList = await _aulaService.ListadoAulas(cicloformativo.IdCentro);
+            ViewData["Aulas"] =aulaModelList ;
+
+
 
             //@ViewData["idCentro"] =id;
             //IEnumerable<AulaModel> listadoAulas = await _aulaService.ListadoAulas(id);
@@ -584,13 +590,7 @@ namespace ProyectoFinalDAMAgil.Controllers
         [HttpPost]
         public async Task<IActionResult> GuardarHorario(HorarioModel modeloHorario)
         {
-
-            Console.WriteLine("*************GuardarHorario   modeloHorario.IdAsignatura: "+modeloHorario.IdAsignatura);
-            Console.WriteLine("*************GuardarHorario   modeloHorario.IdEstudios: "+modeloHorario.IdEstudios);
-            Console.WriteLine("*************GuardarHorario   modeloHorario.IdAula: "+modeloHorario.IdAula);
-            Console.WriteLine("*************GuardarHorario   modeloHorario.ColorAsignatura: "+modeloHorario.ColorAsignatura);
-            Console.WriteLine("*************GuardarHorario   modeloHorario.IdDiaSemanaFranjaHoraria: "+modeloHorario.IdDiaSemanaFranjaHoraria);
-
+            Console.WriteLine("*************GuardarHorario    modeloHorario: "+modeloHorario.ToString);
 
 
             return RedirectToAction("ListarHorarios", new { id = modeloHorario.IdAsignatura, idEstudios= modeloHorario.IdEstudios }); // new { id = idEstudios }

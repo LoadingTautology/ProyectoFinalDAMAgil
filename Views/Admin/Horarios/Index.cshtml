@@ -45,9 +45,9 @@
                     <div class="d-flex justify-content-between mb-3">
 
                         <select asp-for="IdAula">
-                            @foreach (var item in (IEnumerable<int>)ViewData["Aulas"])
+                            @foreach (var item in (IEnumerable<ProyectoFinalDAMAgil.Models.Admin.AulaModel>)ViewData["Aulas"])
                             {
-                                <option value="@item">@item</option>
+                                <option value="@item.IdAula"> @item.NumeroAula - @item.NombreAula</option>
                             }
                         </select>
 

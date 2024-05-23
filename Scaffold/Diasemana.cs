@@ -5,7 +5,9 @@ namespace ProyectoFinalDAMAgil.Scaffold;
 
 public partial class Diasemana
 {
-    public string Dia { get; set; } = null!;
+    public int IdDia { get; set; }
 
-    public virtual ICollection<Horario> Horarios { get; set; } = new List<Horario>();
+    public string DiaSemana1 { get; set; } = null!;
+
+    public virtual ICollection<Diasemanafranjahorarium> Diasemanafranjahoraria { get; set; } = new List<Diasemanafranjahorarium>();
 }
