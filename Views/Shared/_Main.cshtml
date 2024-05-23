@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GestaCentro</title>
+    <title>@Localizer["Title"]</title>
     <link rel="icon" type="image/png" href="~/src/img/logo.png" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -32,9 +32,9 @@
             padding: 2rem 0;
         }
 
-        .footer h5 {
-            margin-bottom: 1rem;
-        }
+            .footer h5 {
+                margin-bottom: 1rem;
+            }
 
         .footer-links li {
             margin-bottom: 0.5rem;
@@ -83,28 +83,34 @@
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link @(Context.Request.RouteValues["Action"].ToString() == "Index" ? "active animate__animated animate__bounce" : "")" asp-area="" asp-controller="MainPage" asp-action="Index">
-                                <i class="bi bi-house-door"></i>Home
+                                <i class="bi bi-house-door"></i>@Localizer["Home"]
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link @(Context.Request.RouteValues["Action"].ToString() == "AboutUs" ? "active animate__animated animate__bounce" : "")" asp-area="" asp-controller="MainPage" asp-action="AboutUs">
-                                <i class="bi bi-info-circle"></i>Acerca de
+                                <i class="bi bi-info-circle"></i>@Localizer["AcercaDe"]
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link @(Context.Request.RouteValues["Action"].ToString() == "Contacto" ? "active animate__animated animate__bounce" : "")" asp-area="" asp-controller="MainPage" asp-action="Contacto">
-                                <i class="bi bi-envelope"></i>Contacto
+                                <i class="bi bi-envelope"></i>@Localizer["Contacto"]
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link @(Context.Request.RouteValues["Action"].ToString() == "Privacy" ? "active animate__animated animate__bounce" : "")" asp-area="page" asp-controller="MainPage" asp-action="Privacy">
-                                <i class="bi bi-shield-lock"></i>Privacy
+                                <i class="bi bi-shield-lock"></i>@Localizer["Privacy"]
                             </a>
                         </li>
                         <li class="nav-item ms-3">
                             <a class="btn btn-primary animate__animated animate__pulse" asp-area="" asp-controller="Login" asp-action="IniciarSesion">
-                                <i class="bi bi-box-arrow-in-right"></i> Acceder
+                                <i class="bi bi-box-arrow-in-right"></i> @Localizer["Acceder"]
                             </a>
+                        </li>
+                        <!-- Botón para cambiar idioma -->
+                        <li class="nav-item ms-3">
+                            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#languageModal">
+                                <i class="bi bi-translate"></i> @Localizer["Idioma"]
+                            </button>
                         </li>
                     </ul>
                 </div>
@@ -122,23 +128,23 @@
                 <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
                     <h5 class="text-uppercase">GestaCentro</h5>
                     <p>
-                        Herramienta de gestión integral para centros educativos.
+                        @Localizer["FooterDescripcion"]
                     </p>
                 </div>
                 <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
-                    <h5 class="text-uppercase">Enlaces</h5>
+                    <h5 class="text-uppercase">@Localizer["Enlaces"]</h5>
                     <ul class="list-unstyled mb-0 footer-links animate__animated animate__fadeInUp">
                         <li>
-                            <a href="#!" class="text-dark">Acerca de</a>
+                            <a href="#!" class="text-dark">@Localizer["AcercaDe"]</a>
                         </li>
                         <li>
-                            <a href="#!" class="text-dark">Soporte</a>
+                            <a href="#!" class="text-dark">@Localizer["Soporte"]</a>
                         </li>
                         <li>
-                            <a href="#!" class="text-dark">Contacto</a>
+                            <a href="#!" class="text-dark">@Localizer["Contacto"]</a>
                         </li>
                         <li>
-                            <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-dark">Privacy</a>
+                            <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-dark">@Localizer["Privacy"]</a>
                         </li>
                     </ul>
 
@@ -159,9 +165,37 @@
             </div>
         </div>
     </footer>
+
+    <!-- Language Selection Modal -->
+    <div class="modal fade" id="languageModal" tabindex="-1" aria-labelledby="languageModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="languageModalLabel">@Localizer["SeleccionarIdioma"]</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-unstyled">
+                        <li><a href="#" onclick="setLanguage('es')" class="btn btn-link">@Localizer["Español"]</a></li>
+                        <li><a href="#" onclick="setLanguage('en')" class="btn btn-link">@Localizer["English"]</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        // Cambiar idioma
+        function setLanguage(culture) {
+            fetch(`/Language/SetLanguage?culture=${culture}&returnUrl=${window.location.pathname}`)
+                .then(() => {
+                    window.location.reload();
+                });
+        }
+    </script>
 </body>
 </html>

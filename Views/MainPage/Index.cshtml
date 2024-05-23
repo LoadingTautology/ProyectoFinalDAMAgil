@@ -1,71 +1,73 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
     Layout = "_Main";
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = Localizer["Title"];
 }
 
-<div class="container mt-4">
-    <div class="jumbotron bg-light p-5 rounded-lg shadow-sm animate__animated animate__fadeIn">
-        <h1 class="display-4">Bienvenido a GestaCentro</h1>
-        <p class="lead">La solución integral para la gestión de centros educativos.</p>
+<div class="container mt-5">
+    <div class="jumbotron bg-light p-5 rounded-lg shadow-sm animate__animated animate__fadeIn text-center">
+        <h1 class="display-4">@Localizer["Bienvenido"]</h1>
+        <p class="lead">@Localizer["SolucionIntegral"]</p>
         <hr class="my-4">
-        <p>GestaCentro facilita la administración de tu centro escolar con herramientas avanzadas para gestionar estudiantes, profesores, clases, horarios y más. Nuestra plataforma está diseñada para mejorar la eficiencia y la comunicación en tu institución educativa.</p>
-        <a class="btn btn-primary btn-lg animate__animated animate__pulse" href="@Url.Action("IniciarSesion", "Login")" role="button"><i class="bi bi-box-arrow-in-right"></i> Comienza Ahora</a>
+        <p>@Localizer["FacilitaAdministracion"]</p>
+        <a class="btn btn-primary btn-lg animate__animated animate__pulse" href="@Url.Action("IniciarSesion", "Login")" role="button"><i class="bi bi-box-arrow-in-right"></i> @Localizer["ComienzaAhora"]</a>
     </div>
 
-    <div class="row mt-5">
-        <div class="col-md-4">
-            <div class="card mb-4 shadow-sm h-100 animate__animated animate__zoomIn">
+    <div class="row mt-5 text-center">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 animate__animated animate__zoomIn">
                 <div class="card-body d-flex flex-column">
-                    <h5 class="card-title"><i class="bi bi-people"></i> Gestión de Estudiantes</h5>
-                    <p class="card-text">Administra la información de los estudiantes de manera eficiente, incluyendo matrículas, asistencia y calificaciones.</p>
+                    <h5 class="card-title"><i class="bi bi-people"></i> @Localizer["GestionEstudiantes"]</h5>
+                    <p class="card-text">@Localizer["GestionEstudiantesTexto"]</p>
                     <img src="@Url.Content("~/src/img/MainIMG/GestionEstudiantes.webp")" class="img-fluid rounded mt-auto" alt="Gestión de Estudiantes">
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card mb-4 shadow-sm h-100 animate__animated animate__zoomIn" style="animation-delay: 0.1s;">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 animate__animated animate__zoomIn" style="animation-delay: 0.1s;">
                 <div class="card-body d-flex flex-column">
-                    <h5 class="card-title"><i class="bi bi-person-badge"></i> Gestión de Profesores</h5>
-                    <p class="card-text">Organiza y supervisa la información de los profesores, sus horarios y sus asignaturas.</p>
+                    <h5 class="card-title"><i class="bi bi-person-badge"></i> @Localizer["GestionProfesores"]</h5>
+                    <p class="card-text">@Localizer["GestionProfesoresTexto"]</p>
                     <img src="@Url.Content("~/src/img/MainIMG/GestionProfesores.webp")" class="img-fluid rounded mt-auto" alt="Gestión de Profesores">
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card mb-4 shadow-sm h-100 animate__animated animate__zoomIn" style="animation-delay: 0.2s;">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 animate__animated animate__zoomIn" style="animation-delay: 0.2s;">
                 <div class="card-body d-flex flex-column">
-                    <h5 class="card-title"><i class="bi bi-calendar3"></i> Horarios y Clases</h5>
-                    <p class="card-text">Crea y gestiona horarios de clases de manera sencilla, optimizando el uso del tiempo y recursos.</p>
+                    <h5 class="card-title"><i class="bi bi-calendar3"></i> @Localizer["HorariosClases"]</h5>
+                    <p class="card-text">@Localizer["HorariosClasesTexto"]</p>
                     <img src="@Url.Content("~/src/img/MainIMG/HorariosYClases.webp")" class="img-fluid rounded mt-auto" alt="Horarios Y Clases">
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <div class="card mb-4 shadow-sm h-100 animate__animated animate__zoomIn">
+    <div class="row mt-4 text-center">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 animate__animated animate__zoomIn">
                 <div class="card-body d-flex flex-column">
-                    <h5 class="card-title"><i class="bi bi-clipboard-data"></i> Informes y Reportes</h5>
-                    <p class="card-text">Genera informes detallados y reportes para el análisis y la toma de decisiones informadas.</p>
+                    <h5 class="card-title"><i class="bi bi-clipboard-data"></i> @Localizer["InformesReportes"]</h5>
+                    <p class="card-text">@Localizer["InformesReportesTexto"]</p>
                     <img src="@Url.Content("~/src/img/MainIMG/InformesYReportes.webp")" class="img-fluid rounded mt-auto" alt="Informes y Reportes">
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card mb-4 shadow-sm h-100 animate__animated animate__zoomIn" style="animation-delay: 0.1s;">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 animate__animated animate__zoomIn" style="animation-delay: 0.1s;">
                 <div class="card-body d-flex flex-column">
-                    <h5 class="card-title"><i class="bi bi-chat-dots"></i> Comunicación</h5>
-                    <p class="card-text">Facilita la comunicación entre padres, estudiantes y profesores mediante notificaciones y mensajes.</p>
+                    <h5 class="card-title"><i class="bi bi-chat-dots"></i> @Localizer["Comunicacion"]</h5>
+                    <p class="card-text">@Localizer["ComunicacionTexto"]</p>
                     <img src="@Url.Content("~/src/img/MainIMG/Comunicacion.webp")" class="img-fluid rounded mt-auto" alt="Comunicación">
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card mb-4 shadow-sm h-100 animate__animated animate__zoomIn" style="animation-delay: 0.2s;">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 animate__animated animate__zoomIn" style="animation-delay: 0.2s;">
                 <div class="card-body d-flex flex-column">
-                    <h5 class="card-title"><i class="bi bi-gear"></i> Configuración Personalizada</h5>
-                    <p class="card-text">Ajusta la plataforma según las necesidades específicas de tu centro educativo.</p>
+                    <h5 class="card-title"><i class="bi bi-gear"></i> @Localizer["ConfiguracionPersonalizada"]</h5>
+                    <p class="card-text">@Localizer["ConfiguracionPersonalizadaTexto"]</p>
                     <img src="@Url.Content("~/src/img/MainIMG/ConfiguracionPersonalizada.webp")" class="img-fluid rounded mt-auto" alt="Configuración Personalizada">
                 </div>
             </div>
