@@ -65,9 +65,9 @@ CREATE TABLE FranjaHoraria (
 -- Creación de la tabla DiaSemana
 CREATE TABLE DiaSemana (
     IdDia INT AUTO_INCREMENT,
-    DiaSemana VARCHAR(10) NOT NULL,
+    DiaDeLaSemana VARCHAR(10) NOT NULL,
     PRIMARY KEY (IdDia),
-    UNIQUE (DiaSemana)
+    UNIQUE (DiaDeLaSemana)
 );
 
 -- Creación de la tabla DiaSemanaFranjaHoraria
@@ -262,7 +262,7 @@ INSERT INTO FranjaHoraria (IdFranja, HoraMinInicio, HoraMinFinal) VALUES
 
 
 -- Inserción de los días de la semana
-INSERT INTO DiaSemana (IdDia, DiaSemana) VALUES 
+INSERT INTO DiaSemana (IdDia, DiaDeLaSemana) VALUES 
 (1, 'Lunes'),
 (2, 'Martes'),
 (3, 'Miércoles'),

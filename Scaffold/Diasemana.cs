@@ -7,7 +7,7 @@ public partial class Diasemana
 {
     public int IdDia { get; set; }
 
-    public string DiaSemana1 { get; set; } = null!;
+    public string DiaDeLaSemana { get; set; } = null!;
 
     public virtual ICollection<Diasemanafranjahorarium> Diasemanafranjahoraria { get; set; } = new List<Diasemanafranjahorarium>();
 }

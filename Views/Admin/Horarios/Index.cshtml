@@ -36,7 +36,7 @@
             </div>
             <div class="card-body">
 
-                <form asp-controller="Admin" asp-action="GuardarHorario" asp-route-id="@ViewData["idAsignatura"]" asp-route-idestudios="@ViewData["idEstudios"] method="post">
+                <form asp-controller="Admin" asp-action="GuardarHorario" asp-route-id="@ViewData["idAsignatura"]" asp-route-idEstudios="@ViewData["idEstudios"]" method="post">
 
                     <input type="hidden" name="idAsignatura" value="@ViewData["idAsignatura"]" />
                     <input type="hidden" name="idEstudios" value="@ViewData["idEstudios"]" />
@@ -53,7 +53,7 @@
 
                         <input type="color" asp-for="ColorAsignatura"></input>
 
-                        <a asp-controller="Admin" asp-action="ListarAsignaturas" class="btn btn-warning mb-3">
+                        <a asp-controller="Admin" asp-action="ListarAsignaturas" asp-route-id="@ViewData["idEstudios"]" class="btn btn-warning mb-3">
                             <i class="bi bi-arrow-left"></i> Volver a Asignaturas
                         </a>
                     </div>
@@ -63,18 +63,18 @@
                         <thead>
                             <tr>
                                 <th>Hora/Día</th>
-                                @foreach (var dia in (IEnumerable<string>)ViewData["DiasSemana"])
+                                @foreach (var dia in (IEnumerable<ProyectoFinalDAMAgil.Models.Admin.DiasemanaModel>)ViewData["DiasSemana"])
                                 {
-                                    <th>@dia</th>
+                                    <th>@dia.DiaDeLaSemana</th>
                                 }
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var hora in (IEnumerable<string>)ViewData["Horas"])
+                            @foreach (var hora in (IEnumerable<ProyectoFinalDAMAgil.Models.Admin.FranjahorariumModel>)ViewData["Horas"])
                             {
                                 <tr>
-                                    <td>@hora</td>
-                                    @foreach (var dia in (IEnumerable<string>)ViewData["DiasSemana"])
+                                    <td>@hora.HoraMinInicio - @hora.HoraMinFinal</td>
+                                    @foreach (var dia in (IEnumerable<ProyectoFinalDAMAgil.Models.Admin.DiasemanaModel>)ViewData["DiasSemana"])
                                     {
                                         contador++;
                                         @if (contador==45 || contador==52 || contador==59 || contador==66)
@@ -84,6 +84,7 @@
                                         else
                                         {
                                             <td>
+                                                <!-- Aquí puedes poner el contenido del horario, por ejemplo, una clase, evento, etc. -->
 
                                                 <button type="submit" class="btn btn-warning btn-sm" name="IdDiaSemanaFranjaHoraria" value="@contador">
                                                     <i class="bi bi-save"></i> @contador

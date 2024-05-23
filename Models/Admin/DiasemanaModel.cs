@@ -4,6 +4,7 @@
     {
         public int IdDia { get; set; }
 
-        public string DiaSemana1 { get; set; } = null!;
+        public string DiaDeLaSemana { get; set; } = null!;
+
     }
 }

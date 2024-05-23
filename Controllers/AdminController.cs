@@ -4,10 +4,13 @@ using ProyectoFinalDAMAgil.Models.Admin;
 using ProyectoFinalDAMAgil.Scaffold;
 using ProyectoFinalDAMAgil.Services.Administrador;
 using ProyectoFinalDAMAgil.Services.Asignatura;
+using ProyectoFinalDAMAgil.Services.AsignaturasEstudios;
 using ProyectoFinalDAMAgil.Services.Aula;
 using ProyectoFinalDAMAgil.Services.Centroeducativo;
 using ProyectoFinalDAMAgil.Services.Cicloformativo;
 using ProyectoFinalDAMAgil.Services.Correoelectronico;
+using ProyectoFinalDAMAgil.Services.Diasemana;
+using ProyectoFinalDAMAgil.Services.Franjahorarium;
 using ProyectoFinalDAMAgil.Services.Usuario;
 using ProyectoFinalDAMAgil.Services.Usuarioscentroeducativo;
 using System;
@@ -19,34 +22,44 @@ namespace ProyectoFinalDAMAgil.Controllers
     public class AdminController : Controller
     {
 
-        private readonly IUsuarioService _usuarioService;
-        private readonly ICorreoelectronicoService _correoelectronicoService;
         private readonly IAdministradorService _administradorService;
-        private readonly ICentroeducativoService _centroeducativoService;
-        private readonly IUsuarioscentroeducativoService _usuarioscentroeducativoService;
-        private readonly ICicloformativoService _cicloformativoService;
         private readonly IAsignaturaService _asignaturaService;
+        private readonly IAsignaturasEstudiosService _asignaturasEstudiosService;
         private readonly IAulaService _aulaService;
+        private readonly ICentroeducativoService _centroeducativoService;
+        private readonly ICicloformativoService _cicloformativoService;
+        private readonly ICorreoelectronicoService _correoelectronicoService;
+        private readonly IDiasemanaService _diasemanaService;
+        private readonly IFranjahorariumService _franjahorariumService;
+        private readonly IUsuarioService _usuarioService;
+        private readonly IUsuarioscentroeducativoService _usuarioscentroeducativoService;
+
+        public AdminController( 
+                                IAdministradorService administradorService,
+                                IAsignaturaService asignaturaService,
+                                IAsignaturasEstudiosService asignaturasEstudiosService,
+                                IAulaService aulaService,
+                                ICentroeducativoService centroeducativoService,
+                                ICicloformativoService cicloformativoService,
+                                ICorreoelectronicoService correoelectronicoService,
+                                IDiasemanaService diasemanaService,
+                                IFranjahorariumService franjahorariumService,
+                                IUsuarioService usuarioService,
+                                IUsuarioscentroeducativoService usuarioscentroeducativo)
 
 
-        public AdminController(IUsuarioService usuarioService,
-                               ICorreoelectronicoService correoelectronicoService,
-                               IAdministradorService administradorService,
-                               ICentroeducativoService centroeducativoService,
-                               IUsuarioscentroeducativoService usuarioscentroeducativo,
-                               ICicloformativoService cicloformativoService,
-                               IAsignaturaService asignaturaService,
-                               IAulaService aulaService)
         {
-            _usuarioService = usuarioService;
-            _correoelectronicoService = correoelectronicoService;
             _administradorService = administradorService;
-            _centroeducativoService = centroeducativoService;
-            _usuarioscentroeducativoService = usuarioscentroeducativo;
-            _cicloformativoService = cicloformativoService;
             _asignaturaService = asignaturaService;
+            _asignaturasEstudiosService = asignaturasEstudiosService;
             _aulaService = aulaService;
-
+            _centroeducativoService = centroeducativoService;
+            _cicloformativoService = cicloformativoService;
+            _correoelectronicoService = correoelectronicoService;
+            _diasemanaService = diasemanaService;
+            _franjahorariumService = franjahorariumService;
+            _usuarioService = usuarioService;
+            _usuarioscentroeducativoService = usuarioscentroeducativo;
         }
 
 
@@ -561,36 +574,23 @@ namespace ProyectoFinalDAMAgil.Controllers
         public async Task<IActionResult> ListarHorarios([FromRoute] int id, int idEstudios)
         {
 
-            Console.WriteLine("****************************** ListarHorarios idAsignatura:"+id);
-            Console.WriteLine("****************************** ListarHorarios idEstudios:"+idEstudios);
             ViewData["idAsignatura"]=id;
             ViewData["idEstudios"]=idEstudios;
-            ViewData["DiasSemana"] = new List<string> { "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo" };
+            ViewData["DiasSemana"] = await _diasemanaService.ListDiasemana(); //new List<string> { "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo" };
 
-            ViewData["Horas"] = new List<string>
-                                                {
-                                                    "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
-                                                    "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
-                                                    "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30",
-                                                    "20:00", "20:30"
-                                                };
+            ViewData["Horas"] = await _franjahorariumService.ListFranjahorarium();
 
             CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(idEstudios);
             IEnumerable<AulaModel> aulaModelList = await _aulaService.ListadoAulas(cicloformativo.IdCentro);
             ViewData["Aulas"] =aulaModelList ;
 
-
-
-            //@ViewData["idCentro"] =id;
-            //IEnumerable<AulaModel> listadoAulas = await _aulaService.ListadoAulas(id);
-
-            return View("~/Views/Admin/Horarios/Index.cshtml");
+             return View("~/Views/Admin/Horarios/Index.cshtml");
         }
 
         [HttpPost]
         public async Task<IActionResult> GuardarHorario(HorarioModel modeloHorario)
         {
-            Console.WriteLine("*************GuardarHorario    modeloHorario: "+modeloHorario.ToString);
+            Console.WriteLine("*************GuardarHorario    modeloHorario: "+modeloHorario);
 
 
             return RedirectToAction("ListarHorarios", new { id = modeloHorario.IdAsignatura, idEstudios= modeloHorario.IdEstudios }); // new { id = idEstudios }

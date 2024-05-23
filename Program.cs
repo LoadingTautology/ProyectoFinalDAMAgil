@@ -28,15 +28,17 @@ namespace ProyectoFinalDAMAgil
             });
 
             // ********* Inyeccion dependencias Servicios *********
-            builder.Services.AddScoped<Services.Usuario.IUsuarioService, Services.Usuario.UsuarioService>();
-            builder.Services.AddScoped<Services.Correoelectronico.ICorreoelectronicoService, Services.Correoelectronico.CorreoelectronicoService>();
-            builder.Services.AddScoped<Services.Administrador.IAdministradorService, Services.Administrador.AdministradorService>();
-            builder.Services.AddScoped<Services.Centroeducativo.ICentroeducativoService, Services.Centroeducativo.CentroeducativoService>();
-            builder.Services.AddScoped<Services.Usuarioscentroeducativo.IUsuarioscentroeducativoService, Services.Usuarioscentroeducativo.UsuarioscentroeducativoService>();
-            builder.Services.AddScoped<Services.Cicloformativo.ICicloformativoService, Services.Cicloformativo.CicloformativoService>();
+            builder.Services.AddScoped<Services.Administrador.IAdministradorService, Services.Administrador.AdministradorService>();           
             builder.Services.AddScoped<Services.Asignatura.IAsignaturaService, Services.Asignatura.AsignaturaService>();
+            builder.Services.AddScoped<Services.AsignaturasEstudios.IAsignaturasEstudiosService, Services.AsignaturasEstudios.AsignaturasEstudiosService>();
             builder.Services.AddScoped<Services.Aula.IAulaService, Services.Aula.AulaService>();
-
+            builder.Services.AddScoped<Services.Centroeducativo.ICentroeducativoService, Services.Centroeducativo.CentroeducativoService>();
+            builder.Services.AddScoped<Services.Cicloformativo.ICicloformativoService, Services.Cicloformativo.CicloformativoService>();
+            builder.Services.AddScoped<Services.Correoelectronico.ICorreoelectronicoService, Services.Correoelectronico.CorreoelectronicoService>();
+            builder.Services.AddScoped<Services.Diasemana.IDiasemanaService, Services.Diasemana.DiasemanaService>();
+            builder.Services.AddScoped<Services.Franjahorarium.IFranjahorariumService, Services.Franjahorarium.FranjahorariumService>();
+            builder.Services.AddScoped<Services.Usuario.IUsuarioService, Services.Usuario.UsuarioService>();
+            builder.Services.AddScoped<Services.Usuarioscentroeducativo.IUsuarioscentroeducativoService, Services.Usuarioscentroeducativo.UsuarioscentroeducativoService>();
 
 
             // Authentication configuration

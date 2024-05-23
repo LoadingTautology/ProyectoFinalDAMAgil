@@ -179,12 +179,10 @@ public partial class DbappProyectoFinalContext : DbContext
 
             entity.ToTable("diasemana");
 
-            entity.HasIndex(e => e.DiaSemana1, "DiaSemana").IsUnique();
+            entity.HasIndex(e => e.DiaDeLaSemana, "DiaDeLaSemana").IsUnique();
 
             entity.Property(e => e.IdDia).HasColumnType("int(11)");
-            entity.Property(e => e.DiaSemana1)
-                .HasMaxLength(10)
-                .HasColumnName("DiaSemana");
+            entity.Property(e => e.DiaDeLaSemana).HasMaxLength(10);
         });
 
         modelBuilder.Entity<Diasemanafranjahorarium>(entity =>
