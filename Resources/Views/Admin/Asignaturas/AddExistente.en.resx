@@ -118,24 +118,30 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Title" xml:space="preserve">
-    <value>Editar Centro Educativo</value>
+    <value>Add Existing</value>
   </data>
-  <data name="EditarCentroEducativo" xml:space="preserve">
-    <value>Editar Centro Educativo</value>
+  <data name="Informacion" xml:space="preserve">
+    <value>Add Existing</value>
   </data>
-  <data name="NombreCentro" xml:space="preserve">
-    <value>Nombre Centro</value>
+  <data name="VolverAEstudios" xml:space="preserve">
+    <value>Back to studies</value>
   </data>
-  <data name="DireccionCentro" xml:space="preserve">
-    <value>Dirección Centro</value>
+  <data name="BuscarAsignaturas" xml:space="preserve">
+    <value>Search subjects</value>
   </data>
-  <data name="Guardar" xml:space="preserve">
-    <value>Guardar</value>
+  <data name="NombreAsignatura" xml:space="preserve">
+    <value>Subject Name</value>
   </data>
-  <data name="VolverALista" xml:space="preserve">
-    <value>Volver a la lista</value>
+  <data name="Curso" xml:space="preserve">
+    <value>Course</value>
   </data>
-  <data name="CentroDireccionYaExistente" xml:space="preserve">
-    <value>Ese centro ya existe en esa direccion</value>
+  <data name="Acciones" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Seleccionar" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="NoHayAsignaturas" xml:space="preserve">
+    <value>No subjects available</value>
   </data>
 </root>

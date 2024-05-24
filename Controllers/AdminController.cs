@@ -213,6 +213,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 
             var centroDB = await _centroeducativoService.GetCentroeducativo(id);
             ViewData["NombreCentro"] = centroDB.NombreCentro;
+            ViewData["DireccionCentro"] = centroDB.Direccion;
 
             IEnumerable<CicloformativoModel> listado = await _cicloformativoService.ListadoCicloformativo(id);
             return View("~/Views/Admin/Estudios/Index.cshtml", listado);

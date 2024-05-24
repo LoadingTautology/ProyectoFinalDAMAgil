@@ -5,7 +5,6 @@
     List<ProyectoFinalDAMAgil.Models.Admin.AsignaturaModel> listaAsignaturas = (List<ProyectoFinalDAMAgil.Models.Admin.AsignaturaModel>)ViewData["ListaAsignaturas"];
     List<ProyectoFinalDAMAgil.Models.Admin.AulaModel> listaAulas = (List<ProyectoFinalDAMAgil.Models.Admin.AulaModel>)ViewData["ListaAulas"];
 
-
     int contador = 0;
 }
 
@@ -52,7 +51,6 @@
             }
 
             <div class="card-body">
-
                 @if (listaAulas.Count() == 0)
                 {
                     <div class="alert alert-danger mt-3" role="alert">
@@ -161,10 +159,6 @@
 
                     </form>
                 }
-
-
-
-               
 
 
 
