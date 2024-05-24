@@ -51,96 +51,114 @@
             }
 
             <div class="card-body">
+                @if (listaAulas.Count() == 0)
+                {
+                    <div class="alert alert-danger mt-3" role="alert">
+                        ES NECESARIO TENER CREADAS AULAS
+                    </div>
 
-                <form asp-controller="Admin" asp-action="GuardarHorario" asp-route-id="@ViewData["idAsignatura"]" asp-route-idEstudios="@ViewData["idEstudios"]" method="post">
-
-                    <input type="hidden" name="idAsignatura" value="@ViewData["idAsignatura"]" />
-                    <input type="hidden" name="idEstudio" value="@ViewData["idEstudios"]" />
-
-
-                    <div class="d-flex justify-content-between mb-3">
-
-                        <select asp-for="IdAula">
-                            @foreach (var item in listaAulas)
-                            {
-                                <option value="@item.IdAula"> @item.NumeroAula - @item.NombreAula</option>
-                            }
-                        </select>
-
-                        <input type="color" asp-for="ColorAsignatura"></input>
-
+                    <div>
+                        <a asp-controller="Admin" asp-action="GuardarAula" asp-route-id="@ViewData["idCentro"]" class="btn btn-success mb-3">
+                            <i class="bi bi-arrow-left"></i> Crear Aula
+                        </a>
                         <a asp-controller="Admin" asp-action="ListarAsignaturas" asp-route-id="@ViewData["idEstudios"]" class="btn btn-warning mb-3">
                             <i class="bi bi-arrow-left"></i> Volver a Asignaturas
                         </a>
                     </div>
 
+                }
+                else
+                {
+                    <form asp-controller="Admin" asp-action="GuardarHorario" asp-route-id="@ViewData["idAsignatura"]" asp-route-idEstudios="@ViewData["idEstudios"]" method="post">
 
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Hora/Día</th>
-                                @foreach (var dia in (IEnumerable<ProyectoFinalDAMAgil.Models.Admin.DiasemanaModel>)ViewData["DiasSemana"])
+                        <input type="hidden" name="idAsignatura" value="@ViewData["idAsignatura"]" />
+                        <input type="hidden" name="idEstudio" value="@ViewData["idEstudios"]" />
+
+
+                        <div class="d-flex justify-content-between mb-3">
+
+                            <select asp-for="IdAula">
+                                @foreach (var item in listaAulas)
                                 {
-                                    <th>@dia.DiaDeLaSemana</th>
+                                    <option value="@item.IdAula"> @item.NumeroAula - @item.NombreAula</option>
                                 }
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var hora in (IEnumerable<ProyectoFinalDAMAgil.Models.Admin.FranjahorariumModel>)ViewData["Horas"])
-                            {
+                            </select>
+
+                            <input type="color" asp-for="ColorAsignatura"></input>
+
+                            <a asp-controller="Admin" asp-action="ListarAsignaturas" asp-route-id="@ViewData["idEstudios"]" class="btn btn-warning mb-3">
+                                <i class="bi bi-arrow-left"></i> Volver a Asignaturas
+                            </a>
+                        </div>
+
+
+                        <table>
+                            <thead>
                                 <tr>
-                                    <td>@hora.HoraMinInicio - @hora.HoraMinFinal</td>
+                                    <th>Hora/Día</th>
                                     @foreach (var dia in (IEnumerable<ProyectoFinalDAMAgil.Models.Admin.DiasemanaModel>)ViewData["DiasSemana"])
                                     {
-                                        contador++;
-                                        if (listaHorarioEstudio.Exists(horario => horario.IdDiaFranja==contador && horario.IdAsignatura!=(int)ViewData["idAsignatura"]))
-                                        {
-                                            string colorAsignatura = @listaHorarioEstudio.Find(horario => horario.IdDiaFranja == contador).ColorAsignatura;
-                                            string nombreAsignatura = @listaAsignaturas.Find(asignatura => asignatura.IdAsignatura == listaHorarioEstudio.Find(horario => horario.IdDiaFranja == contador).IdAsignatura).NombreAsignatura;
-                                            int idAula = @listaHorarioEstudio.Find(horario => horario.IdDiaFranja == contador).IdAula;
-                                            int numeroAula = listaAulas.Find(aula => aula.IdAula == idAula).NumeroAula;
-
-                                            <td style="background-color:@colorAsignatura;">
-                                                @numeroAula - @nombreAsignatura @* @listaAsignaturas.Find(asignatura => asignatura.IdAsignatura == listaHorarioEstudio.Find(horario => horario.IdDiaFranja==contador).IdAsignatura).NombreAsignatura *@
-                                            </td>
-                                        }
-                                        else if (listaHorarioEstudio.Exists(horario => horario.IdDiaFranja==contador && horario.IdAsignatura==(int)ViewData["idAsignatura"]))
-                                        {
-                                            string colorAsignatura = @listaHorarioEstudio.Find(horario => horario.IdDiaFranja == contador).ColorAsignatura;
-                                            string nombreAsignatura = @listaAsignaturas.Find(asignatura => asignatura.IdAsignatura == listaHorarioEstudio.Find(horario => horario.IdDiaFranja == contador).IdAsignatura).NombreAsignatura;
-                                            int idAula = @listaHorarioEstudio.Find(horario => horario.IdDiaFranja == contador).IdAula;
-                                            int numeroAula = listaAulas.Find(aula => aula.IdAula == idAula).NumeroAula;
-
-                                            <td >
-
-                                                <button type="submit" class="btn" name="IdDiaFranja" value="@contador" style="background-color:@colorAsignatura;">
-                                                    <i class="bi bi-save"></i> @numeroAula - @nombreAsignatura
-          
-                                                </button>
-                                            </td>
-
-                                        }
-
-                                        else
-                                        {
-                                            <td>
-                                                
-                                                <button type="submit" class="btn btn-warning btn-sm" name="IdDiaFranja" value="@contador">
-                                                    <i class="bi bi-save"></i> @contador
-                                                </button>
-
-                                            </td> 
-                                        }
-
+                                        <th>@dia.DiaDeLaSemana</th>
                                     }
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var hora in (IEnumerable<ProyectoFinalDAMAgil.Models.Admin.FranjahorariumModel>)ViewData["Horas"])
+                                {
+                                    <tr>
+                                        <td>@hora.HoraMinInicio - @hora.HoraMinFinal</td>
+                                        @foreach (var dia in (IEnumerable<ProyectoFinalDAMAgil.Models.Admin.DiasemanaModel>)ViewData["DiasSemana"])
+                                        {
+                                            contador++;
+                                            if (listaHorarioEstudio.Exists(horario => horario.IdDiaFranja==contador && horario.IdAsignatura!=(int)ViewData["idAsignatura"]))
+                                            {
+                                                string colorAsignatura = @listaHorarioEstudio.Find(horario => horario.IdDiaFranja == contador).ColorAsignatura;
+                                                string nombreAsignatura = @listaAsignaturas.Find(asignatura => asignatura.IdAsignatura == listaHorarioEstudio.Find(horario => horario.IdDiaFranja == contador).IdAsignatura).NombreAsignatura;
+                                                int idAula = @listaHorarioEstudio.Find(horario => horario.IdDiaFranja == contador).IdAula;
+                                                int numeroAula = listaAulas.Find(aula => aula.IdAula == idAula).NumeroAula;
+
+                                                <td style="background-color:@colorAsignatura;">
+                                                    @numeroAula - @nombreAsignatura @* @listaAsignaturas.Find(asignatura => asignatura.IdAsignatura == listaHorarioEstudio.Find(horario => horario.IdDiaFranja==contador).IdAsignatura).NombreAsignatura *@
+                                                </td>
+                                            }
+                                            else if (listaHorarioEstudio.Exists(horario => horario.IdDiaFranja==contador && horario.IdAsignatura==(int)ViewData["idAsignatura"]))
+                                            {
+                                                string colorAsignatura = @listaHorarioEstudio.Find(horario => horario.IdDiaFranja == contador).ColorAsignatura;
+                                                string nombreAsignatura = @listaAsignaturas.Find(asignatura => asignatura.IdAsignatura == listaHorarioEstudio.Find(horario => horario.IdDiaFranja == contador).IdAsignatura).NombreAsignatura;
+                                                int idAula = @listaHorarioEstudio.Find(horario => horario.IdDiaFranja == contador).IdAula;
+                                                int numeroAula = listaAulas.Find(aula => aula.IdAula == idAula).NumeroAula;
+
+                                                <td>
+
+                                                    <button type="submit" class="btn" name="IdDiaFranja" value="@contador" style="background-color:@colorAsignatura;">
+                                                        <i class="bi bi-save"></i> @numeroAula - @nombreAsignatura
+
+                                                    </button>
+                                                </td>
+
+                                            }
+
+                                            else
+                                            {
+                                                <td>
+
+                                                    <button type="submit" class="btn btn-warning btn-sm" name="IdDiaFranja" value="@contador">
+                                                        <i class="bi bi-save"></i> @contador
+                                                    </button>
+
+                                                </td>
+                                            }
+
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
 
 
 
-                </form>
+                    </form>
+                }
 
 
 
