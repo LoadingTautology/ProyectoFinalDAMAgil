@@ -1,67 +1,68 @@
 ﻿@model List<ProyectoFinalDAMAgil.Models.Admin.AsignaturaModel>
 @{
-    ViewData["Title"] = "Asignaturas";
+    ViewData["Title"] = Localizer["Title"];
 }
+
 <div class="container mt-5">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Listar Asignaturas  - @ViewData["AcronimoEstudio"]</h3>
+            <h3 class="card-title">@Localizer["ListarAsignaturas"] - @ViewData["AcronimoEstudio"]</h3>
         </div>
         <div class="card-body">
-            <a asp-controller="Admin" asp-action="GuardarAsignatura" asp-route-id="@ViewData["idEstudios"]" class="btn btn-success  mb-3">
-                <i class="bi bi-plus-circle"></i> @Localizer["CrearNuevo"]
-            </a>
-            <a asp-controller="Admin" asp-action="ListarAsignaturasCentro" asp-route-id="@ViewData["idEstudios"]" class="btn btn-success  mb-3">
-                <i class="bi bi-plus-circle"></i> Añadir Existente
-            </a>
-            <a asp-controller="Admin" asp-action="ListarEstudios" asp-route-id="@ViewData["idCentro"]" class="btn btn-warning mb-3">
-                <i class="bi bi-arrow-left"></i> Volver a estudios
-            </a>
-        </div>
-        <table id="centrosTable" class="table table-hover table-striped">
-            <thead>
-                <tr>
-                    <th>Nombre Asignatura</th>
-                    <th>Curso</th>
-                    <th>@Localizer["Acciones"]</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model != null && Model.Any())
-                {
-                    @foreach (var item in Model)
+            <div class="d-flex justify-content-between mb-3">
+                <a asp-controller="Admin" asp-action="GuardarAsignatura" asp-route-id="@ViewData["idEstudios"]" class="btn btn-success">
+                    <i class="bi bi-plus-circle"></i> @Localizer["CrearNuevo"]
+                </a>
+                <a asp-controller="Admin" asp-action="ListarAsignaturasCentro" asp-route-id="@ViewData["idEstudios"]" class="btn btn-dark">
+                    <i class="bi bi-plus-circle"></i> @Localizer["AñadirExistente"]
+                </a>
+                <a asp-controller="Admin" asp-action="ListarEstudios" asp-route-id="@ViewData["idCentro"]" class="btn btn-warning">
+                    <i class="bi bi-arrow-left"></i> @Localizer["VolverAEstudios"]
+                </a>
+                <input type="text" id="searchInput" class="form-control w-50" placeholder="@Localizer["BuscarAsignaturas"]">
+            </div>
+            <table id="centrosTable" class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>@Localizer["NombreAsignatura"]</th>
+                        <th>@Localizer["Curso"]</th>
+                        <th>@Localizer["Acciones"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
                     {
-                        <tr data-id="@item.IdAsignatura">
-                            <td>@item.NombreAsignatura</td>
-                            <td>@item.Curso</td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Acciones">
-                                    <a asp-controller="Admin" asp-action="ListarHorarios" asp-route-id="@item.IdAsignatura" asp-route-idEstudios="@ViewData["idEstudios"]" class="btn btn-primary btn-sm">
-                                        <i class="bi bi-gear"></i> @Localizer["Informacion"]
-                                    </a>
-                                    <a asp-controller="Admin" asp-action="EditarAsignatura" asp-route-id="@item.IdAsignatura" class="btn btn-secondary btn-sm">
-                                        <i class="bi bi-pencil"></i> @Localizer["Editar"]
-                                    </a>
-                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-url="@Url.Action("EliminarAsignatura", new { id = @item.IdAsignatura, idEstudios = ViewData["idEstudios"] })">
-                                        <i class="bi bi-trash"></i> @Localizer["Eliminar"]
-                                    </button>
-                                </div>
-                            </td>
+                        @foreach (var item in Model)
+                        {
+                            <tr data-id="@item.IdAsignatura">
+                                <td>@item.NombreAsignatura</td>
+                                <td>@item.Curso</td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Acciones">
+                                        <a asp-controller="Admin" asp-action="ListarHorarios" asp-route-id="@item.IdAsignatura" asp-route-idEstudios="@ViewData["idEstudios"]" class="btn btn-primary btn-sm">
+                                            <i class="bi bi-gear"></i> @Localizer["Informacion"]
+                                        </a>
+                                        <a asp-controller="Admin" asp-action="EditarAsignatura" asp-route-id="@item.IdAsignatura" class="btn btn-secondary btn-sm">
+                                            <i class="bi bi-pencil"></i> @Localizer["Editar"]
+                                        </a>
+                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-url="@Url.Action("EliminarAsignatura", new { id = @item.IdAsignatura, idEstudios = ViewData["idEstudios"] })">
+                                            <i class="bi bi-trash"></i> @Localizer["Eliminar"]
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3" class="text-center">@Localizer["NoHayAsignaturas"]</td>
                         </tr>
                     }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="3" class="text-center">No hay asignaturas</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
-
-
 
     <!-- Modal -->
     <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
@@ -115,7 +116,7 @@
                             Swal.fire({
                                 icon: 'success',
                                 title: '@Localizer["AsignaturaEliminada"]',
-                                text: '@Localizer["AsignaturaEliminadaMensaje"]'
+                                text: '@Localizer["EliminadoCorrectamente"]'
                             }).then(() => {
                                 location.reload();
                             });
@@ -123,7 +124,7 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: '@Localizer["Error"]',
-                                text: '@Localizer["ErrorEliminarAsignatura"]'
+                                text: '@Localizer["NoSeHaPodidoEliminar"]'
                             }).then(() => {
                                 location.reload();
                             });
@@ -133,11 +134,26 @@
                         Swal.fire({
                             icon: 'error',
                             title: '@Localizer["Error"]',
-                            text: '@Localizer["ErrorGeneral"]'
+                            text: '@Localizer["ErrorInesperado"]'
                         }).then(() => {
                             location.reload();
                         });
                     });
+            });
+
+            // Funcionalidad de búsqueda
+            document.getElementById('searchInput').addEventListener('keyup', function () {
+                var searchTerm = this.value.toLowerCase();
+                var rows = document.querySelectorAll('#centrosTable tbody tr');
+                rows.forEach(function (row) {
+                    var nombreAsignatura = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+                    var curso = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                    if (nombreAsignatura.includes(searchTerm) || curso.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
             });
         });
     </script>
