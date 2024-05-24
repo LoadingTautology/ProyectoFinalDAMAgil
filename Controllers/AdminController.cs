@@ -599,24 +599,16 @@ namespace ProyectoFinalDAMAgil.Controllers
         [HttpPost]
         public async Task<IActionResult> GuardarHorario(HorarioModel modeloHorario)
         {
-            Console.WriteLine("*************GuardarHorario    modeloHorario: "+modeloHorario);
 
-            if (await _horarioService.ExistHorario(modeloHorario))
+            if (await _horarioService.ExistHorarioSinAula(modeloHorario))
             {
-                await _horarioService.DeleteHorario(await _horarioService.ReadHorario(modeloHorario.IdAula, modeloHorario.IdDiaFranja));
+                HorarioModel hor = await _horarioService.ReadHorario(modeloHorario.IdDiaFranja, modeloHorario.IdAsignatura, modeloHorario.IdEstudio);
+                await _horarioService.DeleteHorario(hor);
             }
             else
             {
                 await _horarioService.CambiarColor(modeloHorario);
-
-                if (await _horarioService.ExistHorarioSinAula(modeloHorario))
-                {
-                    await _horarioService.UpdateHorario(modeloHorario);
-                }
-                else
-                {
-                    await _horarioService.CreateHorario(modeloHorario);
-                }
+                await _horarioService.CreateHorario(modeloHorario);
             }
 
             ViewData["idAsignatura"]=modeloHorario.IdAsignatura;

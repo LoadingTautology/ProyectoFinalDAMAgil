@@ -5,7 +5,7 @@ namespace ProyectoFinalDAMAgil.Services.Horario
     public interface IHorarioService
     {
         Task<HorarioModel> CreateHorario(HorarioModel horario);
-        Task<HorarioModel> ReadHorario(int idAula, int idDiaFranja);
+        Task<HorarioModel> ReadHorario(int idDiaFranja, int idAsignatura, int idEstudio);
         Task<HorarioModel> UpdateHorario(HorarioModel horario);
         Task<HorarioModel> DeleteHorario(HorarioModel horario);
 

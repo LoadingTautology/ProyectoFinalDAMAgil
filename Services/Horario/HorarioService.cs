@@ -28,37 +28,24 @@ namespace ProyectoFinalDAMAgil.Services.Horario
             return horario;
         }
 
-        public async Task<HorarioModel> ReadHorario(int idAula, int idDiaFranja)
+        public async Task<HorarioModel> ReadHorario(int idDiaFranja, int idAsignatura, int idEstudio)
         {
-            IQueryable<Scaffold.Horario> listaHorariosDB = from horario in _context.Horarios
-                                                           where horario.IdAula == idAula && horario.IdDiaFranja == idDiaFranja
-                                                           select new Scaffold.Horario
-                                                           {
-                                                               IdHorario = horario.IdHorario,
-                                                               IdAula = horario.IdAula,
-                                                               IdDiaFranja = horario.IdDiaFranja,
-                                                               IdAsignatura = horario.IdAsignatura,
-                                                               IdEstudio = horario.IdEstudio,
-                                                               ColorAsignatura = horario.ColorAsignatura
-                                                           };
-            Scaffold.Horario horarioDB = listaHorariosDB.FirstOrDefault();
-
-            HorarioModel horarioModel = null;
-
-            if (horarioDB != null) 
-            {
-                horarioModel = new HorarioModel()
+            IQueryable<HorarioModel> listaHorariosDB = 
+                from horario in _context.Horarios
+                where horario.IdDiaFranja == idDiaFranja && 
+                      horario.IdAsignatura == idAsignatura &&
+                      horario.IdEstudio == idEstudio
+                select new HorarioModel
                 {
-                    IdHorario = horarioDB.IdHorario,
-                    IdAula = horarioDB.IdAula,
-                    IdDiaFranja = horarioDB.IdDiaFranja,
-                    IdAsignatura = horarioDB.IdAsignatura,
-                    IdEstudio = horarioDB.IdEstudio,
-                    ColorAsignatura = horarioDB.ColorAsignatura
+                    IdHorario = horario.IdHorario,
+                    IdAula = horario.IdAula,
+                    IdDiaFranja = horario.IdDiaFranja,
+                    IdAsignatura = horario.IdAsignatura,
+                    IdEstudio = horario.IdEstudio,
+                    ColorAsignatura = horario.ColorAsignatura
                 };
-            }
 
-            return horarioModel;
+            return listaHorariosDB.FirstOrDefault();
         }
 
         public async Task<HorarioModel> UpdateHorario(HorarioModel horario)
@@ -125,7 +112,9 @@ namespace ProyectoFinalDAMAgil.Services.Horario
             bool existe = false;
             IQueryable<HorarioModel> listaHorariosDB
                 = from horarioBD in _context.Horarios
-                  where horarioBD.IdDiaFranja == horario.IdDiaFranja && horarioBD.IdAsignatura == horario.IdAsignatura && horarioBD.IdEstudio == horario.IdEstudio
+                  where horarioBD.IdDiaFranja == horario.IdDiaFranja &&
+                        horarioBD.IdAsignatura == horario.IdAsignatura &&
+                        horarioBD.IdEstudio == horario.IdEstudio
                   select new HorarioModel
                   {
                       IdHorario = horarioBD.IdHorario,
