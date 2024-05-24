@@ -1,52 +1,76 @@
 ﻿@model List<ProyectoFinalDAMAgil.Models.Admin.AsignaturaModel>
 
 @{
-    ViewData["Title"] = "Añadir";
+    ViewData["Title"] = Localizer["Title"];
 }
 
 <div class="container mt-5">
     <div class="card">
         <div class="card-header">
-            <h3>Información</h3>
+            <h3>@Localizer["Informacion"]</h3>
         </div>
         <div class="card-body">
-            <a asp-controller="Admin" asp-action="ListarAsignaturas" asp-route-id="@ViewData["idEstudios"]" class="btn btn-warning mb-3">
-                <i class="bi bi-arrow-left"></i> Volver a estudios
-            </a>
-        </div>
-        <table id="centrosTable" class="table table-hover table-striped">
-            <thead>
-                <tr>
-                    <th>Nombre Asignatura</th>
-                    <th>Curso</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model != null && Model.Any())
-                {
-                    @foreach (var item in Model)
+            <div class="d-flex justify-content-between mb-3">
+                <a asp-controller="Admin" asp-action="ListarAsignaturas" asp-route-id="@ViewData["idEstudios"]" class="btn btn-warning">
+                    <i class="bi bi-arrow-left"></i> @Localizer["VolverAEstudios"]
+                </a>
+                <input type="text" id="searchInput" class="form-control w-50" placeholder="@Localizer["BuscarAsignaturas"]">
+            </div>
+            <table id="centrosTable" class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>@Localizer["NombreAsignatura"]</th>
+                        <th>@Localizer["Curso"]</th>
+                        <th>@Localizer["Acciones"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr data-id="@item.IdAsignatura">
+                                <td>@item.NombreAsignatura</td>
+                                <td>@item.Curso</td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Acciones">
+                                        <a asp-controller="Admin" asp-action="GuardarAsignaturaExistente" asp-route-id="@item.IdAsignatura" asp-route-idEstudios="@ViewData["idEstudios"]" class="btn btn-primary btn-sm">
+                                            <i class="bi bi-gear"></i> @Localizer["Seleccionar"]
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
                     {
                         <tr>
-                            <td>@item.NombreAsignatura</td>
-                            <td>@item.Curso</td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Acciones">
-                                    <a asp-controller="Admin" asp-action="GuardarAsignaturaExistente" asp-route-id="@item.IdAsignatura" asp-route-idEstudios="@ViewData["idEstudios"]" class="btn btn-primary btn-sm">
-                                        <i class="bi bi-gear"></i> Seleccionar
-                                    </a>
-                                </div>
-                            </td>
+                            <td colspan="3" class="text-center">@Localizer["NoHayAsignaturas"]</td>
                         </tr>
                     }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="3" class="text-center">No hay asignaturas</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Funcionalidad de búsqueda
+            document.getElementById('searchInput').addEventListener('keyup', function () {
+                var searchTerm = this.value.toLowerCase();
+                var rows = document.querySelectorAll('#centrosTable tbody tr');
+                rows.forEach(function (row) {
+                    var nombreAsignatura = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+                    var curso = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                    if (nombreAsignatura.includes(searchTerm) || curso.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+}
