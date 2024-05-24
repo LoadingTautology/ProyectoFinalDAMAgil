@@ -136,6 +136,6 @@
     <value>Volver a la lista</value>
   </data>
   <data name="CentroDireccionYaExistente" xml:space="preserve">
-    <value>z</value>
+    <value>Ese centro ya existe en esa direccion</value>
   </data>
 </root>
