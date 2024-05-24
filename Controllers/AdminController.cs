@@ -580,81 +580,115 @@ namespace ProyectoFinalDAMAgil.Controllers
         /* ********************HORARIOS******************** */
         #region Vincular Horarios, Asignaturas y Aulas
 
-        [HttpGet]                                                     //idAsignatura
+        [HttpGet]
         public async Task<IActionResult> ListarHorarios([FromRoute] int id, int idEstudios)
         {
-
-            ViewData["idAsignatura"]=id;
-            ViewData["idEstudios"]=idEstudios;
-            ViewData["DiasSemana"] = await _diasemanaService.ListDiasemana(); 
-
-            ViewData["Horas"] = await _franjahorariumService.ListFranjahorarium();
-
-            CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(idEstudios);
-            IEnumerable<AulaModel> aulaModelList = await _aulaService.ListadoAulas(cicloformativo.IdCentro);
-            ViewData["ListaAulas"] =aulaModelList ;
-            ViewData["idCentro"] = cicloformativo.IdCentro;
-            AsignaturaModel asignaturaModel = await _asignaturaService.ReadAsignatura(id);
-            IEnumerable<HorarioModel> horario = await _horarioService.ListHorariosEstudioCursoAsignatura(asignaturaModel.Curso, idEstudios);
-            //IEnumerable<HorarioModel> horario = await _horarioService.ListHorariosEstudio(idEstudios);
-            ViewData["NombreAsignatura"] = asignaturaModel.NombreAsignatura;
-            ViewData["CursoAsignatura"] = asignaturaModel.Curso;
-
-            ViewData["Horarios"] = horario;
-            ViewData["ListaAsignaturas"] = await _asignaturaService.ListadoAsignatura(idEstudios);
-
-            IEnumerable<HorarioModel> horarioAsigEstudio = await _horarioService.ListHorariosAsignaturaEstudio(id,idEstudios);
-
-            if (horarioAsigEstudio.FirstOrDefault() ==null)
+            try
             {
-                return View("~/Views/Admin/Horarios/Index.cshtml");
+                await SetViewDataForHorarios(id, idEstudios);
+                var horarioAsigEstudio = await _horarioService.ListHorariosAsignaturaEstudio(id, idEstudios);
+
+                if (!horarioAsigEstudio.Any())
+                {
+                    return View("~/Views/Admin/Horarios/Index.cshtml");
+                }
+                else
+                {
+                    return View("~/Views/Admin/Horarios/Index.cshtml", horarioAsigEstudio.First());
+                }
             }
-            else 
+            catch (Exception ex)
             {
-                return View("~/Views/Admin/Horarios/Index.cshtml", horarioAsigEstudio.FirstOrDefault());
+                // Manejo de errores y logging
+                ViewData["Mensaje"] = "Ocurrió un error al cargar los horarios.";
+                return View("~/Views/Admin/Horarios/Index.cshtml");
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> GuardarHorario(HorarioModel modeloHorario)
+        public async Task<IActionResult> GuardarHorario(HorarioModel modeloHorario, int? eliminarIdDiaFranja)
         {
+            try
+            {
+                if (eliminarIdDiaFranja.HasValue)
+                {
+                    await EliminarHorario(eliminarIdDiaFranja.Value, modeloHorario);
+                }
+                else
+                {
+                    await GuardarOActualizarHorario(modeloHorario);
+                }
 
+                return await CargarDatosVista(modeloHorario);
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores y logging
+                ViewData["Mensaje"] = "Ocurrió un error al guardar el horario.";
+                return await CargarDatosVista(modeloHorario);
+            }
+        }
+
+        private async Task EliminarHorario(int eliminarIdDiaFranja, HorarioModel modeloHorario)
+        {
+            var horarioAEliminar = await _horarioService.ReadHorario(eliminarIdDiaFranja, modeloHorario.IdAsignatura, modeloHorario.IdEstudio);
+            if (horarioAEliminar != null)
+            {
+                await _horarioService.DeleteHorario(horarioAEliminar);
+            }
+        }
+
+        private async Task GuardarOActualizarHorario(HorarioModel modeloHorario)
+        {
             if (await _horarioService.ExistHorario(modeloHorario.IdDiaFranja, modeloHorario.IdAsignatura, modeloHorario.IdEstudio))
             {
-                HorarioModel hor = await _horarioService.ReadHorario(modeloHorario.IdDiaFranja, modeloHorario.IdAsignatura, modeloHorario.IdEstudio);
+                var hor = await _horarioService.ReadHorario(modeloHorario.IdDiaFranja, modeloHorario.IdAsignatura, modeloHorario.IdEstudio);
                 await _horarioService.DeleteHorario(hor);
             }
             else if (await _horarioService.ExistHorario(modeloHorario.IdAula, modeloHorario.IdDiaFranja))
             {
                 ViewData["Mensaje"] = "El aula ya está ocupada en esa hora";
             }
-            else 
+            else
             {
                 await _horarioService.CambiarColor(modeloHorario);
                 await _horarioService.CreateHorario(modeloHorario);
             }
+        }
 
-            ViewData["idAsignatura"]=modeloHorario.IdAsignatura;
-            ViewData["idEstudios"]=modeloHorario.IdEstudio;
+        private async Task<IActionResult> CargarDatosVista(HorarioModel modeloHorario)
+        {
+            try
+            {
+                await SetViewDataForHorarios(modeloHorario.IdAsignatura, modeloHorario.IdEstudio);
+                return View("~/Views/Admin/Horarios/Index.cshtml", modeloHorario);
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores y logging
+                ViewData["Mensaje"] = "Ocurrió un error al cargar los datos de la vista.";
+                return View("~/Views/Admin/Horarios/Index.cshtml", modeloHorario);
+            }
+        }
+
+        private async Task SetViewDataForHorarios(int idAsignatura, int idEstudios)
+        {
+            ViewData["idAsignatura"] = idAsignatura;
+            ViewData["idEstudios"] = idEstudios;
             ViewData["DiasSemana"] = await _diasemanaService.ListDiasemana();
-
             ViewData["Horas"] = await _franjahorariumService.ListFranjahorarium();
 
-            CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(modeloHorario.IdEstudio);
-            IEnumerable<AulaModel> aulaModelList = await _aulaService.ListadoAulas(cicloformativo.IdCentro);
-            ViewData["ListaAulas"] =aulaModelList;
+            var cicloformativo = await _cicloformativoService.ReadCicloformativo(idEstudios);
+            ViewData["ListaAulas"] = await _aulaService.ListadoAulas(cicloformativo.IdCentro);
+            ViewData["idCentro"] = cicloformativo.IdCentro;
 
-
-            AsignaturaModel asignaturaModel = await _asignaturaService.ReadAsignatura(modeloHorario.IdAsignatura);
-            IEnumerable<HorarioModel> horario = await _horarioService.ListHorariosEstudioCursoAsignatura(asignaturaModel.Curso, modeloHorario.IdEstudio);
-            //IEnumerable<HorarioModel> horario = await _horarioService.ListHorariosEstudio(modeloHorario.IdEstudio);
+            var asignaturaModel = await _asignaturaService.ReadAsignatura(idAsignatura);
             ViewData["NombreAsignatura"] = asignaturaModel.NombreAsignatura;
             ViewData["CursoAsignatura"] = asignaturaModel.Curso;
-            ViewData["Horarios"] = horario;
-            ViewData["ListaAsignaturas"] = await _asignaturaService.ListadoAsignatura(modeloHorario.IdEstudio);
-
-            return View("~/Views/Admin/Horarios/Index.cshtml", modeloHorario);
+            ViewData["Horarios"] = await _horarioService.ListHorariosEstudioCursoAsignatura(asignaturaModel.Curso, idEstudios);
+            ViewData["ListaAsignaturas"] = await _asignaturaService.ListadoAsignatura(idEstudios);
         }
+
 
 
 
