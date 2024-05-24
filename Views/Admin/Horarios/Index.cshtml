@@ -1,37 +1,12 @@
 ﻿@model ProyectoFinalDAMAgil.Models.Admin.HorarioModel
 @{
     ViewData["Title"] = "Horario";
-    List<ProyectoFinalDAMAgil.Models.Admin.HorarioModel> listaHorarioEstudio = (List<ProyectoFinalDAMAgil.Models.Admin.HorarioModel>)ViewData["Horarios"];
-    List<ProyectoFinalDAMAgil.Models.Admin.AsignaturaModel> listaAsignaturas = (List<ProyectoFinalDAMAgil.Models.Admin.AsignaturaModel>)ViewData["ListaAsignaturas"];
-    List<ProyectoFinalDAMAgil.Models.Admin.AulaModel> listaAulas = (List<ProyectoFinalDAMAgil.Models.Admin.AulaModel>)ViewData["ListaAulas"];
+    var listaHorarioEstudio = ViewData["Horarios"] as List<ProyectoFinalDAMAgil.Models.Admin.HorarioModel>;
+    var listaAsignaturas = ViewData["ListaAsignaturas"] as List<ProyectoFinalDAMAgil.Models.Admin.AsignaturaModel>;
+    var listaAulas = ViewData["ListaAulas"] as List<ProyectoFinalDAMAgil.Models.Admin.AulaModel>;
 
     int contador = 0;
 }
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData["Title"]</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-family: Arial, sans-serif;
-        }
-
-        th, td {
-            border: 1px solid black;
-            padding: 1px;
-            text-align: center;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
-</head>
 <body>
     <div class="container mt-5">
         <div class="card">
@@ -39,19 +14,8 @@
                 <h3 class="card-title">Horario - @ViewData["NombreAsignatura"] - @ViewData["CursoAsignatura"]º Curso</h3>
             </div>
 
-            @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
-            {
-                <div class="alert alert-danger mt-3" role="alert">
-                    @{
-                        string vartempmensaje = ViewData["Mensaje"] as string;
-                    }
-
-                    @vartempmensaje
-                </div>
-            }
-
             <div class="card-body">
-                @if (listaAulas.Count() == 0)
+                @if (listaAulas == null || listaAulas.Count == 0)
                 {
                     <div class="alert alert-danger mt-3" role="alert">
                         ES NECESARIO TENER CREADAS AULAS
@@ -59,164 +23,118 @@
 
                     <div>
                         <a asp-controller="Admin" asp-action="GuardarAula" asp-route-id="@ViewData["idCentro"]" class="btn btn-success mb-3">
-                            <i class="bi bi-arrow-left"></i> Crear Aula
+                            <i class="bi bi-plus-circle"></i> Crear Aula
                         </a>
                         <a asp-controller="Admin" asp-action="ListarAsignaturas" asp-route-id="@ViewData["idEstudios"]" class="btn btn-warning mb-3">
                             <i class="bi bi-arrow-left"></i> Volver a Asignaturas
                         </a>
                     </div>
-
                 }
                 else
                 {
-                    <form asp-controller="Admin" asp-action="GuardarHorario" asp-route-id="@ViewData["idAsignatura"]" asp-route-idEstudios="@ViewData["idEstudios"]" method="post">
+                    <form id="formHorario" asp-controller="Admin" asp-action="GuardarHorario" method="post">
+                        <input type="hidden" name="IdAsignatura" value="@ViewData["idAsignatura"]" />
+                        <input type="hidden" name="IdEstudio" value="@ViewData["idEstudios"]" />
+                        <input type="hidden" id="IdDiaFranja" name="IdDiaFranja" value="" />
+                        <input type="hidden" id="Eliminar" name="eliminarIdDiaFranja" value="" />
 
-                        <input type="hidden" name="idAsignatura" value="@ViewData["idAsignatura"]" />
-                        <input type="hidden" name="idEstudio" value="@ViewData["idEstudios"]" />
-
-
-                        <div class="d-flex justify-content-between mb-3">
-
-                            <select asp-for="IdAula">
-                                @foreach (var item in listaAulas)
-                                {
-                                    <option value="@item.IdAula"> @item.NumeroAula - @item.NombreAula</option>
-                                }
-                            </select>
-
-                            <input type="color" asp-for="ColorAsignatura"></input>
-
-                            <a asp-controller="Admin" asp-action="ListarAsignaturas" asp-route-id="@ViewData["idEstudios"]" class="btn btn-warning mb-3">
-                                <i class="bi bi-arrow-left"></i> Volver a Asignaturas
-                            </a>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <select asp-for="IdAula" class="form-control">
+                                    @foreach (var item in listaAulas)
+                                    {
+                                        <option value="@item.IdAula">@item.NumeroAula - @item.NombreAula</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="color" asp-for="ColorAsignatura" class="form-control form-control-color" />
+                            </div>
+                            <div class="col-md-4 d-flex justify-content-end">
+                                <a asp-controller="Admin" asp-action="ListarAsignaturas" asp-route-id="@ViewData["idEstudios"]" class="btn btn-warning">
+                                    <i class="bi bi-arrow-left"></i> Volver a Asignaturas
+                                </a>
+                            </div>
                         </div>
 
-
-                        <table>
-                            <thead>
+                        
+                        @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
+                        {
+                            <div class="alert alert-danger mt-3" role="alert">
+                                @ViewData["Mensaje"]
+                            </div>
+                        }
+                        <table class="table table-bordered">
+                            <thead class="thead-light">
                                 <tr>
-                                    <th>Hora/Día</th>
-                                    @foreach (var dia in (IEnumerable<ProyectoFinalDAMAgil.Models.Admin.DiasemanaModel>)ViewData["DiasSemana"])
+                                    <th scope="col">Hora/Día</th>
+                                    @foreach (var dia in ViewData["DiasSemana"] as IEnumerable<ProyectoFinalDAMAgil.Models.Admin.DiasemanaModel>)
                                     {
-                                        <th>@dia.DiaDeLaSemana</th>
+                                        <th scope="col">@dia.DiaDeLaSemana</th>
                                     }
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var hora in (IEnumerable<ProyectoFinalDAMAgil.Models.Admin.FranjahorariumModel>)ViewData["Horas"])
+                                @foreach (var hora in ViewData["Horas"] as IEnumerable<ProyectoFinalDAMAgil.Models.Admin.FranjahorariumModel>)
                                 {
                                     <tr>
                                         <td>@hora.HoraMinInicio - @hora.HoraMinFinal</td>
-                                        @foreach (var dia in (IEnumerable<ProyectoFinalDAMAgil.Models.Admin.DiasemanaModel>)ViewData["DiasSemana"])
+                                        @foreach (var dia in ViewData["DiasSemana"] as IEnumerable<ProyectoFinalDAMAgil.Models.Admin.DiasemanaModel>)
                                         {
                                             contador++;
-                                            if (listaHorarioEstudio.Exists(horario => horario.IdDiaFranja==contador && horario.IdAsignatura!=(int)ViewData["idAsignatura"]))
+                                            var horarioExistente = listaHorarioEstudio.FirstOrDefault(h => h.IdDiaFranja == contador);
+                                            if (horarioExistente != null)
                                             {
-                                                string colorAsignatura = @listaHorarioEstudio.Find(horario => horario.IdDiaFranja == contador).ColorAsignatura;
-                                                string nombreAsignatura = @listaAsignaturas.Find(asignatura => asignatura.IdAsignatura == listaHorarioEstudio.Find(horario => horario.IdDiaFranja == contador).IdAsignatura).NombreAsignatura;
-                                                int idAula = @listaHorarioEstudio.Find(horario => horario.IdDiaFranja == contador).IdAula;
-                                                int numeroAula = listaAulas.Find(aula => aula.IdAula == idAula).NumeroAula;
+                                                var colorAsignatura = horarioExistente.ColorAsignatura;
+                                                var nombreAsignatura = listaAsignaturas.First(a => a.IdAsignatura == horarioExistente.IdAsignatura).NombreAsignatura;
+                                                var aulaDescripcion = listaAulas.First(a => a.IdAula == horarioExistente.IdAula).NumeroAula.ToString();
 
-                                                <td style="background-color:@colorAsignatura;">
-                                                    @numeroAula - @nombreAsignatura @* @listaAsignaturas.Find(asignatura => asignatura.IdAsignatura == listaHorarioEstudio.Find(horario => horario.IdDiaFranja==contador).IdAsignatura).NombreAsignatura *@
-                                                </td>
+                                                if (horarioExistente.IdAsignatura == (int)ViewData["idAsignatura"])
+                                                {
+                                                    <td style="background-color:@colorAsignatura;" onclick="manejarClickCelda(@contador, true)">
+                                                        @aulaDescripcion - @nombreAsignatura
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="background-color:@colorAsignatura;">
+                                                        @aulaDescripcion - @nombreAsignatura
+                                                    </td>
+                                                }
                                             }
-                                            else if (listaHorarioEstudio.Exists(horario => horario.IdDiaFranja==contador && horario.IdAsignatura==(int)ViewData["idAsignatura"]))
-                                            {
-                                                string colorAsignatura = @listaHorarioEstudio.Find(horario => horario.IdDiaFranja == contador).ColorAsignatura;
-                                                string nombreAsignatura = @listaAsignaturas.Find(asignatura => asignatura.IdAsignatura == listaHorarioEstudio.Find(horario => horario.IdDiaFranja == contador).IdAsignatura).NombreAsignatura;
-                                                int idAula = @listaHorarioEstudio.Find(horario => horario.IdDiaFranja == contador).IdAula;
-                                                int numeroAula = listaAulas.Find(aula => aula.IdAula == idAula).NumeroAula;
-
-                                                <td>
-
-                                                    <button type="submit" class="btn" name="IdDiaFranja" value="@contador" style="background-color:@colorAsignatura;">
-                                                        <i class="bi bi-save"></i> @numeroAula - @nombreAsignatura
-
-                                                    </button>
-                                                </td>
-
-                                            }
-
                                             else
                                             {
-                                                <td>
-
-                                                    <button type="submit" class="btn btn-warning btn-sm" name="IdDiaFranja" value="@contador">
-                                                        <i class="bi bi-save"></i> @contador
-                                                    </button>
-
+                                                <td onclick="manejarClickCelda(@contador, false)">
+                                                    
                                                 </td>
                                             }
-
                                         }
                                     </tr>
                                 }
                             </tbody>
                         </table>
-
-
-
                     </form>
                 }
-
-
-
             </div>
         </div>
     </div>
 </body>
 </html>
+<script>
+    function enviarFormulario(idDiaFranja, eliminar) {
+        document.getElementById('IdDiaFranja').value = idDiaFranja;
+        document.getElementById('Eliminar').value = eliminar;
+        document.getElementById('formHorario').submit();
+    }
 
+    function manejarClickCelda(idDiaFranja, esOcupado) {
+        enviarFormulario(idDiaFranja, esOcupado);
+    }
 
-
-
-
-
-    
-
-
-
-
-@*     <table>
-        <thead>
-            <tr>
-                <th>Hora/Día</th>
-                @foreach (var dia in (IEnumerable<string>)ViewData["DiasSemana"])
-                {
-                    <th>@dia</th>
-                }
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var hora in (IEnumerable<string>)ViewData["Horas"])
-            {
-                <tr>
-                    <td>@hora</td>
-                    @foreach (var dia in (IEnumerable<string>)ViewData["DiasSemana"])
-                    {
-                        contador++;
-                        @if (contador==45 || contador==52 || contador==59 || contador==66)
-                        {
-                            <td> </td>
-                        }else
-                        {
-                            <td>
-                                <a asp-controller="Admin" asp-action="ListarHorarios" asp-route-id="@contador" class="btn btn-warning btn-sm">
-                                    <i class="bi bi-arrow-left"></i> @contador
-                                </a>
-
-                            </td> <!-- Aquí puedes poner el contenido del horario, por ejemplo, una clase, evento, etc. -->
-                        }
-
-                    }
-                </tr>
-            }
-        </tbody>
-    </table> *@
-
-
-
-@* <a asp-controller="Admin" asp-action="InformacionAsignatura" asp-route-id="@item.IdAsignatura" class="btn btn-primary btn-sm">
-    <i class="bi bi-gear"></i> @Localizer["Informacion"]
-</a> *@
+    function mostrarMensaje(mensaje, tipo) {
+        const alert = document.getElementById('alerta');
+        alert.innerText = mensaje;
+        alert.className = `alert alert-${tipo}`;
+        alert.style.display = 'block';
+    }
+</script>
