@@ -37,8 +37,20 @@
     <div class="container mt-5">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Horario</h3>
+                <h3 class="card-title">Horario - @ViewData["NombreAsignatura"] - @ViewData["CursoAsignatura"]º Curso</h3>
             </div>
+
+            @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
+            {
+                <div class="alert alert-danger mt-3" role="alert">
+                    @{
+                        string vartempmensaje = ViewData["Mensaje"] as string;
+                    }
+
+                    @vartempmensaje
+                </div>
+            }
+
             <div class="card-body">
 
                 <form asp-controller="Admin" asp-action="GuardarHorario" asp-route-id="@ViewData["idAsignatura"]" asp-route-idEstudios="@ViewData["idEstudios"]" method="post">

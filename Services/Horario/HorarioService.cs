@@ -82,6 +82,55 @@ namespace ProyectoFinalDAMAgil.Services.Horario
             return horario;
         }
 
+        public async Task<bool> ExistHorario(int idAula, int idDiaFranja)
+        {
+            bool existe = false;
+            IQueryable<HorarioModel> listaHorariosDB
+                = from horarioBD in _context.Horarios
+                  where horarioBD.IdAula == idAula && horarioBD.IdDiaFranja == idDiaFranja
+                  select new HorarioModel
+                  {
+                      IdHorario = horarioBD.IdHorario,
+                      IdAula = horarioBD.IdAula,
+                      IdDiaFranja = horarioBD.IdDiaFranja,
+                      IdAsignatura = horarioBD.IdAsignatura,
+                      IdEstudio = horarioBD.IdEstudio,
+                      ColorAsignatura = horarioBD.ColorAsignatura
+                  };
+
+            if (listaHorariosDB.Count()!=0)
+            {
+                existe=true;
+            }
+
+            return existe;
+        }
+
+        public async Task<bool> ExistHorario(int idDiaFranja, int idAsignatura, int idEstudio)
+        {
+            bool existe = false;
+            IQueryable<HorarioModel> listaHorariosDB
+                = from horarioBD in _context.Horarios
+                  where horarioBD.IdDiaFranja == idDiaFranja &&
+                        horarioBD.IdAsignatura == idAsignatura && horarioBD.IdEstudio == idEstudio
+                  select new HorarioModel
+                  {
+                      IdHorario = horarioBD.IdHorario,
+                      IdAula = horarioBD.IdAula,
+                      IdDiaFranja = horarioBD.IdDiaFranja,
+                      IdAsignatura = horarioBD.IdAsignatura,
+                      IdEstudio = horarioBD.IdEstudio,
+                      ColorAsignatura = horarioBD.ColorAsignatura
+                  };
+
+            if (listaHorariosDB.Count()!=0)
+            {
+                existe=true;
+            }
+
+            return existe;
+        }
+
         public async Task<bool> ExistHorario(HorarioModel horario)
         {
             bool existe = false;
@@ -107,36 +156,48 @@ namespace ProyectoFinalDAMAgil.Services.Horario
             return existe;
         }
 
-        public async Task<bool> ExistHorarioSinAula(HorarioModel horario)
-        {
-            bool existe = false;
-            IQueryable<HorarioModel> listaHorariosDB
-                = from horarioBD in _context.Horarios
-                  where horarioBD.IdDiaFranja == horario.IdDiaFranja &&
-                        horarioBD.IdAsignatura == horario.IdAsignatura &&
-                        horarioBD.IdEstudio == horario.IdEstudio
-                  select new HorarioModel
-                  {
-                      IdHorario = horarioBD.IdHorario,
-                      IdAula = horarioBD.IdAula,
-                      IdDiaFranja = horarioBD.IdDiaFranja,
-                      IdAsignatura = horarioBD.IdAsignatura,
-                      IdEstudio = horarioBD.IdEstudio,
-                      ColorAsignatura = horarioBD.ColorAsignatura
-                  };
-
-            if (listaHorariosDB.Count()!=0)
-            {
-                existe=true;
-            }
-
-            return existe;
-        }
-
         public async Task<IEnumerable<HorarioModel>> ListHorariosEstudio(int idEstudio)
         {
             IQueryable<HorarioModel> horarioListaDB = from horario in _context.Horarios
                                                       where horario.IdEstudio == idEstudio
+                                                      orderby horario.IdDiaFranja ascending
+                                                      select new HorarioModel
+                                                      {
+                                                          IdHorario = horario.IdHorario,
+                                                          IdAula = horario.IdAula,
+                                                          IdDiaFranja = horario.IdDiaFranja,
+                                                          IdAsignatura = horario.IdAsignatura,
+                                                          IdEstudio = horario.IdEstudio,
+                                                          ColorAsignatura = horario.ColorAsignatura
+                                                      };
+
+            return horarioListaDB.ToList();
+        }
+        public async Task<IEnumerable<HorarioModel>> ListHorariosEstudioCursoAsignatura(int cursoAsignatura, int idEstudio) 
+        {
+            IQueryable<HorarioModel> horarioListaDB = from horario in _context.Horarios
+                                                      join asignatura in _context.Asignaturas on horario.IdAsignatura equals asignatura.IdAsignatura
+                                                      where horario.IdEstudio == idEstudio && asignatura.Curso == cursoAsignatura
+                                                      orderby horario.IdDiaFranja ascending
+                                                      select new HorarioModel
+                                                      {
+                                                          IdHorario = horario.IdHorario,
+                                                          IdAula = horario.IdAula,
+                                                          IdDiaFranja = horario.IdDiaFranja,
+                                                          IdAsignatura = horario.IdAsignatura,
+                                                          IdEstudio = horario.IdEstudio,
+                                                          ColorAsignatura = horario.ColorAsignatura
+                                                      };
+
+            return horarioListaDB.ToList();
+
+        }
+
+
+        public async Task<IEnumerable<HorarioModel>> ListHorariosAsignaturaEstudio(int idAsignatura, int idEstudio)
+        {
+            IQueryable<HorarioModel> horarioListaDB = from horario in _context.Horarios
+                                                      where horario.IdEstudio == idEstudio && horario.IdAsignatura == idAsignatura
                                                       orderby horario.IdDiaFranja ascending
                                                       select new HorarioModel
                                                       {

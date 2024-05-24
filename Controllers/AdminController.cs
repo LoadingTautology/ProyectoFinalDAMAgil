@@ -203,6 +203,9 @@ namespace ProyectoFinalDAMAgil.Controllers
 
             ViewData["IdCentro"]=id;
 
+            var centroDB = await _centroeducativoService.GetCentroeducativo(id);
+            ViewData["NombreCentro"] = centroDB.NombreCentro;
+
             IEnumerable<CicloformativoModel> listado = await _cicloformativoService.ListadoCicloformativo(id);
             return View("~/Views/Admin/Estudios/Index.cshtml", listado);
         }
@@ -308,7 +311,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 
             CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(id);
             ViewData["IdCentro"]= cicloformativo.IdCentro;
-
+            ViewData["AcronimoEstudio"] = cicloformativo.Acronimo;
             IEnumerable<AsignaturaModel> listadoAsignaturas = await _asignaturaService.ListadoAsignatura(id);
 
             return View("~/Views/Admin/Asignaturas/Index.cshtml", listadoAsignaturas);
@@ -461,7 +464,10 @@ namespace ProyectoFinalDAMAgil.Controllers
         [HttpGet]
         public async Task<IActionResult> ListarAulas([FromRoute] int id)
         {
-            @ViewData["idCentro"] =id;
+            ViewData["idCentro"] =id;
+
+            var centroDB = await _centroeducativoService.GetCentroeducativo(id);
+            ViewData["NombreCentro"] = centroDB.NombreCentro;
 
             IEnumerable<AulaModel> listadoAulas = await _aulaService.ListadoAulas(id);
 
@@ -587,25 +593,41 @@ namespace ProyectoFinalDAMAgil.Controllers
             IEnumerable<AulaModel> aulaModelList = await _aulaService.ListadoAulas(cicloformativo.IdCentro);
             ViewData["ListaAulas"] =aulaModelList ;
 
+            AsignaturaModel asignaturaModel = await _asignaturaService.ReadAsignatura(id);
+            IEnumerable<HorarioModel> horario = await _horarioService.ListHorariosEstudioCursoAsignatura(asignaturaModel.Curso, idEstudios);
+            //IEnumerable<HorarioModel> horario = await _horarioService.ListHorariosEstudio(idEstudios);
+            ViewData["NombreAsignatura"] = asignaturaModel.NombreAsignatura;
+            ViewData["CursoAsignatura"] = asignaturaModel.Curso;
 
-            IEnumerable<HorarioModel> horario = await _horarioService.ListHorariosEstudio(idEstudios);
             ViewData["Horarios"] = horario;
             ViewData["ListaAsignaturas"] = await _asignaturaService.ListadoAsignatura(idEstudios);
 
+            IEnumerable<HorarioModel> horarioAsigEstudio = await _horarioService.ListHorariosAsignaturaEstudio(id,idEstudios);
 
-             return View("~/Views/Admin/Horarios/Index.cshtml");
+            if (horarioAsigEstudio.FirstOrDefault() ==null)
+            {
+                return View("~/Views/Admin/Horarios/Index.cshtml");
+            }
+            else 
+            {
+                return View("~/Views/Admin/Horarios/Index.cshtml", horarioAsigEstudio.FirstOrDefault());
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> GuardarHorario(HorarioModel modeloHorario)
         {
 
-            if (await _horarioService.ExistHorarioSinAula(modeloHorario))
+            if (await _horarioService.ExistHorario(modeloHorario.IdDiaFranja, modeloHorario.IdAsignatura, modeloHorario.IdEstudio))
             {
                 HorarioModel hor = await _horarioService.ReadHorario(modeloHorario.IdDiaFranja, modeloHorario.IdAsignatura, modeloHorario.IdEstudio);
                 await _horarioService.DeleteHorario(hor);
             }
-            else
+            else if (await _horarioService.ExistHorario(modeloHorario.IdAula, modeloHorario.IdDiaFranja))
+            {
+                ViewData["Mensaje"] = "El aula ya está ocupada en esa hora";
+            }
+            else 
             {
                 await _horarioService.CambiarColor(modeloHorario);
                 await _horarioService.CreateHorario(modeloHorario);
@@ -621,7 +643,12 @@ namespace ProyectoFinalDAMAgil.Controllers
             IEnumerable<AulaModel> aulaModelList = await _aulaService.ListadoAulas(cicloformativo.IdCentro);
             ViewData["ListaAulas"] =aulaModelList;
 
-            IEnumerable<HorarioModel> horario = await _horarioService.ListHorariosEstudio(modeloHorario.IdEstudio);
+
+            AsignaturaModel asignaturaModel = await _asignaturaService.ReadAsignatura(modeloHorario.IdAsignatura);
+            IEnumerable<HorarioModel> horario = await _horarioService.ListHorariosEstudioCursoAsignatura(asignaturaModel.Curso, modeloHorario.IdEstudio);
+            //IEnumerable<HorarioModel> horario = await _horarioService.ListHorariosEstudio(modeloHorario.IdEstudio);
+            ViewData["NombreAsignatura"] = asignaturaModel.NombreAsignatura;
+            ViewData["CursoAsignatura"] = asignaturaModel.Curso;
             ViewData["Horarios"] = horario;
             ViewData["ListaAsignaturas"] = await _asignaturaService.ListadoAsignatura(modeloHorario.IdEstudio);
 
