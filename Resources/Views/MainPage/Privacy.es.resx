@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<!-- 
+		Microsoft ResX Schema
+
+		Version 1.3
+
+		The primary goals of this format is to allow a simple XML format 
+		that is mostly human readable. The generation and parsing of the 
+		various data types are done through the TypeConverter classes 
+		associated with the data types.
+
+		Example:
+
+		... ado.net/XML headers & schema ...
+		<resheader name="resmimetype">text/microsoft-resx</resheader>
+		<resheader name="version">1.3</resheader>
+		<resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+		<resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+		<data name="Name1">this is my long string</data>
+		<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+		<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+			[base64 mime encoded serialized .NET Framework object]
+		</data>
+		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+			[base64 mime encoded string representing a byte array form of the .NET Framework object]
+		</data>
+
+		There are any number of "resheader" rows that contain simple 
+		name/value pairs.
+
+		Each data row contains a name, and value. The row also contains a 
+		type or mimetype. Type corresponds to a .NET class that support 
+		text/value conversion through the TypeConverter architecture. 
+		Classes that don't support this are serialized and stored with the 
+		mimetype set.
+
+		The mimetype is used for serialized objects, and tells the 
+		ResXResourceReader how to depersist the object. This is currently not 
+		extensible. For a given mimetype the value must be set accordingly:
+
+		Note - application/x-microsoft.net.object.binary.base64 is the format 
+		that the ResXResourceWriter will generate, however the reader can 
+		read any of the formats listed below.
+
+		mimetype: application/x-microsoft.net.object.binary.base64
+		value   : The object must be serialized with 
+			: System.Serialization.Formatters.Binary.BinaryFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.soap.base64
+		value   : The object must be serialized with 
+			: System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.bytearray.base64
+		value   : The object must be serialized into a byte array 
+			: using a System.ComponentModel.TypeConverter
+			: and then encoded with base64 encoding.
+	-->
+	
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>1.3</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="Title" xml:space="preserve">
+    <value>Política de Privacidad</value>
+  </data>
+  <data name="PoliticaDePrivacidad" xml:space="preserve">
+    <value>Política de Privacidad</value>
+  </data>
+  <data name="PrivacidadImportante" xml:space="preserve">
+    <value>Tu privacidad es importante para nosotros. En GestaCentro, nos comprometemos a proteger tus datos personales y a cumplir con todas las normativas aplicables en materia de privacidad y protección de datos.</value>
+  </data>
+  <data name="DescribeComo" xml:space="preserve">
+    <value>Esta política de privacidad describe cómo recopilamos, utilizamos y protegemos tu información personal.</value>
+  </data>
+  <data name="InformacionQueRecopilamos" xml:space="preserve">
+    <value>Información que Recopilamos</value>
+  </data>
+  <data name="RecopilamosVariosTipos" xml:space="preserve">
+    <value>Recopilamos diversos tipos de información en relación con los servicios que ofrecemos, incluyendo:</value>
+  </data>
+  <data name="InformacionIdentificacionPersonal" xml:space="preserve">
+    <value>Información de Identificación Personal: nombre, dirección de correo electrónico, número de teléfono y dirección.</value>
+  </data>
+  <data name="InformacionDeUso" xml:space="preserve">
+    <value>Información de Uso: detalles sobre cómo y cuándo utilizas nuestros servicios.</value>
+  </data>
+  <data name="InformacionTecnica" xml:space="preserve">
+    <value>Información Técnica: dirección IP, tipo de navegador, sistema operativo y otros datos técnicos.</value>
+  </data>
+  <data name="ComoUtilizamosInformacion" xml:space="preserve">
+    <value>Cómo Utilizamos tu Información</value>
+  </data>
+  <data name="UtilizamosInformacionRecopilada" xml:space="preserve">
+    <value>Utilizamos la información que recopilamos para diversos fines, incluyendo:</value>
+  </data>
+  <data name="ProveerOperarMantener" xml:space="preserve">
+    <value>Proveer, operar y mantener nuestros servicios.</value>
+  </data>
+  <data name="MejorarPersonalizarExpandir" xml:space="preserve">
+    <value>Mejorar, personalizar y expandir nuestros servicios.</value>
+  </data>
+  <data name="EntenderAnalizar" xml:space="preserve">
+    <value>Entender y analizar cómo utilizas nuestros servicios.</value>
+  </data>
+  <data name="DesarrollarNuevasFuncionalidades" xml:space="preserve">
+    <value>Desarrollar nuevas funcionalidades, productos y servicios.</value>
+  </data>
+  <data name="ComunicarnosContigo" xml:space="preserve">
+    <value>Comunicarnos contigo, ya sea directamente o a través de uno de nuestros socios, incluyendo el servicio al cliente, para proporcionarte actualizaciones y otra información relacionada con el servicio, y con fines promocionales y de marketing.</value>
+  </data>
+  <data name="ProcesarTransaccionesPedidos" xml:space="preserve">
+    <value>Procesar tus transacciones y gestionar tus pedidos.</value>
+  </data>
+  <data name="DetectarPrevenirFraudes" xml:space="preserve">
+    <value>Detectar y prevenir fraudes y problemas técnicos.</value>
+  </data>
+  <data name="ComoProtegemosInformacion" xml:space="preserve">
+    <value>Cómo Protegemos tu Información</value>
+  </data>
+  <data name="ImplementamosMedidasSeguridad" xml:space="preserve">
+    <value>Implementamos diversas medidas de seguridad para garantizar la protección de tus datos personales, incluyendo:</value>
+  </data>
+  <data name="UsoTecnologiasCifrado" xml:space="preserve">
+    <value>Uso de tecnologías de cifrado para proteger los datos durante la transmisión.</value>
+  </data>
+  <data name="AlmacenamientoDatosSeguros" xml:space="preserve">
+    <value>Almacenamiento de datos en servidores seguros.</value>
+  </data>
+  <data name="RestriccionAcceso" xml:space="preserve">
+    <value>Restricción de acceso a datos personales a empleados autorizados únicamente.</value>
+  </data>
+  <data name="CompartirInformacion" xml:space="preserve">
+    <value>Compartir tu Información</value>
+  </data>
+  <data name="NoVendemosInformacion" xml:space="preserve">
+    <value>No vendemos, comercializamos ni transferimos a terceros tu información personal identificable a menos que te lo notifiquemos con anticipación. Esto no incluye a nuestros socios de hosting y otras partes que nos asisten en la operación de nuestro sitio web, la conducción de nuestro negocio o la prestación de servicios, siempre que estas partes acuerden mantener esta información confidencial.</value>
+  </data>
+  <data name="TusDerechos" xml:space="preserve">
+    <value>Tus Derechos</value>
+  </data>
+  <data name="TienesDerechoA" xml:space="preserve">
+    <value>Tienes derecho a:</value>
+  </data>
+  <data name="AccederDatosPersonales" xml:space="preserve">
+    <value>Acceder a tus datos personales y solicitar una copia de los mismos.</value>
+  </data>
+  <data name="SolicitarCorreccion" xml:space="preserve">
+    <value>Solicitar la corrección de datos personales incorrectos o incompletos.</value>
+  </data>
+  <data name="SolicitarEliminacion" xml:space="preserve">
+    <value>Solicitar la eliminación de tus datos personales.</value>
+  </data>
+  <data name="RestringirProcesamiento" xml:space="preserve">
+    <value>Restringir el procesamiento de tus datos personales.</value>
+  </data>
+  <data name="OponerteProcesamiento" xml:space="preserve">
+    <value>Oponerte al procesamiento de tus datos personales.</value>
+  </data>
+  <data name="SolicitarPortabilidad" xml:space="preserve">
+    <value>Solicitar la portabilidad de tus datos personales.</value>
+  </data>
+  <data name="EjercerDerechos" xml:space="preserve">
+    <value>Para ejercer estos derechos, por favor contáctanos en <a href="mailto:privacidad@proyectofinaldam2324.site">privacidad@proyectofinaldam2324.site</a>.</value>
+  </data>
+  <data name="CambiosPoliticaPrivacidad" xml:space="preserve">
+    <value>Cambios a esta Política de Privacidad</value>
+  </data>
+  <data name="ReservamosDerecho" xml:space="preserve">
+    <value>Nos reservamos el derecho de actualizar esta política de privacidad en cualquier momento. Te notificaremos sobre cualquier cambio publicando la nueva política de privacidad en esta página. Te recomendamos revisar esta política periódicamente para estar al tanto de cualquier actualización.</value>
+  </data>
+  <data name="Contacto" xml:space="preserve">
+    <value>Contacto</value>
+  </data>
+  <data name="PreguntasPoliticaPrivacidad" xml:space="preserve">
+    <value>Si tienes alguna pregunta sobre esta política de privacidad, por favor contáctanos en <a href="mailto:privacidad@proyectofinaldam2324.site">privacidad@proyectofinaldam2324.site</a>.</value>
+  </data>
+</root>

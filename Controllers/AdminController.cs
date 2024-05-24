@@ -229,7 +229,7 @@ namespace ProyectoFinalDAMAgil.Controllers
             }
             else if (await _cicloformativoService.ExistCicloformativo(datosCiclo))
             {
-                ViewData["Mensaje"] = "El nombre del ciclo o acrónimo ya existen";
+                ViewData["Mensaje"] = "EstudioYaExiste";
                 return View("~/Views/Admin/Estudios/Guardar.cshtml", datosCiclo);
             }
             else
@@ -256,7 +256,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 
             if (await _cicloformativoService.ExistCicloformativo(datosCiclo))
             {
-                ViewData["Mensaje"] = "El nombre del ciclo o acrónimo ya existen";
+                ViewData["Mensaje"] = "EstudioYaExiste";
                 return View("~/Views/Admin/Estudios/Editar.cshtml", datosCiclo);
             }
 
@@ -492,7 +492,7 @@ namespace ProyectoFinalDAMAgil.Controllers
             }
             else if (await _aulaService.ExistAula(datosAulas))
             {
-                ViewData["Mensaje"] = "Ese número de aula ya existe";
+                ViewData["Mensaje"] = "AulaYaExiste";
                 return View("~/Views/Admin/Aulas/Guardar.cshtml", datosAulas);
             }
             else

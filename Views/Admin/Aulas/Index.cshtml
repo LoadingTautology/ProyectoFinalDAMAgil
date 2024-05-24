@@ -7,24 +7,25 @@
 <div class="container mt-5">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Lista de Aulas</h3>
+            <h3 class="card-title">@Localizer["ListaDeAulas"]</h3>
         </div>
         <div class="card-body">
             <div class="d-flex justify-content-between mb-3">
                 <a asp-controller="Admin" asp-action="GuardarAula" asp-route-id="@ViewData["idCentro"]" class="btn btn-success mb-3">
-                    <i class="bi bi-plus-circle"></i> Crear Nuevo
+                    <i class="bi bi-plus-circle"></i> @Localizer["CrearNuevo"]
                 </a>
                 <a asp-controller="Admin" asp-action="ListarEstudios" asp-route-id="@ViewData["idCentro"]" class="btn btn-warning mb-3">
-                    <i class="bi bi-arrow-left"></i> Volver a estudios
+                    <i class="bi bi-arrow-left"></i> @Localizer["VolverAEstudios"]
                 </a>
+                <input type="text" id="searchInput" class="form-control w-50 mb-3" placeholder="@Localizer["BuscarAulas"]">
             </div>
             <table id="centrosTable" class="table table-hover table-striped">
                 <thead>
                     <tr>
-                        <th>Numero de Aula</th>
-                        <th>Nombre Aula</th>
-                        <th>Aforo Máximo</th>
-                        <th>Acciones</th>
+                        <th>@Localizer["NumeroDeAula"]</th>
+                        <th>@Localizer["NombreAula"]</th>
+                        <th>@Localizer["AforoMaximo"]</th>
+                        <th>@Localizer["Acciones"]</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,7 +53,7 @@
                     else
                     {
                         <tr>
-                            <td colspan="4" class="text-center">No hay aulas</td>
+                            <td colspan="4" class="text-center">@Localizer["NoHayAulas"]</td>
                         </tr>
                     }
                 </tbody>
@@ -69,7 +70,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    @Localizer["SeguroEliminar"]
+                    @Localizer["SeguroEliminarAula"]
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancelar"]</button>
@@ -135,6 +136,22 @@
                             location.reload();
                         });
                     });
+            });
+
+            // Funcionalidad de búsqueda
+            document.getElementById('searchInput').addEventListener('keyup', function () {
+                var searchTerm = this.value.toLowerCase();
+                var rows = document.querySelectorAll('#centrosTable tbody tr');
+                rows.forEach(function (row) {
+                    var numeroAula = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+                    var nombreAula = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                    var aforoMax = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+                    if (numeroAula.includes(searchTerm) || nombreAula.includes(searchTerm) || aforoMax.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
             });
         });
     </script>

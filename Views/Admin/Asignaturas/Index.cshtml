@@ -1,9 +1,11 @@
 ﻿@model List<ProyectoFinalDAMAgil.Models.Admin.AsignaturaModel>
-
+@{
+    ViewData["Title"] = "Asignaturas";
+}
 <div class="container mt-5">
     <div class="card">
         <div class="card-header">
-            <h3>Información</h3>
+            <h3 class="card-title">Información</h3>
         </div>
         <div class="card-body">
             <a asp-controller="Admin" asp-action="GuardarAsignatura" asp-route-id="@ViewData["idEstudios"]" class="btn btn-success  mb-3">
@@ -61,24 +63,24 @@
 
 
 
-<!-- Modal -->
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmDeleteModalLabel">@Localizer["ConfirmarEliminacion"]</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                @Localizer["SeguroEliminar"]
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancelar"]</button>
-                <a id="confirmDeleteButton" class="btn btn-danger">@Localizer["Eliminar"]</a>
+    <!-- Modal -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">@Localizer["ConfirmarEliminacion"]</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @Localizer["SeguroEliminar"]
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancelar"]</button>
+                    <a id="confirmDeleteButton" class="btn btn-danger">@Localizer["Eliminar"]</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 @section Scripts {
@@ -112,8 +114,8 @@
                         if (data.success) {
                             Swal.fire({
                                 icon: 'success',
-                                title: '@Localizer["CentroEliminado"]',
-                                text: '@Localizer["CentroEliminadoMensaje"]'
+                                title: '@Localizer["AsignaturaEliminada"]',
+                                text: '@Localizer["AsignaturaEliminadaMensaje"]'
                             }).then(() => {
                                 location.reload();
                             });
@@ -121,7 +123,7 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: '@Localizer["Error"]',
-                                text: '@Localizer["ErrorEliminarCentro"]'
+                                text: '@Localizer["ErrorEliminarAsignatura"]'
                             }).then(() => {
                                 location.reload();
                             });
@@ -140,4 +142,3 @@
         });
     </script>
 }
-

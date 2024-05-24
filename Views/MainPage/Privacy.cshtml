@@ -1,66 +1,66 @@
 ﻿@{
     Layout = "_Main";
-    ViewData["Title"] = "Política de Privacidad";
+    ViewData["Title"] = Localizer["Title"];
 }
 
 <div class="container mt-4">
     <div class="jumbotron bg-light p-5 rounded-lg shadow-sm animate__animated animate__fadeIn">
-        <h1 class="display-4">Política de Privacidad</h1>
-        <p class="lead">Tu privacidad es importante para nosotros. En GestaCentro, nos comprometemos a proteger tus datos personales y a cumplir con todas las normativas aplicables en materia de privacidad y protección de datos.</p>
+        <h1 class="display-4">@Localizer["PoliticaDePrivacidad"]</h1>
+        <p class="lead">@Localizer["PrivacidadImportante"]</p>
         <hr class="my-4">
-        <p>Esta política de privacidad describe cómo recopilamos, utilizamos y protegemos tu información personal.</p>
+        <p>@Localizer["DescribeComo"]</p>
     </div>
 
     <div class="row mt-5">
         <div class="col-md-12 animate__animated animate__fadeInUp">
-            <h2 class="mb-3">Información que Recopilamos</h2>
-            <p>Recopilamos diversos tipos de información en relación con los servicios que ofrecemos, incluyendo:</p>
+            <h2 class="mb-3">@Localizer["InformacionQueRecopilamos"]</h2>
+            <p>@Localizer["RecopilamosVariosTipos"]</p>
             <ul>
-                <li><strong>Información de Identificación Personal:</strong> nombre, dirección de correo electrónico, número de teléfono y dirección.</li>
-                <li><strong>Información de Uso:</strong> detalles sobre cómo y cuándo utilizas nuestros servicios.</li>
-                <li><strong>Información Técnica:</strong> dirección IP, tipo de navegador, sistema operativo y otros datos técnicos.</li>
+                <li><strong>@Localizer["InformacionIdentificacionPersonal"]</strong></li>
+                <li><strong>@Localizer["InformacionDeUso"]</strong></li>
+                <li><strong>@Localizer["InformacionTecnica"]</strong></li>
             </ul>
 
-            <h2 class="mt-4 mb-3">Cómo Utilizamos tu Información</h2>
-            <p>Utilizamos la información que recopilamos para diversos fines, incluyendo:</p>
+            <h2 class="mt-4 mb-3">@Localizer["ComoUtilizamosInformacion"]</h2>
+            <p>@Localizer["UtilizamosInformacionRecopilada"]</p>
             <ul>
-                <li>Proveer, operar y mantener nuestros servicios.</li>
-                <li>Mejorar, personalizar y expandir nuestros servicios.</li>
-                <li>Entender y analizar cómo utilizas nuestros servicios.</li>
-                <li>Desarrollar nuevas funcionalidades, productos y servicios.</li>
-                <li>Comunicarnos contigo, ya sea directamente o a través de uno de nuestros socios, incluyendo el servicio al cliente, para proporcionarte actualizaciones y otra información relacionada con el servicio, y con fines promocionales y de marketing.</li>
-                <li>Procesar tus transacciones y gestionar tus pedidos.</li>
-                <li>Detectar y prevenir fraudes y problemas técnicos.</li>
+                <li>@Localizer["ProveerOperarMantener"]</li>
+                <li>@Localizer["MejorarPersonalizarExpandir"]</li>
+                <li>@Localizer["EntenderAnalizar"]</li>
+                <li>@Localizer["DesarrollarNuevasFuncionalidades"]</li>
+                <li>@Localizer["ComunicarnosContigo"]</li>
+                <li>@Localizer["ProcesarTransaccionesPedidos"]</li>
+                <li>@Localizer["DetectarPrevenirFraudes"]</li>
             </ul>
 
-            <h2 class="mt-4 mb-3">Cómo Protegemos tu Información</h2>
-            <p>Implementamos diversas medidas de seguridad para garantizar la protección de tus datos personales, incluyendo:</p>
+            <h2 class="mt-4 mb-3">@Localizer["ComoProtegemosInformacion"]</h2>
+            <p>@Localizer["ImplementamosMedidasSeguridad"]</p>
             <ul>
-                <li>Uso de tecnologías de cifrado para proteger los datos durante la transmisión.</li>
-                <li>Almacenamiento de datos en servidores seguros.</li>
-                <li>Restricción de acceso a datos personales a empleados autorizados únicamente.</li>
+                <li>@Localizer["UsoTecnologiasCifrado"]</li>
+                <li>@Localizer["AlmacenamientoDatosSeguros"]</li>
+                <li>@Localizer["RestriccionAcceso"]</li>
             </ul>
 
-            <h2 class="mt-4 mb-3">Compartir tu Información</h2>
-            <p>No vendemos, comercializamos ni transferimos a terceros tu información personal identificable a menos que te lo notifiquemos con anticipación. Esto no incluye a nuestros socios de hosting y otras partes que nos asisten en la operación de nuestro sitio web, la conducción de nuestro negocio o la prestación de servicios, siempre que estas partes acuerden mantener esta información confidencial.</p>
+            <h2 class="mt-4 mb-3">@Localizer["CompartirInformacion"]</h2>
+            <p>@Localizer["NoVendemosInformacion"]</p>
 
-            <h2 class="mt-4 mb-3">Tus Derechos</h2>
-            <p>Tienes derecho a:</p>
+            <h2 class="mt-4 mb-3">@Localizer["TusDerechos"]</h2>
+            <p>@Localizer["TienesDerechoA"]</p>
             <ul>
-                <li>Acceder a tus datos personales y solicitar una copia de los mismos.</li>
-                <li>Solicitar la corrección de datos personales incorrectos o incompletos.</li>
-                <li>Solicitar la eliminación de tus datos personales.</li>
-                <li>Restringir el procesamiento de tus datos personales.</li>
-                <li>Oponerte al procesamiento de tus datos personales.</li>
-                <li>Solicitar la portabilidad de tus datos personales.</li>
+                <li>@Localizer["AccederDatosPersonales"]</li>
+                <li>@Localizer["SolicitarCorreccion"]</li>
+                <li>@Localizer["SolicitarEliminacion"]</li>
+                <li>@Localizer["RestringirProcesamiento"]</li>
+                <li>@Localizer["OponerteProcesamiento"]</li>
+                <li>@Localizer["SolicitarPortabilidad"]</li>
             </ul>
-            <p>Para ejercer estos derechos, por favor contáctanos en <a href="mailto:privacidad@proyectofinaldam2324.site">privacidad@proyectofinaldam2324.site</a>.</p>
+            <p>@Localizer["EjercerDerechos"]</p>
 
-            <h2 class="mt-4 mb-3">Cambios a esta Política de Privacidad</h2>
-            <p>Nos reservamos el derecho de actualizar esta política de privacidad en cualquier momento. Te notificaremos sobre cualquier cambio publicando la nueva política de privacidad en esta página. Te recomendamos revisar esta política periódicamente para estar al tanto de cualquier actualización.</p>
+            <h2 class="mt-4 mb-3">@Localizer["CambiosPoliticaPrivacidad"]</h2>
+            <p>@Localizer["ReservamosDerecho"]</p>
 
-            <h2 class="mt-4 mb-3">Contacto</h2>
-            <p>Si tienes alguna pregunta sobre esta política de privacidad, por favor contáctanos en <a href="mailto:privacidad@proyectofinaldam2324.site">privacidad@proyectofinaldam2324.site</a>.</p>
+            <h2 class="mt-4 mb-3">@Localizer["Contacto"]</h2>
+            <p>@Localizer["PreguntasPoliticaPrivacidad"]</p>
         </div>
     </div>
 </div>

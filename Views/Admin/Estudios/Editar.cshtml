@@ -1,13 +1,13 @@
 ﻿@model ProyectoFinalDAMAgil.Models.Admin.CicloformativoModel
 
 @{
-    ViewData["Title"] = "Editar Ciclo Formativo";
+    ViewData["Title"] = Localizer["Title"];
 }
 
 <div class="container mt-5">
     <div class="card">
         <div class="card-header">
-            <h3>Editar Ciclo Formativo</h3>
+            <h3>@Localizer["EditarEstudio"]</h3>
         </div>
         <div class="card-body">
             <form asp-controller="Admin" asp-action="EditarEstudios" method="post">
@@ -15,28 +15,31 @@
                 <input type="hidden" asp-for="IdCentro" />
 
                 <div class="mb-3">
-                    <label asp-for="Acronimo" class="form-label">Acrónimo</label>
-                    <input asp-for="Acronimo" type="text" class="form-control" placeholder="Ingrese el acrónimo" />
+                    <label asp-for="Acronimo" class="form-label">@Localizer["Acronimo"]</label>
+                    <input asp-for="Acronimo" type="text" class="form-control" placeholder="@Localizer["AcronimoPlaceholder"]" />
                     <span asp-validation-for="Acronimo" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label asp-for="NombreCiclo" class="form-label">Nombre del Ciclo</label>
-                    <input asp-for="NombreCiclo" type="text" class="form-control" placeholder="Ingrese el nombre del ciclo" />
+                    <label asp-for="NombreCiclo" class="form-label">@Localizer["NombreCiclo"]</label>
+                    <input asp-for="NombreCiclo" type="text" class="form-control" placeholder="@Localizer["NombreCicloPlaceholder"]" />
                     <span asp-validation-for="NombreCiclo" class="text-danger"></span>
                 </div>
                 <div class="d-flex justify-content-between">
                     <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-save"></i> Guardar
+                        <i class="bi bi-save"></i> @Localizer["Guardar"]
                     </button>
                     <a asp-controller="Admin" asp-action="ListarEstudios" asp-route-id="@Model.IdCentro" class="btn btn-warning">
-                        <i class="bi bi-arrow-left"></i> Volver a la lista
+                        <i class="bi bi-arrow-left"></i> @Localizer["VolverALista"]
                     </a>
                 </div>
             </form>
             @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
             {
                 <div class="alert alert-danger mt-3" role="alert">
-                    @ViewData["Mensaje"]
+                    @{
+                        var tempvarmensaje = ViewData["Mensaje"] as string;
+                    }
+                    @Localizer[tempvarmensaje]
                 </div>
             }
         </div>

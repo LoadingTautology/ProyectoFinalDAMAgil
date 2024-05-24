@@ -118,69 +118,30 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Title" xml:space="preserve">
-    <value>Estudios</value>
+    <value>Guardar Estudio</value>
   </data>
-  <data name="ListaDeEstudios" xml:space="preserve">
-    <value>Lista de estudios</value>
-  </data>
-  <data name="CrearNuevo" xml:space="preserve">
-    <value>Crear Nuevo</value>
-  </data>
-  <data name="VolverALista" xml:space="preserve">
-    <value>Volver a Centros</value>
+  <data name="CrearNuevoEstudio" xml:space="preserve">
+    <value>Crear nuevo estudio</value>
   </data>
   <data name="Acronimo" xml:space="preserve">
     <value>Acrónimo</value>
   </data>
-  <data name="Nombre" xml:space="preserve">
-    <value>Nombre</value>
+  <data name="AcronimoPlaceholder" xml:space="preserve">
+    <value>Ingrese el acrónimo</value>
   </data>
-  <data name="Acciones" xml:space="preserve">
-    <value>Acciones</value>
+  <data name="NombreCiclo" xml:space="preserve">
+    <value>Nombre del estudio</value>
   </data>
-  <data name="Asignaturas" xml:space="preserve">
-    <value>Asignaturas</value>
+  <data name="NombreCicloPlaceholder" xml:space="preserve">
+    <value>Ingrese el nombre del ciclo</value>
   </data>
-  <data name="Editar" xml:space="preserve">
-    <value>Editar</value>
+  <data name="Guardar" xml:space="preserve">
+    <value>Guardar</value>
   </data>
-  <data name="Eliminar" xml:space="preserve">
-    <value>Eliminar</value>
+  <data name="VolverALista" xml:space="preserve">
+    <value>Volver a la lista</value>
   </data>
-  <data name="NoHayEstudios" xml:space="preserve">
-    <value>No hay estudios disponibles.</value>
-  </data>
-  <data name="ConfirmarEliminacion" xml:space="preserve">
-    <value>Confirmar eliminación</value>
-  </data>
-  <data name="SeguroEliminar" xml:space="preserve">
-    <value>¿Está seguro que desea eliminarlo?</value>
-  </data>
-  <data name="Cancelar" xml:space="preserve">
-    <value>Cancelar</value>
-  </data>
-  <data name="CentroEliminado" xml:space="preserve">
-    <value>Centro eliminado</value>
-  </data>
-  <data name="CentroEliminadoMensaje" xml:space="preserve">
-    <value>Ha sido eliminado correctamente.</value>
-  </data>
-  <data name="Error" xml:space="preserve">
-    <value>Error</value>
-  </data>
-  <data name="ErrorEliminarCentro" xml:space="preserve">
-    <value>No se pudo eliminar.</value>
-  </data>
-  <data name="ErrorGeneral" xml:space="preserve">
-    <value>Ocurrió un error al eliminar.</value>
-  </data>
-  <data name="GestionarAulas" xml:space="preserve">
-    <value>Gestionar aulas</value>
-  </data>
-  <data name="BuscarCentros" xml:space="preserve">
-    <value>Buscar Estudios</value>
-  </data>
-  <data name="BuscarEstudios" xml:space="preserve">
-    <value>Buscar Estudios</value>
+  <data name="EstudioYaExiste" xml:space="preserve">
+    <value>El nombre del estudio o acrónimo ya existen</value>
   </data>
 </root>
