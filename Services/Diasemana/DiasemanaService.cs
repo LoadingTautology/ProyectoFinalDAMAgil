@@ -15,7 +15,8 @@ namespace ProyectoFinalDAMAgil.Services.Diasemana
         public async Task<IEnumerable<DiasemanaModel>> ListDiasemana()
         {
             IQueryable<DiasemanaModel> listaDiasSemanaDB = from dia in _context.Diasemanas
-                                                         select new DiasemanaModel
+                                                           orderby dia.IdDia ascending
+                                                           select new DiasemanaModel
                                                          {
                                                              IdDia = dia.IdDia,
                                                              DiaDeLaSemana =  dia.DiaDeLaSemana
