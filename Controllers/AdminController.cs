@@ -670,20 +670,20 @@ namespace ProyectoFinalDAMAgil.Controllers
 
         #region Gestion Profesores
 
-        [HttpGet]
-        public async Task<IActionResult> ListarProfesores()
-        {
+        //[HttpGet]
+        //public async Task<IActionResult> ListarProfesores()
+        //{
 
-            ClaimsPrincipal claimsUser = HttpContext.User;
-            string emailUsuario = "";
-            if (claimsUser.Identity!.IsAuthenticated)
-                emailUsuario = claimsUser.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()!;
+        //    ClaimsPrincipal claimsUser = HttpContext.User;
+        //    string emailUsuario = "";
+        //    if (claimsUser.Identity!.IsAuthenticated)
+        //        emailUsuario = claimsUser.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()!;
 
-            /*            */
-            IEnumerable<Scaffold.Centroeducativo> listado = await _centroeducativoService.ListadoCentroEducativo(emailUsuario);
+        //    /*            */
+        //    IEnumerable<Scaffold.Centroeducativo> listado = await _centroeducativoService.ListadoCentroEducativo(emailUsuario);
 
-            return View("~/Views/Admin/Profesores/Index.cshtml", listado);
-        }
+        //    return View("~/Views/Admin/Profesores/Index.cshtml", listado);
+        //}
 
 
         /* ****************************************************************************************************************************************************************************************** */
@@ -800,20 +800,20 @@ namespace ProyectoFinalDAMAgil.Controllers
 
         #region Gestion Alumnos
 
-        [HttpGet]
-        public async Task<IActionResult> ListarAlumnos()
-        {
+        //[HttpGet]
+        //public async Task<IActionResult> ListarAlumnos()
+        //{
 
-            ClaimsPrincipal claimsUser = HttpContext.User;
-            string emailUsuario = "";
-            if (claimsUser.Identity!.IsAuthenticated)
-                emailUsuario = claimsUser.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()!;
+        //    ClaimsPrincipal claimsUser = HttpContext.User;
+        //    string emailUsuario = "";
+        //    if (claimsUser.Identity!.IsAuthenticated)
+        //        emailUsuario = claimsUser.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()!;
 
-            /*            */
-            IEnumerable<Scaffold.Centroeducativo> listado = await _centroeducativoService.ListadoCentroEducativo(emailUsuario);
+        //    /*            */
+        //    IEnumerable<Scaffold.Centroeducativo> listado = await _centroeducativoService.ListadoCentroEducativo(emailUsuario);
 
-            return View("~/Views/Admin/Alumnos/Index.cshtml", listado);
-        }
+        //    return View("~/Views/Admin/Alumnos/Index.cshtml", listado);
+        //}
 
 
         /* ****************************************************************************************************************************************************************************************** */
