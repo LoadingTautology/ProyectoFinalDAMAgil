@@ -600,7 +600,7 @@ namespace ProyectoFinalDAMAgil.Controllers
             CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(idEstudios);
             IEnumerable<AulaModel> aulaModelList = await _aulaService.ListadoAulas(cicloformativo.IdCentro);
             ViewData["ListaAulas"] =aulaModelList ;
-
+            ViewData["idCentro"] = cicloformativo.IdCentro;
             AsignaturaModel asignaturaModel = await _asignaturaService.ReadAsignatura(id);
             IEnumerable<HorarioModel> horario = await _horarioService.ListHorariosEstudioCursoAsignatura(asignaturaModel.Curso, idEstudios);
             //IEnumerable<HorarioModel> horario = await _horarioService.ListHorariosEstudio(idEstudios);
