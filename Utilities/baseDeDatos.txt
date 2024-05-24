@@ -137,9 +137,30 @@ CREATE TABLE Horario (
     FOREIGN KEY (IdDiaFranja) REFERENCES DiaSemanaFranjaHoraria(IdDiaFranja) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- Creación de la tabla Profesor
+CREATE TABLE Profesor (
+    IdProfesor INT,
+    Especialidad VARCHAR(100) NOT NULL DEFAULT '',
+    IdCentro INT NOT NULL,
+    PRIMARY KEY (IdProfesor),
+    FOREIGN KEY (IdProfesor) REFERENCES Usuario(IdUsuario),
+    FOREIGN KEY (IdCentro) REFERENCES CentroEducativo(IdCentro) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- Creación de la tabla Alumno
+CREATE TABLE Alumno (
+    IdAlumno INT,
+    FechaDeNacimiento DATE NOT NULL DEFAULT '0000-01-01',
+    IdCentro INT NOT NULL,
+    PRIMARY KEY (IdAlumno),
+    FOREIGN KEY (IdAlumno) REFERENCES Usuario(IdUsuario),
+    FOREIGN KEY (IdCentro) REFERENCES CentroEducativo(IdCentro) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 ******************************************************************
 
 
+******************************************************************
 -- Creación de la tabla ExamenAsignaturas
 CREATE TABLE ExamenAsignaturas (
     IdAsignatura INT,
@@ -149,22 +170,6 @@ CREATE TABLE ExamenAsignaturas (
     Tiempo TIME NOT NULL DEFAULT '01:30:00',
     PRIMARY KEY (IdAsignatura, IdExamen),
     FOREIGN KEY (IdAsignatura) REFERENCES Asignatura(IdAsignatura)
-);
-
--- Creación de la tabla Profesor
-CREATE TABLE Profesor (
-    IdProfesor INT,
-    Especialidad VARCHAR(100) NOT NULL DEFAULT '',
-    PRIMARY KEY (IdProfesor),
-    FOREIGN KEY (IdProfesor) REFERENCES Usuario(IdUsuario)
-);
-
--- Creación de la tabla Alumno
-CREATE TABLE Alumno (
-    IdAlumno INT,
-    FechaDeNacimiento DATE NOT NULL DEFAULT '0000-01-01',
-    PRIMARY KEY (IdAlumno),
-    FOREIGN KEY (IdAlumno) REFERENCES Usuario(IdUsuario)
 );
 
 -- Creación de la tabla AsistenciaAlumnos

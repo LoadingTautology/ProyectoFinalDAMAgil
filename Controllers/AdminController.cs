@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ProyectoFinalDAMAgil.Models.Admin;
 using ProyectoFinalDAMAgil.Scaffold;
 using ProyectoFinalDAMAgil.Services.Administrador;
+using ProyectoFinalDAMAgil.Services.Alumno;
 using ProyectoFinalDAMAgil.Services.Asignatura;
 using ProyectoFinalDAMAgil.Services.AsignaturasEstudios;
 using ProyectoFinalDAMAgil.Services.Aula;
@@ -12,6 +13,7 @@ using ProyectoFinalDAMAgil.Services.Correoelectronico;
 using ProyectoFinalDAMAgil.Services.Diasemana;
 using ProyectoFinalDAMAgil.Services.Franjahorarium;
 using ProyectoFinalDAMAgil.Services.Horario;
+using ProyectoFinalDAMAgil.Services.Profesor;
 using ProyectoFinalDAMAgil.Services.Usuario;
 using ProyectoFinalDAMAgil.Services.Usuarioscentroeducativo;
 using System;
@@ -24,6 +26,7 @@ namespace ProyectoFinalDAMAgil.Controllers
     {
 
         private readonly IAdministradorService _administradorService;
+        private readonly IAlumnoService _alumnoService;
         private readonly IAsignaturaService _asignaturaService;
         private readonly IAsignaturasEstudiosService _asignaturasEstudiosService;
         private readonly IAulaService _aulaService;
@@ -33,11 +36,13 @@ namespace ProyectoFinalDAMAgil.Controllers
         private readonly IDiasemanaService _diasemanaService;
         private readonly IFranjahorariumService _franjahorariumService;
         private readonly IHorarioService _horarioService;
+        private readonly IProfesorService _profesorService;
         private readonly IUsuarioService _usuarioService;
         private readonly IUsuarioscentroeducativoService _usuarioscentroeducativoService;
 
         public AdminController( 
                                 IAdministradorService administradorService,
+                                IAlumnoService alumnoService,
                                 IAsignaturaService asignaturaService,
                                 IAsignaturasEstudiosService asignaturasEstudiosService,
                                 IAulaService aulaService,
@@ -47,12 +52,14 @@ namespace ProyectoFinalDAMAgil.Controllers
                                 IDiasemanaService diasemanaService,
                                 IFranjahorariumService franjahorariumService,
                                 IHorarioService horarioService,
+                                IProfesorService profesorService,
                                 IUsuarioService usuarioService,
                                 IUsuarioscentroeducativoService usuarioscentroeducativo)
 
 
         {
             _administradorService = administradorService;
+            _alumnoService = alumnoService;
             _asignaturaService = asignaturaService;
             _asignaturasEstudiosService = asignaturasEstudiosService;
             _aulaService = aulaService;
@@ -62,6 +69,7 @@ namespace ProyectoFinalDAMAgil.Controllers
             _diasemanaService = diasemanaService;
             _franjahorariumService = franjahorariumService;
             _horarioService = horarioService;
+            _profesorService = profesorService;
             _usuarioService = usuarioService;
             _usuarioscentroeducativoService = usuarioscentroeducativo;
         }
@@ -662,9 +670,260 @@ namespace ProyectoFinalDAMAgil.Controllers
 
         #region Gestion Profesores
 
+        [HttpGet]
+        public async Task<IActionResult> ListarProfesores()
+        {
+
+            ClaimsPrincipal claimsUser = HttpContext.User;
+            string emailUsuario = "";
+            if (claimsUser.Identity!.IsAuthenticated)
+                emailUsuario = claimsUser.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()!;
+
+            /*            */
+            IEnumerable<Scaffold.Centroeducativo> listado = await _centroeducativoService.ListadoCentroEducativo(emailUsuario);
+
+            return View("~/Views/Admin/Profesores/Index.cshtml", listado);
+        }
+
+
+        /* ****************************************************************************************************************************************************************************************** */
+        //[HttpGet]
+        //public IActionResult GuardarProfesor()
+        //{
+        //    return View("~/Views/Admin/Centro/Guardar.cshtml");
+        //}
+
+
+
+        //[HttpPost]
+        //public async Task<IActionResult> GuardarProfesor(CentroEducativoModel datosCentro)
+        //{
+
+        //    if (!ModelState.IsValid)
+        //        return View("~/Views/Admin/Centro/Guardar.cshtml", datosCentro);
+
+        //    if (await _centroeducativoService.ExisteCentroEducativo(datosCentro.NombreCentro, datosCentro.DireccionCentro))
+        //    {
+        //        datosCentro.NombreCentro = "";
+        //        datosCentro.DireccionCentro = "";
+        //        ViewData["Mensaje"] = "CentroDireccionYaExistente";
+        //        return View("~/Views/Admin/Centro/Guardar.cshtml", datosCentro);
+        //    }
+        //    else
+        //    {
+        //        try
+        //        {
+
+        //            Scaffold.Centroeducativo centroCreado = await _centroeducativoService.SaveCentroeducativo(
+        //                new Scaffold.Centroeducativo
+        //                {
+        //                    NombreCentro = datosCentro.NombreCentro,
+        //                    Direccion = datosCentro.DireccionCentro
+
+        //                }, HttpContext.User.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()!
+        //            );
+
+        //            await _usuarioscentroeducativoService.SaveUsuariosCentroeducativo(
+        //                new Scaffold.Usuarioscentroeducativo
+        //                {
+        //                    IdCentro = centroCreado.IdCentro,
+        //                    IdUsuario = centroCreado.IdAdministrador
+        //                }
+        //            );
+
+
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Console.WriteLine(ex.ToString());
+        //        }
+        //    }
+
+        //    return RedirectToAction("ListarCentro", "Admin");
+        //}
+
+
+
+
+        //[HttpGet]
+        //public async Task<IActionResult> EditarCentro([FromRoute] int Id)
+        //{
+
+        //    Scaffold.Centroeducativo centro = await _centroeducativoService.GetCentroeducativo(Id);
+
+        //    return View("~/Views/Admin/Centro/Editar.cshtml", centro);
+        //}
+
+
+        //[HttpPost]
+        //public async Task<IActionResult> EditarCentro(Scaffold.Centroeducativo centro)
+        //{
+
+        //    if (await _centroeducativoService.ExisteCentroEducativo(centro.NombreCentro, centro.Direccion))
+        //    {
+        //        ViewData["Mensaje"] = "CentroDireccionYaExistente";
+        //        return View("~/Views/Admin/Centro/Editar.cshtml", centro);
+        //    }
+
+        //    await _centroeducativoService.UpdateCentroeducativo(centro);
+
+        //    return RedirectToAction("ListarCentro");
+        //}
+
+        //[HttpPost]
+        //public async Task<IActionResult> EliminarCentro([FromRoute] int Id)
+        //{
+        //    try
+        //    {
+        //        Scaffold.Centroeducativo centro = await _centroeducativoService.DeleteCentroeducativo(Id);
+        //        bool existe = await _centroeducativoService.ExisteCentroEducativo(centro.NombreCentro, centro.Direccion);
+
+        //        if (existe)
+        //        {
+        //            return Json(new { success = false, message = "El centro educativo no se pudo eliminar." });
+        //        }
+        //        else
+        //        {
+        //            return Json(new { success = true });
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { success = false, message = "Ocurrió un error al eliminar el centro educativo." });
+        //    }
+        //}
+        /* ****************************************************************************************************************************************************************************************** */
+
+
+
         #endregion
 
         #region Gestion Alumnos
+
+        [HttpGet]
+        public async Task<IActionResult> ListarAlumnos()
+        {
+
+            ClaimsPrincipal claimsUser = HttpContext.User;
+            string emailUsuario = "";
+            if (claimsUser.Identity!.IsAuthenticated)
+                emailUsuario = claimsUser.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()!;
+
+            /*            */
+            IEnumerable<Scaffold.Centroeducativo> listado = await _centroeducativoService.ListadoCentroEducativo(emailUsuario);
+
+            return View("~/Views/Admin/Alumnos/Index.cshtml", listado);
+        }
+
+
+        /* ****************************************************************************************************************************************************************************************** */
+        //[HttpGet]
+        //public IActionResult GuardarAlumno()
+        //{
+        //    return View("~/Views/Admin/Centro/Guardar.cshtml");
+        //}
+
+
+
+        //[HttpPost]
+        //public async Task<IActionResult> GuardarAlumno(CentroEducativoModel datosCentro)
+        //{
+
+        //    if (!ModelState.IsValid)
+        //        return View("~/Views/Admin/Centro/Guardar.cshtml", datosCentro);
+
+        //    if (await _centroeducativoService.ExisteCentroEducativo(datosCentro.NombreCentro, datosCentro.DireccionCentro))
+        //    {
+        //        datosCentro.NombreCentro = "";
+        //        datosCentro.DireccionCentro = "";
+        //        ViewData["Mensaje"] = "CentroDireccionYaExistente";
+        //        return View("~/Views/Admin/Centro/Guardar.cshtml", datosCentro);
+        //    }
+        //    else
+        //    {
+        //        try
+        //        {
+
+        //            Scaffold.Centroeducativo centroCreado = await _centroeducativoService.SaveCentroeducativo(
+        //                new Scaffold.Centroeducativo
+        //                {
+        //                    NombreCentro = datosCentro.NombreCentro,
+        //                    Direccion = datosCentro.DireccionCentro
+
+        //                }, HttpContext.User.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()!
+        //            );
+
+        //            await _usuarioscentroeducativoService.SaveUsuariosCentroeducativo(
+        //                new Scaffold.Usuarioscentroeducativo
+        //                {
+        //                    IdCentro = centroCreado.IdCentro,
+        //                    IdUsuario = centroCreado.IdAdministrador
+        //                }
+        //            );
+
+
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Console.WriteLine(ex.ToString());
+        //        }
+        //    }
+
+        //    return RedirectToAction("ListarCentro", "Admin");
+        //}
+
+
+
+
+        //[HttpGet]
+        //public async Task<IActionResult> EditarCentro([FromRoute] int Id)
+        //{
+
+        //    Scaffold.Centroeducativo centro = await _centroeducativoService.GetCentroeducativo(Id);
+
+        //    return View("~/Views/Admin/Centro/Editar.cshtml", centro);
+        //}
+
+
+        //[HttpPost]
+        //public async Task<IActionResult> EditarCentro(Scaffold.Centroeducativo centro)
+        //{
+
+        //    if (await _centroeducativoService.ExisteCentroEducativo(centro.NombreCentro, centro.Direccion))
+        //    {
+        //        ViewData["Mensaje"] = "CentroDireccionYaExistente";
+        //        return View("~/Views/Admin/Centro/Editar.cshtml", centro);
+        //    }
+
+        //    await _centroeducativoService.UpdateCentroeducativo(centro);
+
+        //    return RedirectToAction("ListarCentro");
+        //}
+
+        //[HttpPost]
+        //public async Task<IActionResult> EliminarCentro([FromRoute] int Id)
+        //{
+        //    try
+        //    {
+        //        Scaffold.Centroeducativo centro = await _centroeducativoService.DeleteCentroeducativo(Id);
+        //        bool existe = await _centroeducativoService.ExisteCentroEducativo(centro.NombreCentro, centro.Direccion);
+
+        //        if (existe)
+        //        {
+        //            return Json(new { success = false, message = "El centro educativo no se pudo eliminar." });
+        //        }
+        //        else
+        //        {
+        //            return Json(new { success = true });
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { success = false, message = "Ocurrió un error al eliminar el centro educativo." });
+        //    }
+        //}
+        /* ****************************************************************************************************************************************************************************************** */
+
 
         #endregion
 

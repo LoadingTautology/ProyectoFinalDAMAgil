@@ -28,7 +28,8 @@ namespace ProyectoFinalDAMAgil
             });
 
             // ********* Inyeccion dependencias Servicios *********
-            builder.Services.AddScoped<Services.Administrador.IAdministradorService, Services.Administrador.AdministradorService>();           
+            builder.Services.AddScoped<Services.Administrador.IAdministradorService, Services.Administrador.AdministradorService>();
+            builder.Services.AddScoped<Services.Alumno.IAlumnoService, Services.Alumno.AlumnoService>();
             builder.Services.AddScoped<Services.Asignatura.IAsignaturaService, Services.Asignatura.AsignaturaService>();
             builder.Services.AddScoped<Services.AsignaturasEstudios.IAsignaturasEstudiosService, Services.AsignaturasEstudios.AsignaturasEstudiosService>();
             builder.Services.AddScoped<Services.Aula.IAulaService, Services.Aula.AulaService>();
@@ -38,6 +39,7 @@ namespace ProyectoFinalDAMAgil
             builder.Services.AddScoped<Services.Diasemana.IDiasemanaService, Services.Diasemana.DiasemanaService>();
             builder.Services.AddScoped<Services.Franjahorarium.IFranjahorariumService, Services.Franjahorarium.FranjahorariumService>();
             builder.Services.AddScoped<Services.Horario.IHorarioService, Services.Horario.HorarioService>();
+            builder.Services.AddScoped<Services.Profesor.IProfesorService, Services.Profesor.ProfesorService>();
             builder.Services.AddScoped<Services.Usuario.IUsuarioService, Services.Usuario.UsuarioService>();
             builder.Services.AddScoped<Services.Usuarioscentroeducativo.IUsuarioscentroeducativoService, Services.Usuarioscentroeducativo.UsuarioscentroeducativoService>();
 

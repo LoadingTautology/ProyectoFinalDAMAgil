@@ -17,7 +17,11 @@ public partial class Usuario
 
     public virtual Administrador? Administrador { get; set; }
 
+    public virtual Alumno? Alumno { get; set; }
+
     public virtual Correoelectronico EmailNavigation { get; set; } = null!;
+
+    public virtual Profesor? Profesor { get; set; }
 
     public virtual ICollection<Usuarioscentroeducativo> Usuarioscentroeducativos { get; set; } = new List<Usuarioscentroeducativo>();
 }

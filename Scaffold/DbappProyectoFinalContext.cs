@@ -13,6 +13,8 @@ public partial class DbappProyectoFinalContext : DbContext
 
     public virtual DbSet<Administrador> Administradors { get; set; }
 
+    public virtual DbSet<Alumno> Alumnos { get; set; }
+
     public virtual DbSet<Asignatura> Asignaturas { get; set; }
 
     public virtual DbSet<Asignaturascicloformativo> Asignaturascicloformativos { get; set; }
@@ -32,6 +34,8 @@ public partial class DbappProyectoFinalContext : DbContext
     public virtual DbSet<Franjahorarium> Franjahoraria { get; set; }
 
     public virtual DbSet<Horario> Horarios { get; set; }
+
+    public virtual DbSet<Profesor> Profesors { get; set; }
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
@@ -60,6 +64,30 @@ public partial class DbappProyectoFinalContext : DbContext
             entity.HasOne(d => d.IdAdministradorNavigation).WithOne(p => p.Administrador)
                 .HasForeignKey<Administrador>(d => d.IdAdministrador)
                 .HasConstraintName("administrador_ibfk_1");
+        });
+
+        modelBuilder.Entity<Alumno>(entity =>
+        {
+            entity.HasKey(e => e.IdAlumno).HasName("PRIMARY");
+
+            entity.ToTable("alumno");
+
+            entity.HasIndex(e => e.IdCentro, "IdCentro");
+
+            entity.Property(e => e.IdAlumno)
+                .ValueGeneratedNever()
+                .HasColumnType("int(11)");
+            entity.Property(e => e.FechaDeNacimiento).HasDefaultValueSql("'0000-01-01'");
+            entity.Property(e => e.IdCentro).HasColumnType("int(11)");
+
+            entity.HasOne(d => d.IdAlumnoNavigation).WithOne(p => p.Alumno)
+                .HasForeignKey<Alumno>(d => d.IdAlumno)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("alumno_ibfk_1");
+
+            entity.HasOne(d => d.IdCentroNavigation).WithMany(p => p.Alumnos)
+                .HasForeignKey(d => d.IdCentro)
+                .HasConstraintName("alumno_ibfk_2");
         });
 
         modelBuilder.Entity<Asignatura>(entity =>
@@ -254,6 +282,32 @@ public partial class DbappProyectoFinalContext : DbContext
                 .HasPrincipalKey(p => new { p.IdAsignatura, p.IdCiclo })
                 .HasForeignKey(d => new { d.IdAsignatura, d.IdEstudio })
                 .HasConstraintName("horario_ibfk_1");
+        });
+
+        modelBuilder.Entity<Profesor>(entity =>
+        {
+            entity.HasKey(e => e.IdProfesor).HasName("PRIMARY");
+
+            entity.ToTable("profesor");
+
+            entity.HasIndex(e => e.IdCentro, "IdCentro");
+
+            entity.Property(e => e.IdProfesor)
+                .ValueGeneratedNever()
+                .HasColumnType("int(11)");
+            entity.Property(e => e.Especialidad)
+                .HasMaxLength(100)
+                .HasDefaultValueSql("''");
+            entity.Property(e => e.IdCentro).HasColumnType("int(11)");
+
+            entity.HasOne(d => d.IdCentroNavigation).WithMany(p => p.Profesors)
+                .HasForeignKey(d => d.IdCentro)
+                .HasConstraintName("profesor_ibfk_2");
+
+            entity.HasOne(d => d.IdProfesorNavigation).WithOne(p => p.Profesor)
+                .HasForeignKey<Profesor>(d => d.IdProfesor)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("profesor_ibfk_1");
         });
 
         modelBuilder.Entity<Usuario>(entity =>

@@ -13,11 +13,15 @@ public partial class Centroeducativo
 
     public int IdAdministrador { get; set; }
 
+    public virtual ICollection<Alumno> Alumnos { get; set; } = new List<Alumno>();
+
     public virtual ICollection<Aula> Aulas { get; set; } = new List<Aula>();
 
     public virtual ICollection<Cicloformativo> Cicloformativos { get; set; } = new List<Cicloformativo>();
 
     public virtual Administrador IdAdministradorNavigation { get; set; } = null!;
+
+    public virtual ICollection<Profesor> Profesors { get; set; } = new List<Profesor>();
 
     public virtual ICollection<Usuarioscentroeducativo> Usuarioscentroeducativos { get; set; } = new List<Usuarioscentroeducativo>();
 }
