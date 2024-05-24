@@ -1,6 +1,6 @@
 ﻿@model ProyectoFinalDAMAgil.Models.Admin.HorarioModel
 @{
-    ViewData["Title"] = "Horario";
+    ViewData["Title"] = Localizer["Tutulo"];
     var listaHorarioEstudio = ViewData["Horarios"] as List<ProyectoFinalDAMAgil.Models.Admin.HorarioModel>;
     var listaAsignaturas = ViewData["ListaAsignaturas"] as List<ProyectoFinalDAMAgil.Models.Admin.AsignaturaModel>;
     var listaAulas = ViewData["ListaAulas"] as List<ProyectoFinalDAMAgil.Models.Admin.AulaModel>;
@@ -11,22 +11,22 @@
     <div class="container mt-5">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Horario - @ViewData["NombreAsignatura"] - @ViewData["CursoAsignatura"]º Curso</h3>
+                <h3 class="card-title">@Localizer["Titulo"] - @ViewData["NombreAsignatura"] - @ViewData["CursoAsignatura"]º @Localizer["Curso"]</h3>
             </div>
 
             <div class="card-body">
                 @if (listaAulas == null || listaAulas.Count == 0)
                 {
                     <div class="alert alert-danger mt-3" role="alert">
-                        ES NECESARIO TENER CREADAS AULAS
+                        @Localizer["AulasCreadasNecesarias"]
                     </div>
 
                     <div>
                         <a asp-controller="Admin" asp-action="GuardarAula" asp-route-id="@ViewData["idCentro"]" class="btn btn-success mb-3">
-                            <i class="bi bi-plus-circle"></i> Crear Aula
+                            <i class="bi bi-plus-circle"></i> @Localizer["CrearAula"]
                         </a>
                         <a asp-controller="Admin" asp-action="ListarAsignaturas" asp-route-id="@ViewData["idEstudios"]" class="btn btn-warning mb-3">
-                            <i class="bi bi-arrow-left"></i> Volver a Asignaturas
+                            <i class="bi bi-arrow-left"></i> @Localizer["Volver"]
                         </a>
                     </div>
                 }
@@ -52,25 +52,25 @@
                             </div>
                             <div class="col-md-4 d-flex justify-content-end">
                                 <a asp-controller="Admin" asp-action="ListarAsignaturas" asp-route-id="@ViewData["idEstudios"]" class="btn btn-warning">
-                                    <i class="bi bi-arrow-left"></i> Volver a Asignaturas
+                                    <i class="bi bi-arrow-left"></i> @Localizer["Volver"]
                                 </a>
                             </div>
                         </div>
 
-                        
+
                         @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
                         {
                             <div class="alert alert-danger mt-3" role="alert">
-                                @ViewData["Mensaje"]
+                                @Localizer["AulaOcupada"]
                             </div>
                         }
                         <table class="table table-bordered">
                             <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">Hora/Día</th>
+                                    <th scope="col" class="hora-col">@Localizer["Hora/Día"]</th>
                                     @foreach (var dia in ViewData["DiasSemana"] as IEnumerable<ProyectoFinalDAMAgil.Models.Admin.DiasemanaModel>)
                                     {
-                                        <th scope="col">@dia.DiaDeLaSemana</th>
+                                        <th scope="col">@Localizer[dia.DiaDeLaSemana]</th>
                                     }
                                 </tr>
                             </thead>
@@ -78,7 +78,7 @@
                                 @foreach (var hora in ViewData["Horas"] as IEnumerable<ProyectoFinalDAMAgil.Models.Admin.FranjahorariumModel>)
                                 {
                                     <tr>
-                                        <td>@hora.HoraMinInicio - @hora.HoraMinFinal</td>
+                                        <td class="hora-col">@hora.HoraMinInicio - @hora.HoraMinFinal</td>
                                         @foreach (var dia in ViewData["DiasSemana"] as IEnumerable<ProyectoFinalDAMAgil.Models.Admin.DiasemanaModel>)
                                         {
                                             contador++;
@@ -105,7 +105,6 @@
                                             else
                                             {
                                                 <td onclick="manejarClickCelda(@contador, false)">
-                                                    
                                                 </td>
                                             }
                                         }
@@ -138,3 +137,8 @@
         alert.style.display = 'block';
     }
 </script>
+<style>
+    .hora-col {
+        width: 175px;
+    }
+</style>
