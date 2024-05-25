@@ -41,7 +41,7 @@
                                 <td>@item.Especialidad</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Acciones">
-                                        <a asp-controller="Admin" asp-action="ListarEstudiosProfesor" asp-route-id="@item.IdProfesor" asp-route-idCentro="@item.IdCentro" class="btn btn-primary btn-sm">
+                                        <a asp-controller="Admin" asp-action="ListarEstudiosProfesor" asp-route-idProfesor="@item.IdProfesor" class="btn btn-primary btn-sm">
                                             <i class="bi bi-gear"></i> Asignar Estudios
                                         </a>
                                         <a asp-controller="Admin" asp-action="EditarProfesor" asp-route-id="@item.IdProfesor" class="btn btn-secondary btn-sm">

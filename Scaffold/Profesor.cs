@@ -11,6 +11,8 @@ public partial class Profesor
 
     public int IdCentro { get; set; }
 
+    public virtual ICollection<Asignaturasprofesor> Asignaturasprofesors { get; set; } = new List<Asignaturasprofesor>();
+
     public virtual Centroeducativo IdCentroNavigation { get; set; } = null!;
 
     public virtual Usuario IdProfesorNavigation { get; set; } = null!;

@@ -1,0 +1,155 @@
+﻿@model List<ProyectoFinalDAMAgil.Models.Admin.MatriculasalumnoModel>
+@{
+    ViewData["Title"] = Localizer["Title"];
+
+}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Listar Asignaturas Matriculadas  - @ViewData["NombreUsuario"] - @ViewData["ApellidosUsuario"]</h3>
+        </div>
+        <div class="card-body">
+            <div class="d-flex justify-content-between mb-3">
+
+                <a asp-controller="Admin" asp-action="ListarEstudiosMatricular" asp-route-idAlumno="@ViewData["IdAlumno"]" class="btn btn-dark">
+                    <i class="bi bi-plus-circle"></i> Matricular
+                </a>
+                <a asp-controller="Admin" asp-action="ListarAlumnos" asp-route-id="@ViewData["IdCentro"]" class="btn btn-warning">
+                    <i class="bi bi-arrow-left"></i> Volver Lista Alumnos
+                </a>
+                <input type="text" id="searchInput" class="form-control w-50" placeholder="@Localizer["BuscarAsignaturas"]">
+            </div>
+            <table id="centrosTable" class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>Acrónimo</th>
+                        <th>Nombre Asignatura</th>
+                        <th>Curso</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr data-id="@item.IdAsignatura">
+                                <td>@item.Acronimo</td>
+                                <td>@item.NombreAsignatura</td>
+                                <td>@item.Curso</td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Acciones">
+                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-url="@Url.Action("EliminarAsignaturaMatriculada", new { id = @item.IdAsignatura, idEstudio = @item.IdCiclo , idAlumno = item.IdAlumno })">
+                                            <i class="bi bi-trash"></i> Eliminar
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3" class="text-center">No hay asignaturas matriculadas</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">@Localizer["ConfirmarEliminacion"]</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @Localizer["SeguroEliminar"]
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancelar"]</button>
+                    <a id="confirmDeleteButton" class="btn btn-danger">@Localizer["Eliminar"]</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var confirmDeleteModal = document.getElementById('confirmDeleteModal');
+            confirmDeleteModal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget; // Botón que disparó el modal
+                var url = button.getAttribute('data-url'); // Extraer la URL de los atributos data-*
+
+                // Actualizar el enlace del botón de confirmación
+                var confirmDeleteButton = confirmDeleteModal.querySelector('#confirmDeleteButton');
+                confirmDeleteButton.setAttribute('href', url);
+            });
+
+            var confirmDeleteButton = document.getElementById('confirmDeleteButton');
+            confirmDeleteButton.addEventListener('click', function (event) {
+                event.preventDefault();
+                var url = confirmDeleteButton.getAttribute('href');
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '@Localizer["AsignaturaEliminada"]',
+                                text: '@Localizer["EliminadoCorrectamente"]'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: '@Localizer["Error"]',
+                                text: '@Localizer["NoSeHaPodidoEliminar"]'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '@Localizer["Error"]',
+                            text: '@Localizer["ErrorInesperado"]'
+                        }).then(() => {
+                            location.reload();
+                        });
+                    });
+            });
+
+            // Funcionalidad de búsqueda
+            document.getElementById('searchInput').addEventListener('keyup', function () {
+                var searchTerm = this.value.toLowerCase();
+                var rows = document.querySelectorAll('#centrosTable tbody tr');
+                rows.forEach(function (row) {
+                    var nombreAsignatura = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+                    var curso = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                    if (nombreAsignatura.includes(searchTerm) || curso.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -831,6 +831,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 
         #endregion
 
+
         /* ********************ALUMNOS******************** */
         #region Gestion Alumnos
 
@@ -951,6 +952,117 @@ namespace ProyectoFinalDAMAgil.Controllers
 
 
         #endregion
+
+
+        /* ********************ASIGNAR_PROFESOR******************** */
+        #region ASIGNAR_PROFESOR
+
+        public async Task<IActionResult> ListarEstudiosProfesor(int idProfesor)
+        {
+            ProfesorModel profesorModel = await _profesorService.ReadProfesor(idProfesor);
+
+            ViewData["NombreUsuario"]=profesorModel.NombreUsuario;
+            ViewData["ApellidosUsuario"]=profesorModel.ApellidosUsuario;
+            ViewData["IdProfesor"]= profesorModel.IdProfesor;
+            ViewData["IdCentro"]=profesorModel.IdCentro;
+
+            //List<AsignaturasprofesorModel> listaAsigProfModel = new List<AsignaturasprofesorModel>();
+            //listaAsigProfModel.Add(new AsignaturasprofesorModel() { NombreUsuario = "Jose", ApellidosUsuario ="Navarro",  IdCentro=idCentro });
+
+            return View("~/Views/Admin/Profesores/ListarEstudiosAsignaturas.cshtml");
+        }
+
+        public async Task<IActionResult> ListarEstudiosAsignar(int idProfesor)
+        {
+            ViewData["IdProfesor"]= idProfesor;
+            ProfesorModel profesorModel = await _profesorService.ReadProfesor(idProfesor);
+            ViewData["IdCentro"]=profesorModel.IdCentro;
+
+            var centroDB = await _centroeducativoService.GetCentroeducativo(profesorModel.IdCentro);
+            ViewData["NombreCentro"] = centroDB.NombreCentro;
+            ViewData["DireccionCentro"] = centroDB.Direccion;
+
+            IEnumerable<CicloformativoModel> listadoEstudios = await _cicloformativoService.ListadoCicloformativo(profesorModel.IdCentro);
+
+            return View("~/Views/Admin/Profesores/ListarEstudios.cshtml",listadoEstudios);
+        }
+
+        public async Task<IActionResult> ListarAsignaturasAsignar(int idProfesor, int idEstudio)
+        {
+            ViewData["idProfesor"]= idProfesor;
+            ViewData["idEstudio"]=idEstudio;
+
+            CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(idEstudio);
+            ViewData["Acronimo"] = cicloformativo.Acronimo;
+            IEnumerable<AsignaturaModel> listadoAsignaturas = await _asignaturaService.ListadoAsignatura(idEstudio);
+            /*HAY QUE MODIFICARLO ASIGNATURAS DEL ESTUDIO DIFERENCIA ASIGNADAS*/
+            return View("~/Views/Admin/Profesores/ListarAsignaturas.cshtml", listadoAsignaturas);
+        }
+
+        public async Task<IActionResult> AsignarProfesorAsignatura(int idProfesor, int idEstudio, int idAsignatura)
+        {            
+            return View(/*"~/Views/Admin/Profesores/ListarAsignaturas.cshtml"*/);
+        }
+
+        
+
+        #endregion
+
+        /* ********************MATRICULAR_ALUMNOS******************** */
+        #region MATRICULAR_ALUMNOS
+        public async Task<IActionResult> ListarEstudiosAlumno(int idAlumno)
+        {
+            AlumnoModel alumnoModel = await _alumnoService.ReadAlumno(idAlumno);
+
+            ViewData["NombreUsuario"]=alumnoModel.NombreUsuario;
+            ViewData["ApellidosUsuario"]=alumnoModel.ApellidosUsuario;
+            ViewData["IdAlumno"]= alumnoModel.IdAlumno;
+            ViewData["IdCentro"]=alumnoModel.IdCentro;
+
+            //List<AsignaturasprofesorModel> listaAsigProfModel = new List<AsignaturasprofesorModel>();
+            //listaAsigProfModel.Add(new AsignaturasprofesorModel() { NombreUsuario = "Jose", ApellidosUsuario ="Navarro",  IdCentro=idCentro });
+
+            return View("~/Views/Admin/Alumnos/ListarEstudiosAsignaturas.cshtml");
+        }
+
+        public async Task<IActionResult> ListarEstudiosMatricular(int idAlumno)
+        {
+            ViewData["IdAlumno"]= idAlumno;
+            AlumnoModel alumnoModel = await _alumnoService.ReadAlumno(idAlumno);
+            ViewData["IdCentro"]=alumnoModel.IdCentro;
+
+            var centroDB = await _centroeducativoService.GetCentroeducativo(alumnoModel.IdCentro);
+            ViewData["NombreCentro"] = centroDB.NombreCentro;
+            ViewData["DireccionCentro"] = centroDB.Direccion;
+
+            IEnumerable<CicloformativoModel> listadoEstudios = await _cicloformativoService.ListadoCicloformativo(alumnoModel.IdCentro);
+
+            return View("~/Views/Admin/Alumnos/ListarEstudios.cshtml", listadoEstudios);
+        }
+
+        public async Task<IActionResult> ListarAsignaturasMatricular(int idAlumno, int idEstudio)
+        {
+            ViewData["idAlumno"]= idAlumno;
+            ViewData["idEstudio"]= idEstudio;
+
+            CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(idEstudio);
+            ViewData["Acronimo"] = cicloformativo.Acronimo;
+            IEnumerable<AsignaturaModel> listadoAsignaturas = await _asignaturaService.ListadoAsignatura(idEstudio);
+            /*HAY QUE MODIFICARLO ASIGNATURAS DEL ESTUDIO DIFERENCIA MATRICULADAS*/
+
+            return View("~/Views/Admin/Alumnos/ListarAsignaturas.cshtml", listadoAsignaturas);
+        }
+
+        public async Task<IActionResult> MatricularAlumnoAsignatura(int idAlumno, int idEstudio, int idAsignatura)
+        {
+            return View(/*"~/Views/Admin/Alumnos/ListarAsignaturas.cshtml"*/);
+        }
+
+
+        
+
+        #endregion
+
 
     }
 }

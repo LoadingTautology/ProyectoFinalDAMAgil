@@ -160,6 +160,7 @@ CREATE TABLE Alumno (
 ******************************************************************
 
 
+
 ******************************************************************
 -- Creación de la tabla ExamenAsignaturas
 CREATE TABLE ExamenAsignaturas (
@@ -184,33 +185,7 @@ CREATE TABLE AsistenciaAlumnos (
 (IdAsignatura, IdCiclo)
 );
 
--- Creación de la tabla MatriculasAlumnos
-CREATE TABLE MatriculasAlumnos (
-    IdAlumno INT,
-    IdAsignatura INT,
-    IdCiclo INT,
-    Eva1 FLOAT NOT NULL DEFAULT 0,
-    Eva2 FLOAT DEFAULT 0,
-    Eva3 FLOAT DEFAULT 0,
-    PRIMARY KEY (IdAlumno, IdAsignatura, IdCiclo),
-    FOREIGN KEY (IdAlumno) REFERENCES Alumno(IdAlumno),
-    FOREIGN KEY (IdAsignatura, IdCiclo) REFERENCES AsignaturasCicloFormativo
-(IdAsignatura, IdCiclo),
-    CONSTRAINT CHK_Eva1 CHECK (0<=Eva1 AND Eva1<=10),
-    CONSTRAINT CHK_Eva2 CHECK (0<=Eva2 AND Eva2<=10),
-    CONSTRAINT CHK_Eva3 CHECK (0<=Eva3 AND Eva3<=10)
-);
 
--- Creación de la tabla AsignaturasProfesor
-CREATE TABLE AsignaturasProfesor (
-    IdProfesor INT,
-    IdAsignatura INT,
-    IdCiclo INT,
-    PRIMARY KEY (IdProfesor, IdAsignatura, IdCiclo),
-    FOREIGN KEY (IdProfesor) REFERENCES Profesor(IdProfesor),
-    FOREIGN KEY (IdAsignatura, IdCiclo) REFERENCES AsignaturasCicloFormativo
-(IdAsignatura, IdCiclo)
-);
 
 -- Creación de la tabla DudasAlumnoProfesor
 CREATE TABLE DudasAlumnoProfesor (
