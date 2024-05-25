@@ -1,7 +1,7 @@
-﻿@model  List<ProyectoFinalDAMAgil.Models.Admin.ProfesorModel>
+﻿@model List<ProyectoFinalDAMAgil.Models.Admin.ProfesorModel>
 
 @{
-    ViewData["Title"] = Localizer["Title"];
+    ViewData["Title"] = "Profesores";
 }
 
 <div class="container mt-5">
@@ -17,8 +17,13 @@
                 <a asp-controller="Admin" asp-action="ListarCentroProfesores" class="btn btn-warning">
                     <i class="bi bi-arrow-left"></i> Volver Centros Profesores
                 </a>
-
             </div>
+
+            <!-- Campo de búsqueda -->
+            <div class="mb-3">
+                <input type="text" id="searchInput" class="form-control" placeholder="Buscar por cualquier campo...">
+            </div>
+
             <table id="centrosTable" class="table table-hover table-striped">
                 <thead class="table-dark">
                     <tr>
@@ -58,7 +63,7 @@
                     else
                     {
                         <tr>
-                            <td colspan="3" class="text-center"> No hay profesores </td>
+                            <td colspan="5" class="text-center"> No hay profesores </td>
                         </tr>
                     }
                 </tbody>
@@ -147,15 +152,18 @@
                     var searchTerm = this.value.toLowerCase();
                     var rows = document.querySelectorAll('#centrosTable tbody tr');
                     rows.forEach(function (row) {
-                        var nombre = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
-                        var direccion = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-                        if (nombre.includes(searchTerm) || direccion.includes(searchTerm)) {
-                            row.style.display = '';
-                        } else {
-                            row.style.display = 'none';
+                        var cells = row.querySelectorAll('td');
+                        var match = false;
+                        for (var i = 0; i < cells.length - 1; i++) { // Excluir la última celda (acciones)
+                            if (cells[i].textContent.toLowerCase().includes(searchTerm)) {
+                                match = true;
+                                break;
+                            }
                         }
+                        row.style.display = match ? '' : 'none';
                     });
                 });
             });
         </script>
+    }
     }
