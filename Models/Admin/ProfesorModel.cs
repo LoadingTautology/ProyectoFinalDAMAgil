@@ -16,5 +16,11 @@
 
         public string Email { get; set; }
 
+        public override string ToString()
+        {
+            return " IdProfesor: "+IdProfesor+" Especialidad: "+Especialidad+" IdCentro: "+IdCentro+
+                   " NombreUsuario: "+NombreUsuario+" ApellidosUsuario: "+ ApellidosUsuario+" Email:"+Email;
+        }
+
     }
 }

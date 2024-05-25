@@ -26,7 +26,7 @@ namespace ProyectoFinalDAMAgil.Services.Usuario
 		public async Task<Scaffold.Usuario> SaveUsuario(Scaffold.Usuario usuario)
 		{
             _context.Usuarios.Add(usuario);
-			await _context.SaveChangesAsync();
+			_context.SaveChanges();
 			Scaffold.Usuario usuariobbdd = await GetUsuario(usuario.Email);
 
 			return usuariobbdd;

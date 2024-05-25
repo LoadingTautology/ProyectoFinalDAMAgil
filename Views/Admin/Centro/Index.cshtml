@@ -1,4 +1,4 @@
-﻿@model List<ProyectoFinalDAMAgil.Models.Admin.AlumnoModel>
+﻿@model List<ProyectoFinalDAMAgil.Scaffold.Centroeducativo>
 
 @{
     ViewData["Title"] = Localizer["Title"];
@@ -7,24 +7,17 @@
 <div class="container mt-5">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Listar Alumnos - @ViewData["NombreCentro"] - @ViewData["DireccionCentro"]</h3>
+            <h3 class="card-title">Listar Centros @ViewData["TipoUsuario"] </h3>
         </div>
         <div class="card-body">
             <div class="d-flex justify-content-between mb-3">
-                <a asp-controller="Admin" asp-action="GuardarAlumno" asp-route-id="@ViewData["idCentro"]" class="btn btn-success">
-                    <i class="bi bi-plus-circle"></i> Crear Nuevo Alumno
-                </a>
-                <a asp-controller="Admin" asp-action="ListarCentroAlumnos" class="btn btn-warning">
-                    <i class="bi bi-arrow-left"></i> Volver Centros Alumnos
-                </a>
+                @* <input type="text" id="searchInput" class="form-control w-50" placeholder="@Localizer["BuscarCentros"]"> *@
             </div>
             <table id="centrosTable" class="table table-hover table-striped">
                 <thead class="table-dark">
                     <tr>
                         <th>Nombre</th>
-                        <th>Apellidos</th>
-                        <th>Email</th>
-                        <th>FechaDeNacimiento</th>
+                        <th>Dirección</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -34,21 +27,13 @@
                         @foreach (var item in Model)
                         {
                             <tr data-id="@item.IdCentro">
-                                <td>@item.NombreUsuario</td>
-                                <td>@item.ApellidosUsuario</td>
-                                <td>@item.Email</td>
-                                <td>@item.FechaDeNacimiento</td>
+                                <td>@item.NombreCentro</td>
+                                <td>@item.Direccion</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Acciones">
-                                        <a asp-controller="Admin" asp-action="ListarEstudiosAlumno" asp-route-id="@item.IdAlumno" asp-route-idCentro="@item.IdCentro" class="btn btn-primary btn-sm">
-                                            <i class="bi bi-gear"></i> Asignar Estudios
+                                        <a asp-controller="Admin" asp-action="@ViewData["Action"]" asp-route-id="@item.IdCentro" class="btn btn-primary btn-sm">
+                                            <i class="bi bi-gear"></i> Seleccionar
                                         </a>
-                                        <a asp-controller="Admin" asp-action="EditarAlumno" asp-route-id="@item.IdAlumno" class="btn btn-secondary btn-sm">
-                                            <i class="bi bi-pencil"></i> Editar
-                                        </a>
-                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-url="@Url.Action("EliminarAlumno", "Admin", new { id = item.IdAlumno })">
-                                            <i class="bi bi-trash"></i> Eliminar
-                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -57,7 +42,7 @@
                     else
                     {
                         <tr>
-                            <td colspan="3" class="text-center">No hay alumnos</td>
+                            <td colspan="3" class="text-center">No hay Centros</td>
                         </tr>
                     }
                 </tbody>

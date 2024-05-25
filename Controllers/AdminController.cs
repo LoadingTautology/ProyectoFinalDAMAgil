@@ -202,6 +202,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 
         #endregion
 
+
         /* ********************ESTUDIOS******************** */
         #region Estudios
 
@@ -308,6 +309,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 
 
         #endregion
+
 
         /* ********************ASIGNATURAS******************** */
         #region Asignaturas
@@ -467,6 +469,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 
         #endregion
 
+
         /* ********************AULAS******************** */
         #region Aulas
 
@@ -585,6 +588,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 
         #endregion
 
+
         /* ********************HORARIOS******************** */
         #region Vincular Horarios, Asignaturas y Aulas
 
@@ -669,261 +673,247 @@ namespace ProyectoFinalDAMAgil.Controllers
         #endregion
 
 
+        /* ********************PROFESORES******************** */
         #region Gestion Profesores
 
-        //[HttpGet]
-        //public async Task<IActionResult> ListarProfesores()
-        //{
+        [HttpGet]
+        public async Task<IActionResult> ListarCentroProfesores()
+        {
 
-        //    ClaimsPrincipal claimsUser = HttpContext.User;
-        //    string emailUsuario = "";
-        //    if (claimsUser.Identity!.IsAuthenticated)
-        //        emailUsuario = claimsUser.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()!;
+            ClaimsPrincipal claimsUser = HttpContext.User;
+            string emailUsuario = "";
+            if (claimsUser.Identity!.IsAuthenticated)
+                emailUsuario = claimsUser.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()!;
 
-        //    /*            */
-        //    IEnumerable<Scaffold.Centroeducativo> listado = await _centroeducativoService.ListadoCentroEducativo(emailUsuario);
+            IEnumerable<Scaffold.Centroeducativo> listado = await _centroeducativoService.ListadoCentroEducativo(emailUsuario);
+            ViewData["Action"]="ListarProfesores";
+            ViewData["TipoUsuario"]="Profesores";
 
-        //    return View("~/Views/Admin/Profesores/Index.cshtml", listado);
-        //}
-
-
-        /* ****************************************************************************************************************************************************************************************** */
-        //[HttpGet]
-        //public IActionResult GuardarProfesor()
-        //{
-        //    return View("~/Views/Admin/Centro/Guardar.cshtml");
-        //}
+            return View("~/Views/Admin/Centro/Index.cshtml", listado);
+        }
 
 
+        [HttpGet]
+        public async Task<IActionResult> ListarProfesores(int id)
+        {
 
-        //[HttpPost]
-        //public async Task<IActionResult> GuardarProfesor(CentroEducativoModel datosCentro)
-        //{
-
-        //    if (!ModelState.IsValid)
-        //        return View("~/Views/Admin/Centro/Guardar.cshtml", datosCentro);
-
-        //    if (await _centroeducativoService.ExisteCentroEducativo(datosCentro.NombreCentro, datosCentro.DireccionCentro))
-        //    {
-        //        datosCentro.NombreCentro = "";
-        //        datosCentro.DireccionCentro = "";
-        //        ViewData["Mensaje"] = "CentroDireccionYaExistente";
-        //        return View("~/Views/Admin/Centro/Guardar.cshtml", datosCentro);
-        //    }
-        //    else
-        //    {
-        //        try
-        //        {
-
-        //            Scaffold.Centroeducativo centroCreado = await _centroeducativoService.SaveCentroeducativo(
-        //                new Scaffold.Centroeducativo
-        //                {
-        //                    NombreCentro = datosCentro.NombreCentro,
-        //                    Direccion = datosCentro.DireccionCentro
-
-        //                }, HttpContext.User.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()!
-        //            );
-
-        //            await _usuarioscentroeducativoService.SaveUsuariosCentroeducativo(
-        //                new Scaffold.Usuarioscentroeducativo
-        //                {
-        //                    IdCentro = centroCreado.IdCentro,
-        //                    IdUsuario = centroCreado.IdAdministrador
-        //                }
-        //            );
+            ViewData["idCentro"]=id;
+            var centroDB = await _centroeducativoService.GetCentroeducativo(id);
+            ViewData["NombreCentro"] = centroDB.NombreCentro;
+            ViewData["DireccionCentro"] = centroDB.Direccion;
 
 
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            Console.WriteLine(ex.ToString());
-        //        }
-        //    }
+            IEnumerable<ProfesorModel> listadoProfesores = await _profesorService.ListadoProfesores(id);
 
-        //    return RedirectToAction("ListarCentro", "Admin");
-        //}
+            return View("~/Views/Admin/Profesores/Index.cshtml", listadoProfesores);
+        }
 
-
-
-
-        //[HttpGet]
-        //public async Task<IActionResult> EditarCentro([FromRoute] int Id)
-        //{
-
-        //    Scaffold.Centroeducativo centro = await _centroeducativoService.GetCentroeducativo(Id);
-
-        //    return View("~/Views/Admin/Centro/Editar.cshtml", centro);
-        //}
+        [HttpGet]
+        public IActionResult GuardarProfesor(int id)//IdCentro
+        {
+            ViewData["idCentro"]=id;
+            return View("~/Views/Admin/Profesores/Guardar.cshtml");
+        }
 
 
-        //[HttpPost]
-        //public async Task<IActionResult> EditarCentro(Scaffold.Centroeducativo centro)
-        //{
+        [HttpPost]
+        public async Task<IActionResult> GuardarProfesor(ProfesorModel profesorModel)
+        {
+            //Console.WriteLine("**************Guardar Profesor: "+profesorModel.ToString() );
+            ViewData["idCentro"]=profesorModel.IdCentro;
 
-        //    if (await _centroeducativoService.ExisteCentroEducativo(centro.NombreCentro, centro.Direccion))
-        //    {
-        //        ViewData["Mensaje"] = "CentroDireccionYaExistente";
-        //        return View("~/Views/Admin/Centro/Editar.cshtml", centro);
-        //    }
+            if (!ModelState.IsValid)
+            {
+                return View("~/Views/Admin/Profesores/Guardar.cshtml", profesorModel);
+            }
+            else if (await _correoelectronicoService.ExistCorreoElectronico(profesorModel.Email))
+            {
+                profesorModel.Email ="";
+                ViewData["Mensaje"] = "Ese email ya existe";
+                return View("~/Views/Admin/Profesores/Guardar.cshtml", profesorModel);
+            }
+            else
+            {
+                try
+                {
+                    await _profesorService.CreateProfesor(profesorModel,"123");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            }
 
-        //    await _centroeducativoService.UpdateCentroeducativo(centro);
+            return RedirectToAction("ListarProfesores", new { id = profesorModel.IdCentro });
+        }
 
-        //    return RedirectToAction("ListarCentro");
-        //}
+        [HttpPost]
+        public async Task<IActionResult> EliminarProfesor([FromRoute] int id)//idProfesor
+        {
+            try
+            {
+                ProfesorModel profesorModel = await _profesorService.ReadProfesor(id);
 
-        //[HttpPost]
-        //public async Task<IActionResult> EliminarCentro([FromRoute] int Id)
-        //{
-        //    try
-        //    {
-        //        Scaffold.Centroeducativo centro = await _centroeducativoService.DeleteCentroeducativo(Id);
-        //        bool existe = await _centroeducativoService.ExisteCentroEducativo(centro.NombreCentro, centro.Direccion);
+                Scaffold.Correoelectronico correoDB = await _correoelectronicoService.DeleteCorreoElectronico(profesorModel.Email);
+                bool existe = await _correoelectronicoService.ExistCorreoElectronico(profesorModel.Email);
 
-        //        if (existe)
-        //        {
-        //            return Json(new { success = false, message = "El centro educativo no se pudo eliminar." });
-        //        }
-        //        else
-        //        {
-        //            return Json(new { success = true });
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Json(new { success = false, message = "Ocurrió un error al eliminar el centro educativo." });
-        //    }
-        //}
-        /* ****************************************************************************************************************************************************************************************** */
+                if (existe)
+                {
+                    return Json(new { success = false, message = "El profesor no se pudo eliminar." });
+                }
+                else
+                {
+                    return Json(new { success = true });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Ocurrió un error al eliminar el profesor." });
+            }
+        }
 
+
+        [HttpGet]
+        public async Task<IActionResult> EditarProfesor([FromRoute] int id)//idProfesor
+        {
+            ProfesorModel profesorModel = await _profesorService.ReadProfesor(id);
+
+            return View("~/Views/Admin/Profesores/Editar.cshtml", profesorModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditarProfesor(ProfesorModel profesorModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("~/Views/Admin/Profesores/Editar.cshtml", profesorModel);
+            }
+
+            await _profesorService.UpdateProfesor(profesorModel);
+
+            return RedirectToAction("ListarProfesores", new { id = profesorModel.IdCentro });
+        }
 
 
         #endregion
 
+        /* ********************ALUMNOS******************** */
         #region Gestion Alumnos
 
-        //[HttpGet]
-        //public async Task<IActionResult> ListarAlumnos()
-        //{
+        [HttpGet]
+        public async Task<IActionResult> ListarCentroAlumnos()
+        {
 
-        //    ClaimsPrincipal claimsUser = HttpContext.User;
-        //    string emailUsuario = "";
-        //    if (claimsUser.Identity!.IsAuthenticated)
-        //        emailUsuario = claimsUser.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()!;
+            ClaimsPrincipal claimsUser = HttpContext.User;
+            string emailUsuario = "";
+            if (claimsUser.Identity!.IsAuthenticated)
+                emailUsuario = claimsUser.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()!;
 
-        //    /*            */
-        //    IEnumerable<Scaffold.Centroeducativo> listado = await _centroeducativoService.ListadoCentroEducativo(emailUsuario);
+            IEnumerable<Scaffold.Centroeducativo> listado = await _centroeducativoService.ListadoCentroEducativo(emailUsuario);
+            ViewData["Action"]="ListarAlumnos";
+            ViewData["TipoUsuario"]="Alumnos";
 
-        //    return View("~/Views/Admin/Alumnos/Index.cshtml", listado);
-        //}
+            return View("~/Views/Admin/Centro/Index.cshtml", listado);
+        }
 
+        [HttpGet]
+        public async Task<IActionResult> ListarAlumnos(int id)
+        {
 
-        /* ****************************************************************************************************************************************************************************************** */
-        //[HttpGet]
-        //public IActionResult GuardarAlumno()
-        //{
-        //    return View("~/Views/Admin/Centro/Guardar.cshtml");
-        //}
+            ViewData["idCentro"]=id;
+            var centroDB = await _centroeducativoService.GetCentroeducativo(id);
+            ViewData["NombreCentro"] = centroDB.NombreCentro;
+            ViewData["DireccionCentro"] = centroDB.Direccion;
 
+            IEnumerable<AlumnoModel> listadoAlumnos = await _alumnoService.ListadoAlumnos(id);
 
+            return View("~/Views/Admin/Alumnos/Index.cshtml", listadoAlumnos);
+        }
 
-        //[HttpPost]
-        //public async Task<IActionResult> GuardarAlumno(CentroEducativoModel datosCentro)
-        //{
-
-        //    if (!ModelState.IsValid)
-        //        return View("~/Views/Admin/Centro/Guardar.cshtml", datosCentro);
-
-        //    if (await _centroeducativoService.ExisteCentroEducativo(datosCentro.NombreCentro, datosCentro.DireccionCentro))
-        //    {
-        //        datosCentro.NombreCentro = "";
-        //        datosCentro.DireccionCentro = "";
-        //        ViewData["Mensaje"] = "CentroDireccionYaExistente";
-        //        return View("~/Views/Admin/Centro/Guardar.cshtml", datosCentro);
-        //    }
-        //    else
-        //    {
-        //        try
-        //        {
-
-        //            Scaffold.Centroeducativo centroCreado = await _centroeducativoService.SaveCentroeducativo(
-        //                new Scaffold.Centroeducativo
-        //                {
-        //                    NombreCentro = datosCentro.NombreCentro,
-        //                    Direccion = datosCentro.DireccionCentro
-
-        //                }, HttpContext.User.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()!
-        //            );
-
-        //            await _usuarioscentroeducativoService.SaveUsuariosCentroeducativo(
-        //                new Scaffold.Usuarioscentroeducativo
-        //                {
-        //                    IdCentro = centroCreado.IdCentro,
-        //                    IdUsuario = centroCreado.IdAdministrador
-        //                }
-        //            );
+        [HttpGet]
+        public IActionResult GuardarAlumno(int id)//IdCentro
+        {
+            ViewData["idCentro"]=id;
+            return View("~/Views/Admin/Alumnos/Guardar.cshtml");
+        }
 
 
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            Console.WriteLine(ex.ToString());
-        //        }
-        //    }
+        [HttpPost]
+        public async Task<IActionResult> GuardarAlumno(AlumnoModel alumnoModel)
+        {
 
-        //    return RedirectToAction("ListarCentro", "Admin");
-        //}
+            ViewData["idCentro"]=alumnoModel.IdCentro;
 
+            if (!ModelState.IsValid)
+            {
+                return View("~/Views/Admin/Alumnos/Guardar.cshtml", alumnoModel);
+            }
+            else if (await _correoelectronicoService.ExistCorreoElectronico(alumnoModel.Email))
+            {
+                alumnoModel.Email ="";
+                ViewData["Mensaje"] = "Ese email ya existe";
+                return View("~/Views/Admin/Alumnos/Guardar.cshtml", alumnoModel);
+            }
+            else
+            {
+                try
+                {
+                    await _alumnoService.CreateAlumno(alumnoModel, "123");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            }
 
+            return RedirectToAction("ListarAlumnos", new { id = alumnoModel.IdCentro });
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> EliminarAlumno([FromRoute] int id)//idAlumno
+        {
+            try
+            {
+                AlumnoModel alumnoModel = await _alumnoService.ReadAlumno(id);
 
-        //[HttpGet]
-        //public async Task<IActionResult> EditarCentro([FromRoute] int Id)
-        //{
+                Scaffold.Correoelectronico correoDB = await _correoelectronicoService.DeleteCorreoElectronico(alumnoModel.Email);
+                bool existe = await _correoelectronicoService.ExistCorreoElectronico(alumnoModel.Email);
 
-        //    Scaffold.Centroeducativo centro = await _centroeducativoService.GetCentroeducativo(Id);
+                if (existe)
+                {
+                    return Json(new { success = false, message = "El alumno no se pudo eliminar." });
+                }
+                else
+                {
+                    return Json(new { success = true });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Ocurrió un error al eliminar el alumno." });
+            }
+        }
 
-        //    return View("~/Views/Admin/Centro/Editar.cshtml", centro);
-        //}
+        [HttpGet]
+        public async Task<IActionResult> EditarAlumno([FromRoute] int id)//idAlumno
+        {
+            AlumnoModel alumnoModel = await _alumnoService.ReadAlumno(id);
 
+            return View("~/Views/Admin/Alumnos/Editar.cshtml", alumnoModel);
+        }
 
-        //[HttpPost]
-        //public async Task<IActionResult> EditarCentro(Scaffold.Centroeducativo centro)
-        //{
+        [HttpPost]
+        public async Task<IActionResult> EditarAlumno(AlumnoModel alumnoModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("~/Views/Admin/Alumnos/Editar.cshtml", alumnoModel);
+            }
 
-        //    if (await _centroeducativoService.ExisteCentroEducativo(centro.NombreCentro, centro.Direccion))
-        //    {
-        //        ViewData["Mensaje"] = "CentroDireccionYaExistente";
-        //        return View("~/Views/Admin/Centro/Editar.cshtml", centro);
-        //    }
+            await _alumnoService.UpdateAlumno(alumnoModel);
 
-        //    await _centroeducativoService.UpdateCentroeducativo(centro);
-
-        //    return RedirectToAction("ListarCentro");
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> EliminarCentro([FromRoute] int Id)
-        //{
-        //    try
-        //    {
-        //        Scaffold.Centroeducativo centro = await _centroeducativoService.DeleteCentroeducativo(Id);
-        //        bool existe = await _centroeducativoService.ExisteCentroEducativo(centro.NombreCentro, centro.Direccion);
-
-        //        if (existe)
-        //        {
-        //            return Json(new { success = false, message = "El centro educativo no se pudo eliminar." });
-        //        }
-        //        else
-        //        {
-        //            return Json(new { success = true });
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Json(new { success = false, message = "Ocurrió un error al eliminar el centro educativo." });
-        //    }
-        //}
-        /* ****************************************************************************************************************************************************************************************** */
+            return RedirectToAction("ListarAlumnos",new {id=alumnoModel.IdCentro });
+        }
 
 
         #endregion

@@ -1,4 +1,4 @@
-﻿@*@model  List<ProyectoFinalDAMAgil.Models.Admin.ProfesorModel>
+﻿@model  List<ProyectoFinalDAMAgil.Models.Admin.ProfesorModel>
 
 @{
     ViewData["Title"] = Localizer["Title"];
@@ -7,21 +7,26 @@
 <div class="container mt-5">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">@Localizer["ListaDeCentros"]</h3>
+            <h3 class="card-title">Listar Profesores - @ViewData["NombreCentro"] - @ViewData["DireccionCentro"]</h3>
         </div>
         <div class="card-body">
             <div class="d-flex justify-content-between mb-3">
-                <a asp-controller="Admin" asp-action="GuardarProfesor" class="btn btn-success">
-                    <i class="bi bi-plus-circle"></i> @Localizer["CrearNuevo"]
+                <a asp-controller="Admin" asp-action="GuardarProfesor" asp-route-id="@ViewData["idCentro"]" class="btn btn-success">
+                    <i class="bi bi-plus-circle"></i> Crear Nuevo Profesor
+                </a>
+                <a asp-controller="Admin" asp-action="ListarCentroProfesores" class="btn btn-warning">
+                    <i class="bi bi-arrow-left"></i> Volver Centros Profesores
                 </a>
 
             </div>
             <table id="centrosTable" class="table table-hover table-striped">
                 <thead class="table-dark">
                     <tr>
-                        <th>@Localizer["Nombre"]</th>
-                        <th>@Localizer["Direccion"]</th>
-                        <th>@Localizer["Acciones"]</th>
+                        <th>Nombre</th>
+                        <th>Apellidos</th>
+                        <th>Email</th>
+                        <th>Especialidad</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,18 +35,20 @@
                         @foreach (var item in Model)
                         {
                             <tr data-id="@item.IdCentro">
-                                <td>@item.NombreCentro</td>
-                                <td>@item.Direccion</td>
+                                <td>@item.NombreUsuario</td>
+                                <td>@item.ApellidosUsuario</td>
+                                <td>@item.Email</td>
+                                <td>@item.Especialidad</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Acciones">
-                                        <a asp-controller="Admin" asp-action="ListarEstudios" asp-route-id="@item.IdCentro" class="btn btn-primary btn-sm">
-                                            <i class="bi bi-gear"></i> @Localizer["Estudios"]
+                                        <a asp-controller="Admin" asp-action="ListarEstudiosProfesor" asp-route-id="@item.IdProfesor" asp-route-idCentro="@item.IdCentro" class="btn btn-primary btn-sm">
+                                            <i class="bi bi-gear"></i> Asignar Estudios
                                         </a>
-                                        <a asp-controller="Admin" asp-action="EditarCentro" asp-route-id="@item.IdCentro" class="btn btn-secondary btn-sm">
-                                            <i class="bi bi-pencil"></i> @Localizer["Editar"]
+                                        <a asp-controller="Admin" asp-action="EditarProfesor" asp-route-id="@item.IdProfesor" class="btn btn-secondary btn-sm">
+                                            <i class="bi bi-pencil"></i> Editar
                                         </a>
-                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-url="@Url.Action("EliminarCentro", "Admin", new { id = item.IdCentro })">
-                                            <i class="bi bi-trash"></i> @Localizer["Eliminar"]
+                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-url="@Url.Action("EliminarProfesor", "Admin", new { id = item.IdProfesor })">
+                                            <i class="bi bi-trash"></i> Eliminar
                                         </button>
                                     </div>
                                 </td>
@@ -51,7 +58,7 @@
                     else
                     {
                         <tr>
-                            <td colspan="3" class="text-center">@Localizer["NoHayCentros"]</td>
+                            <td colspan="3" class="text-center"> No hay profesores </td>
                         </tr>
                     }
                 </tbody>
@@ -152,4 +159,3 @@
             });
         </script>
     }
- *@

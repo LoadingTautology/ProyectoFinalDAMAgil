@@ -1,5 +1,52 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model ProyectoFinalDAMAgil.Models.Admin.AlumnoModel
+
 @{
+    ViewData["Title"] = Localizer["Title"];
 }
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h3>Crear Nuevo Alumno</h3>
+        </div>
+        <div class="card-body">
+            <form asp-controller="Admin" asp-action="GuardarAlumno" method="post" enctype="multipart/form-data">
+
+                <input type="hidden" asp-for="IdCentro" value="@ViewData["idCentro"]" />
+
+                <div class="mb-3">
+                    <label class="form-label" for="NombreUsuario">Nombre Alumno</label>
+                    <input asp-for="NombreUsuario" type="text" class="form-control" id="NombreUsuario" placeholder="Nombre del Alumno">
+                    <span asp-validation-for="NombreUsuario" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="ApellidosUsuario">Apellidos Alumno</label>
+                    <input asp-for="ApellidosUsuario" type="text" class="form-control" id="ApellidosUsuario" placeholder="Apellidos Alumno">
+                    <span asp-validation-for="ApellidosUsuario" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="Email">Email</label>
+                    <input asp-for="Email" type="email" class="form-control" id="Email" placeholder="Email">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <input asp-for="FechaDeNacimiento" type="date" class="form-control" id="FechaDeNacimiento" value="2000-01-01" min="1900-01-01" />
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary" asp-route-id="@ViewData["idCentro"]">
+                        <i class="bi bi-save"></i> Guardar
+                    </button>
+                    <a asp-controller="Admin" asp-action="ListarAlumnos" asp-route-id="@ViewData["idCentro"]" class="btn btn-warning">
+                        <i class="bi bi-arrow-left"></i> Volver Lista Alumnos
+                    </a>
+                </div>
+            </form>
+            @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
+            {
+                <div class="alert alert-danger mt-3" role="alert">
+                    @ViewData["Mensaje"]
+                </div>
+            }
+        </div>
+    </div>
+</div>
