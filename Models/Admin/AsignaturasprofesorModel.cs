@@ -18,5 +18,18 @@
         public string NombreUsuario { get; set; }
         public string ApellidosUsuario { get; set; }
 
+        public override string ToString()
+        {
+            return $"AsignaturasprofesorModel: \n" +
+                   $"  IdAsignatura: {IdAsignatura}\n" +
+                   $"  NombreAsignatura: {NombreAsignatura}\n" +
+                   $"  Curso: {Curso}\n" +
+                   $"  IdCiclo: {IdCiclo}\n" +
+                   $"  Acronimo: {Acronimo}\n" +
+                   $"  IdProfesor: {IdProfesor}\n" +
+                   $"  NombreUsuario: {NombreUsuario}\n" +
+                   $"  ApellidosUsuario: {ApellidosUsuario}";
+        }
+
     }
 }

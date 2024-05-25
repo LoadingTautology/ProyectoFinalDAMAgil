@@ -6,6 +6,7 @@ using ProyectoFinalDAMAgil.Services.Administrador;
 using ProyectoFinalDAMAgil.Services.Alumno;
 using ProyectoFinalDAMAgil.Services.Asignatura;
 using ProyectoFinalDAMAgil.Services.AsignaturasEstudios;
+using ProyectoFinalDAMAgil.Services.Asignaturasprofesor;
 using ProyectoFinalDAMAgil.Services.Aula;
 using ProyectoFinalDAMAgil.Services.Centroeducativo;
 using ProyectoFinalDAMAgil.Services.Cicloformativo;
@@ -13,6 +14,7 @@ using ProyectoFinalDAMAgil.Services.Correoelectronico;
 using ProyectoFinalDAMAgil.Services.Diasemana;
 using ProyectoFinalDAMAgil.Services.Franjahorarium;
 using ProyectoFinalDAMAgil.Services.Horario;
+using ProyectoFinalDAMAgil.Services.Matriculasalumno;
 using ProyectoFinalDAMAgil.Services.Profesor;
 using ProyectoFinalDAMAgil.Services.Usuario;
 using ProyectoFinalDAMAgil.Services.Usuarioscentroeducativo;
@@ -29,6 +31,7 @@ namespace ProyectoFinalDAMAgil.Controllers
         private readonly IAlumnoService _alumnoService;
         private readonly IAsignaturaService _asignaturaService;
         private readonly IAsignaturasEstudiosService _asignaturasEstudiosService;
+        private readonly IAsignaturasprofesorService _asignaturaprofesorService;
         private readonly IAulaService _aulaService;
         private readonly ICentroeducativoService _centroeducativoService;
         private readonly ICicloformativoService _cicloformativoService;
@@ -36,6 +39,7 @@ namespace ProyectoFinalDAMAgil.Controllers
         private readonly IDiasemanaService _diasemanaService;
         private readonly IFranjahorariumService _franjahorariumService;
         private readonly IHorarioService _horarioService;
+        private readonly IMatriculasalumnoService _matriculasalumnoService;
         private readonly IProfesorService _profesorService;
         private readonly IUsuarioService _usuarioService;
         private readonly IUsuarioscentroeducativoService _usuarioscentroeducativoService;
@@ -45,6 +49,7 @@ namespace ProyectoFinalDAMAgil.Controllers
                                 IAlumnoService alumnoService,
                                 IAsignaturaService asignaturaService,
                                 IAsignaturasEstudiosService asignaturasEstudiosService,
+                                IAsignaturasprofesorService asignaturasprofesorService,
                                 IAulaService aulaService,
                                 ICentroeducativoService centroeducativoService,
                                 ICicloformativoService cicloformativoService,
@@ -52,6 +57,7 @@ namespace ProyectoFinalDAMAgil.Controllers
                                 IDiasemanaService diasemanaService,
                                 IFranjahorariumService franjahorariumService,
                                 IHorarioService horarioService,
+                                IMatriculasalumnoService matriculasalumnoService,
                                 IProfesorService profesorService,
                                 IUsuarioService usuarioService,
                                 IUsuarioscentroeducativoService usuarioscentroeducativo)
@@ -62,6 +68,7 @@ namespace ProyectoFinalDAMAgil.Controllers
             _alumnoService = alumnoService;
             _asignaturaService = asignaturaService;
             _asignaturasEstudiosService = asignaturasEstudiosService;
+            _asignaturaprofesorService = asignaturasprofesorService;
             _aulaService = aulaService;
             _centroeducativoService = centroeducativoService;
             _cicloformativoService = cicloformativoService;
@@ -69,6 +76,7 @@ namespace ProyectoFinalDAMAgil.Controllers
             _diasemanaService = diasemanaService;
             _franjahorariumService = franjahorariumService;
             _horarioService = horarioService;
+            _matriculasalumnoService = matriculasalumnoService;
             _profesorService = profesorService;
             _usuarioService = usuarioService;
             _usuarioscentroeducativoService = usuarioscentroeducativo;
@@ -966,10 +974,9 @@ namespace ProyectoFinalDAMAgil.Controllers
             ViewData["IdProfesor"]= profesorModel.IdProfesor;
             ViewData["IdCentro"]=profesorModel.IdCentro;
 
-            //List<AsignaturasprofesorModel> listaAsigProfModel = new List<AsignaturasprofesorModel>();
-            //listaAsigProfModel.Add(new AsignaturasprofesorModel() { NombreUsuario = "Jose", ApellidosUsuario ="Navarro",  IdCentro=idCentro });
+            IEnumerable<AsignaturasprofesorModel> asignaturasprofesorModels = await _asignaturaprofesorService.ListAsignaturasprofesor(idProfesor);
 
-            return View("~/Views/Admin/Profesores/ListarEstudiosAsignaturas.cshtml");
+            return View("~/Views/Admin/Profesores/ListarEstudiosAsignaturas.cshtml", asignaturasprofesorModels);
         }
 
         public async Task<IActionResult> ListarEstudiosAsignar(int idProfesor)
@@ -1000,8 +1007,10 @@ namespace ProyectoFinalDAMAgil.Controllers
         }
 
         public async Task<IActionResult> AsignarProfesorAsignatura(int idProfesor, int idEstudio, int idAsignatura)
-        {            
-            return View(/*"~/Views/Admin/Profesores/ListarAsignaturas.cshtml"*/);
+        {
+            await _asignaturaprofesorService.CreateAsignaturasprofesor(idProfesor, idEstudio, idAsignatura);
+
+            return RedirectToAction("ListarAsignaturasAsignar", new {idProfesor= idProfesor, idEstudio=idEstudio});
         }
 
         

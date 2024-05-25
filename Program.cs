@@ -40,7 +40,7 @@ namespace ProyectoFinalDAMAgil
             builder.Services.AddScoped<Services.Diasemana.IDiasemanaService, Services.Diasemana.DiasemanaService>();
             builder.Services.AddScoped<Services.Franjahorarium.IFranjahorariumService, Services.Franjahorarium.FranjahorariumService>();
             builder.Services.AddScoped<Services.Horario.IHorarioService, Services.Horario.HorarioService>();
-            builder.Services.AddScoped<Services.Asignaturasprofesor.IAsignaturasprofesorService, Services.Asignaturasprofesor.AsignaturasprofesorService>();
+            builder.Services.AddScoped<Services.Matriculasalumno.IMatriculasalumnoService, Services.Matriculasalumno.MatriculasalumnoService>();
             builder.Services.AddScoped<Services.Profesor.IProfesorService, Services.Profesor.ProfesorService>();
             builder.Services.AddScoped<Services.Usuario.IUsuarioService, Services.Usuario.UsuarioService>();
             builder.Services.AddScoped<Services.Usuarioscentroeducativo.IUsuarioscentroeducativoService, Services.Usuarioscentroeducativo.UsuarioscentroeducativoService>();
