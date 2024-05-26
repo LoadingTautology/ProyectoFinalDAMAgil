@@ -974,7 +974,7 @@ namespace ProyectoFinalDAMAgil.Controllers
             ViewData["IdProfesor"]= profesorModel.IdProfesor;
             ViewData["IdCentro"]=profesorModel.IdCentro;
 
-            IEnumerable<AsignaturasprofesorModel> asignaturasprofesorModels = await _asignaturaprofesorService.ListAsignaturasprofesor(idProfesor);
+            IEnumerable<AsignaturasprofesorModel> asignaturasprofesorModels = await _asignaturaprofesorService.ListAsignaturasAsignadasProfesor(idProfesor);
 
             return View("~/Views/Admin/Profesores/ListarEstudiosAsignaturas.cshtml", asignaturasprofesorModels);
         }
@@ -1031,7 +1031,7 @@ namespace ProyectoFinalDAMAgil.Controllers
                 idAsignaturasCiclo.Add(item.IdAsignatura);
             }
 
-            IEnumerable<AsignaturasprofesorModel> listadoAsignaturasAsignadasProfesor = await _asignaturaprofesorService.ListAsignaturasprofesor(idProfesor);
+            IEnumerable<AsignaturasprofesorModel> listadoAsignaturasAsignadasProfesor = await _asignaturaprofesorService.ListAsignaturasAsignadasProfesor(idProfesor);
             List<int> idAsignaturasEstudioAsignadasProfesor = new List<int>();
             foreach (var item in listadoAsignaturasAsignadasProfesor)
             {
@@ -1102,33 +1102,32 @@ namespace ProyectoFinalDAMAgil.Controllers
             ViewData["IdAlumno"]= alumnoModel.IdAlumno;
             ViewData["IdCentro"]=alumnoModel.IdCentro;
 
-            //List<AsignaturasprofesorModel> listaAsigProfModel = new List<AsignaturasprofesorModel>();
-            //listaAsigProfModel.Add(new AsignaturasprofesorModel() { NombreUsuario = "Jose", ApellidosUsuario ="Navarro",  IdCentro=idCentro });
-
-            return View("~/Views/Admin/Alumnos/ListarEstudiosAsignaturas.cshtml");
+            IEnumerable<MatriculasalumnoModel> asignaturasMatriculadasAlumnosModels = await _matriculasalumnoService.ListAsignaturasMatriculadasAlumno(idAlumno);
+            
+            return View("~/Views/Admin/Alumnos/ListarEstudiosAsignaturas.cshtml", asignaturasMatriculadasAlumnosModels);
         }
 
-        //public async Task<IActionResult> EliminarAsignaturaMatriculada(int idAlumno, int idEstudio, int idAsignatura)
-        //{
-        //    try
-        //    {
-        //        await _matriculasalumnoService.DeleteMatriculasalumno(idAlumno, idEstudio, idAsignatura);
-        //        bool existe = await _matriculasalumnoService.ExistMatriculasalumno(idAlumno, idEstudio, idAsignatura);
+        public async Task<IActionResult> EliminarAsignaturaMatriculada(int idAlumno, int idEstudio, int idAsignatura)
+        {
+            try
+            {
+                await _matriculasalumnoService.DeleteMatriculasalumno(idAlumno, idEstudio, idAsignatura);
+                bool existe = await _matriculasalumnoService.ExistMatriculasalumno(idAlumno, idEstudio, idAsignatura);
 
-        //        if (existe)
-        //        {
-        //            return Json(new { success = false, message = "La asignatura matriculada no se pudo eliminar." });
-        //        }
-        //        else
-        //        {
-        //            return Json(new { success = true });
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Json(new { success = false, message = "Ocurrió un error al eliminar la asignatura matriculada." });
-        //    }
-        //}
+                if (existe)
+                {
+                    return Json(new { success = false, message = "La asignatura matriculada no se pudo eliminar." });
+                }
+                else
+                {
+                    return Json(new { success = true });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Ocurrió un error al eliminar la asignatura matriculada." });
+            }
+        }
 
         public async Task<IActionResult> ListarEstudiosMatricular(int idAlumno)
         {
@@ -1145,24 +1144,77 @@ namespace ProyectoFinalDAMAgil.Controllers
             return View("~/Views/Admin/Alumnos/ListarEstudios.cshtml", listadoEstudios);
         }
 
-        public async Task<IActionResult> ListarAsignaturasMatricular(int idAlumno, int idEstudio)
+        public async Task<IActionResult> ListarAsignaturasMatricular(int idAlumno, int idEstudio, bool errorGuardar = false)
         {
             ViewData["idAlumno"]= idAlumno;
             ViewData["idEstudio"]= idEstudio;
 
             CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(idEstudio);
             ViewData["Acronimo"] = cicloformativo.Acronimo;
-            IEnumerable<AsignaturaModel> listadoAsignaturas = await _asignaturaService.ListadoAsignatura(idEstudio);
-            /*HAY QUE MODIFICARLO ASIGNATURAS DEL ESTUDIO DIFERENCIA MATRICULADAS*/
 
-            return View("~/Views/Admin/Alumnos/ListarAsignaturas.cshtml", listadoAsignaturas);
+            IEnumerable<AsignaturaModel> listadoAsignaturasEstudio = await _asignaturaService.ListadoAsignatura(idEstudio);
+            List<int> idAsignaturasCiclo = new List<int>();
+            foreach (var item in listadoAsignaturasEstudio)
+            {
+                idAsignaturasCiclo.Add(item.IdAsignatura);
+            }
+
+            IEnumerable<MatriculasalumnoModel> listadoAsignaturasMatriculadasAlumno = await _matriculasalumnoService.ListAsignaturasMatriculadasAlumno(idAlumno);
+            List<int> idAsignaturasEstudioMatriculadasAlumno = new List<int>();
+            foreach (var item in listadoAsignaturasMatriculadasAlumno)
+            {
+                if (item.IdCiclo==idEstudio)
+                {
+                    idAsignaturasEstudioMatriculadasAlumno.Add(item.IdAsignatura);
+                }
+            }
+
+            IEnumerable<int> idlistadoAsignaturasEstudioDiferenciaMatriculadasAlumno = from idLista in idAsignaturasCiclo.Except(idAsignaturasEstudioMatriculadasAlumno) select idLista;
+
+            List<AsignaturaModel> listadoAsignaturasEstudioDiferenciaMatriculadasAlumno = new List<AsignaturaModel>();
+            foreach (int item in idlistadoAsignaturasEstudioDiferenciaMatriculadasAlumno)
+            {
+                listadoAsignaturasEstudioDiferenciaMatriculadasAlumno.Add(await _asignaturaService.ReadAsignatura(item));
+            }
+
+            if (errorGuardar)
+            {
+                ViewData["Mensaje"]="ERROR ASIGNATURA NO GUARDADA";
+            }
+
+            return View("~/Views/Admin/Alumnos/ListarAsignaturas.cshtml", listadoAsignaturasEstudioDiferenciaMatriculadasAlumno);
         }
 
         public async Task<IActionResult> MatricularAlumnoAsignatura(int idAlumno, int idEstudio, int idAsignatura)
         {
-            return View(/*"~/Views/Admin/Alumnos/ListarAsignaturas.cshtml"*/);
+            if (await _matriculasalumnoService.ExistHorarioEnConflictoAlumno(idAlumno, idEstudio, idAsignatura))
+            {
+                return RedirectToAction("ListarAsignaturasMatricular", new { idAlumno = idAlumno, idEstudio = idEstudio, errorGuardar = true });
+            }
+            else
+            {
+                await _matriculasalumnoService.CreateMatriculasalumno(idAlumno, idEstudio, idAsignatura);
+                return RedirectToAction("ListarAsignaturasMatricular", new { idAlumno = idAlumno, idEstudio = idEstudio });
+            }
         }
 
+        public async Task<IActionResult> HorariosAlumno(int idAlumno)
+        {
+            ViewData["action"]= "ListarAlumnos";
+            AlumnoModel alumnoModel = await _alumnoService.ReadAlumno(idAlumno);
+            ViewData["idCentro"]=alumnoModel.IdCentro;
+
+            ViewData["DiasSemana"] = await _diasemanaService.ListDiasemana();
+            ViewData["Horas"] = await _franjahorariumService.ListFranjahorarium();
+
+            ViewData["Horarios"] = await _matriculasalumnoService.ListHorariosAlumno(idAlumno);
+            ViewData["ListaAsignaturas"] = await _matriculasalumnoService.ListAsignaturasAlumno(idAlumno);
+            ViewData["ListaAulas"] = await _matriculasalumnoService.ListAulasAlumno(idAlumno);
+
+            ViewData["ListaEstudios"] = await _matriculasalumnoService.ListEstudiosAlumno(idAlumno);
+
+            return View("~/Views/Admin/Horarios/Horario.cshtml");
+        }
 
 
 

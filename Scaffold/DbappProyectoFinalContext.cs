@@ -149,7 +149,6 @@ public partial class DbappProyectoFinalContext : DbContext
 
             entity.HasOne(d => d.IdProfesorNavigation).WithMany(p => p.Asignaturasprofesors)
                 .HasForeignKey(d => d.IdProfesor)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("asignaturasprofesor_ibfk_1");
         });
 

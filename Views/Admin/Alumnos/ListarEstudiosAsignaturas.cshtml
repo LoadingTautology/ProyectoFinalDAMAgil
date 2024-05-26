@@ -40,7 +40,10 @@
                                 <td>@item.Curso</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Acciones">
-                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-url="@Url.Action("EliminarAsignaturaMatriculada", new { idAsignatura = @item.IdAsignatura, idAlumno = item.IdAlumno, idEstudio = @item.IdCiclo })">
+                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"
+                                                data-url="@Url.Action("EliminarAsignaturaMatriculada", new { idAlumno = item.IdAlumno,
+                                                                                                             idAsignatura = @item.IdAsignatura, 
+                                                                                                             idEstudio = @item.IdCiclo })">
                                             <i class="bi bi-trash"></i> Eliminar
                                         </button>
                                     </div>

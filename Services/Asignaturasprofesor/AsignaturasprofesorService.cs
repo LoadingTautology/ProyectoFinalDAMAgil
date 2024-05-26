@@ -74,7 +74,7 @@ namespace ProyectoFinalDAMAgil.Services.Asignaturasprofesor
             return existe;
         }
 
-        public async Task<IEnumerable<AsignaturasprofesorModel>> ListAsignaturasprofesor(int idProfesor)
+        public async Task<IEnumerable<AsignaturasprofesorModel>> ListAsignaturasAsignadasProfesor(int idProfesor)
         {
             IQueryable<AsignaturasprofesorModel> asignaturasprofesorListaDB =
                 from asigProf in _context.Asignaturasprofesors

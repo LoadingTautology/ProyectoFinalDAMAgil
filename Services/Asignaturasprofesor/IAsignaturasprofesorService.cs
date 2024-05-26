@@ -12,7 +12,7 @@ namespace ProyectoFinalDAMAgil.Services.Asignaturasprofesor
 
         Task<bool> ExistAsignaturasprofesor(int idProfesor, int idEstudio, int idAsignatura);
 
-        Task<IEnumerable<AsignaturasprofesorModel>> ListAsignaturasprofesor(int idProfesor);
+        Task<IEnumerable<AsignaturasprofesorModel>> ListAsignaturasAsignadasProfesor(int idProfesor);
 
         Task<IEnumerable<HorarioModel>> ListHorariosProfesor(int idProfesor);
 

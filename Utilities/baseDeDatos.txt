@@ -188,9 +188,6 @@ CREATE TABLE MatriculasAlumnos (
 
 ******************************************************************
 
-
-
-
 ******************************************************************
 -- Creación de la tabla ExamenAsignaturas
 CREATE TABLE ExamenAsignaturas (

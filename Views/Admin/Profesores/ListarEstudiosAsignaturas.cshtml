@@ -7,7 +7,7 @@
 <div class="container mt-5">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Listar Asignaturas Impartidas - @ViewData["NombreUsuario"] - @ViewData["ApellidosUsuario"]</h3>
+            <h3 class="card-title">Asignaturas Impartidas - @ViewData["NombreUsuario"] - @ViewData["ApellidosUsuario"]</h3>
         </div>
         <div class="card-body">
             <div class="d-flex justify-content-between mb-3">
@@ -40,7 +40,10 @@
                                 <td>@item.Curso</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Acciones">
-                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-url="@Url.Action("EliminarAsignaturaAsignada", new { idProfesor = item.IdProfesor, idAsignatura = @item.IdAsignatura, idEstudio = @item.IdCiclo })">
+                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" 
+                                                data-url="@Url.Action("EliminarAsignaturaAsignada", new { idProfesor = item.IdProfesor, 
+                                                                                                          idAsignatura = @item.IdAsignatura, 
+                                                                                                          idEstudio = @item.IdCiclo })">
                                             <i class="bi bi-trash"></i> Eliminar
                                         </button>
                                     </div>
