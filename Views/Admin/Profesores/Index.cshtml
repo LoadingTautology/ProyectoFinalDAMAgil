@@ -11,17 +11,13 @@
         </div>
         <div class="card-body">
             <div class="d-flex justify-content-between mb-3">
-                <a asp-controller="Admin" asp-action="GuardarProfesor" asp-route-id="@ViewData["idCentro"]" class="btn btn-success">
+                <a asp-controller="Admin" asp-action="GuardarProfesor" asp-route-id="@ViewData["idCentro"]" class="btn btn-success mb-3">
                     <i class="bi bi-plus-circle"></i> Crear Nuevo Profesor
                 </a>
-                <a asp-controller="Admin" asp-action="ListarCentroProfesores" class="btn btn-warning">
+                <a asp-controller="Admin" asp-action="ListarCentroProfesores" class="btn btn-warning mb-3">
                     <i class="bi bi-arrow-left"></i> Volver Centros Profesores
                 </a>
-            </div>
-
-            <!-- Campo de búsqueda -->
-            <div class="mb-3">
-                <input type="text" id="searchInput" class="form-control" placeholder="Buscar por cualquier campo...">
+                <input type="text" id="searchInput" class="form-control w-50 mb-3" placeholder="Buscar por cualquier campo...">
             </div>
 
             <table id="centrosTable" class="table table-hover table-striped">
