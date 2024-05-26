@@ -121,16 +121,16 @@
                             if (data.success) {
                                 Swal.fire({
                                     icon: 'success',
-                                    title: '@Localizer["CentroEliminado"]',
-                                    text: '@Localizer["CentroEliminadoMensaje"]'
+                                    title: 'Centro eliminado',
+                                    text: 'El alumno ha sido eliminado correctamente.'
                                 }).then(() => {
                                     location.reload();
                                 });
                             } else {
                                 Swal.fire({
                                     icon: 'error',
-                                    title: '@Localizer["Error"]',
-                                    text: '@Localizer["ErrorEliminarCentro"]'
+                                    title: 'Error',
+                                    text: 'No se pudo eliminar el alumno.'
                                 }).then(() => {
                                     location.reload();
                                 });
@@ -139,8 +139,8 @@
                         .catch(error => {
                             Swal.fire({
                                 icon: 'error',
-                                title: '@Localizer["Error"]',
-                                text: '@Localizer["ErrorGeneral"]'
+                                title: 'Error',
+                                text: 'Ocurrió un error al eliminar el alumno.'
                             }).then(() => {
                                 location.reload();
                             });

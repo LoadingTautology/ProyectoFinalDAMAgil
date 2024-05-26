@@ -76,15 +76,15 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="confirmDeleteModalLabel">@Localizer["ConfirmarEliminacion"]</h5>
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar eliminación</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    @Localizer["SeguroEliminar"]
+                    ¿Está seguro que desea eliminar este profesor?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancelar"]</button>
-                    <a id="confirmDeleteButton" class="btn btn-danger">@Localizer["EliminarCentro"]</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <a id="confirmDeleteButton" class="btn btn-danger">Eliminar</a>
                 </div>
             </div>
         </div>
@@ -121,16 +121,16 @@
                             if (data.success) {
                                 Swal.fire({
                                     icon: 'success',
-                                    title: '@Localizer["CentroEliminado"]',
-                                    text: '@Localizer["CentroEliminadoMensaje"]'
+                                    title: 'Centro eliminado',
+                                    text: 'El profesor ha sido eliminado correctamente.'
                                 }).then(() => {
                                     location.reload();
                                 });
                             } else {
                                 Swal.fire({
                                     icon: 'error',
-                                    title: '@Localizer["Error"]',
-                                    text: '@Localizer["ErrorEliminarCentro"]'
+                                    title: 'Error',
+                                    text: 'No se pudo eliminar el profesor.'
                                 }).then(() => {
                                     location.reload();
                                 });
@@ -139,8 +139,8 @@
                         .catch(error => {
                             Swal.fire({
                                 icon: 'error',
-                                title: '@Localizer["Error"]',
-                                text: '@Localizer["ErrorGeneral"]'
+                                title: 'Error',
+                                text: 'Ocurrió un error al eliminar el profesor.'
                             }).then(() => {
                                 location.reload();
                             });
@@ -165,5 +165,4 @@
                 });
             });
         </script>
-    }
     }
