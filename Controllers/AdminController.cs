@@ -1091,9 +1091,9 @@ namespace ProyectoFinalDAMAgil.Controllers
 
             #endregion
 
-            /* ********************MATRICULAR_ALUMNOS******************** */
-            #region MATRICULAR_ALUMNOS
-            public async Task<IActionResult> ListarEstudiosAlumno(int idAlumno)
+        /* ********************MATRICULAR_ALUMNOS******************** */
+        #region MATRICULAR_ALUMNOS
+        public async Task<IActionResult> ListarEstudiosAlumno(int idAlumno)
         {
             AlumnoModel alumnoModel = await _alumnoService.ReadAlumno(idAlumno);
 
