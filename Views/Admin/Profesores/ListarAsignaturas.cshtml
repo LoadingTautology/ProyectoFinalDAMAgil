@@ -15,6 +15,14 @@
                 </a>
                 <input type="text" id="searchInput" class="form-control w-50" placeholder="@Localizer["BuscarAsignaturas"]">
             </div>
+
+            @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
+            {
+                <div class="alert alert-danger mt-3" role="alert">
+                    @ViewData["Mensaje"]
+                </div>
+            }
+
             <table id="centrosTable" class="table table-hover table-striped">
                 <thead>
                     <tr>

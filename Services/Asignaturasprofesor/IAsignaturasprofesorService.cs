@@ -20,7 +20,9 @@ namespace ProyectoFinalDAMAgil.Services.Asignaturasprofesor
         Task<IEnumerable<CicloformativoModel>> ListEstudiosProfesor(int idProfesor);
 
         Task<IEnumerable<AulaModel>> ListAulasProfesor(int idProfesor);
-        
+
+        Task<bool> ExistHorarioEnConflictoProfesor(int idProfesor, int idEstudio, int idAsignatura);
+
 
     }
 }

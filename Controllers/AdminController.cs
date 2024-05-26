@@ -1016,7 +1016,7 @@ namespace ProyectoFinalDAMAgil.Controllers
             return View("~/Views/Admin/Profesores/ListarEstudios.cshtml",listadoEstudios);
         }
 
-        public async Task<IActionResult> ListarAsignaturasAsignar(int idProfesor, int idEstudio)
+        public async Task<IActionResult> ListarAsignaturasAsignar(int idProfesor, int idEstudio, bool errorGuardar = false)
         {
             ViewData["idProfesor"]= idProfesor;
             ViewData["idEstudio"]=idEstudio;
@@ -1041,8 +1041,7 @@ namespace ProyectoFinalDAMAgil.Controllers
                 }
             }
 
-            IEnumerable<int> idlistadoAsignaturasEstudioDiferenciaAsignadasProfesor = from idLista in idAsignaturasCiclo.Except(idAsignaturasEstudioAsignadasProfesor) 
-                                                                                      select idLista;
+            IEnumerable<int> idlistadoAsignaturasEstudioDiferenciaAsignadasProfesor = from idLista in idAsignaturasCiclo.Except(idAsignaturasEstudioAsignadasProfesor) select idLista;
 
             List<AsignaturaModel> listadoAsignaturasEstudioDiferenciaAsignadasProfesor = new List<AsignaturaModel>();
             foreach (int item in idlistadoAsignaturasEstudioDiferenciaAsignadasProfesor)
@@ -1050,15 +1049,26 @@ namespace ProyectoFinalDAMAgil.Controllers
                 listadoAsignaturasEstudioDiferenciaAsignadasProfesor.Add(await _asignaturaService.ReadAsignatura(item));
             }
 
+            if (errorGuardar) 
+            {
+                ViewData["Mensaje"]="ERROR ASIGNATURA NO GUARDADA";
+            }
+
             return View("~/Views/Admin/Profesores/ListarAsignaturas.cshtml", listadoAsignaturasEstudioDiferenciaAsignadasProfesor);
         }
 
         public async Task<IActionResult> AsignarProfesorAsignatura(int idProfesor, int idEstudio, int idAsignatura)
         {
-            await _asignaturaprofesorService.CreateAsignaturasprofesor(idProfesor, idEstudio, idAsignatura);
-            /*FALTA CREAR UN METODO QUE IMPIDA GUARDAR OTRO EN ALGUNO DE LOS HORARIOS DE ESA ASIGNATURA*/
-
-            return RedirectToAction("ListarAsignaturasAsignar", new {idProfesor= idProfesor, idEstudio=idEstudio});
+            if(await _asignaturaprofesorService.ExistHorarioEnConflictoProfesor(idProfesor, idEstudio, idAsignatura)) 
+            {
+                Console.WriteLine("\n\n**********************************ERROR ASIGNATURA NO GUARDADA");
+                return RedirectToAction("ListarAsignaturasAsignar", new { idProfesor = idProfesor, idEstudio = idEstudio, errorGuardar = true });
+            }
+            else 
+            {
+                await _asignaturaprofesorService.CreateAsignaturasprofesor(idProfesor, idEstudio, idAsignatura);
+                return RedirectToAction("ListarAsignaturasAsignar", new { idProfesor = idProfesor, idEstudio = idEstudio });
+            }
         }
 
         public async Task<IActionResult> HorariosProfesor(int idProfesor)
@@ -1078,26 +1088,6 @@ namespace ProyectoFinalDAMAgil.Controllers
 
             return View("~/Views/Admin/Horarios/Horario.cshtml");
         }
-
-
-
-
-
-            //ViewData["idAsignatura"] = idAsignatura;
-            //    ViewData["idEstudios"] = idEstudios;
-            //    ViewData["DiasSemana"] = await _diasemanaService.ListDiasemana();
-            //ViewData["Horas"] = await _franjahorariumService.ListFranjahorarium();
-
-            //var cicloformativo = await _cicloformativoService.ReadCicloformativo(idEstudios);
-            //ViewData["ListaAulas"] = await _aulaService.ListadoAulas(cicloformativo.IdCentro);
-            //ViewData["idCentro"] = cicloformativo.IdCentro;
-
-            //    var asignaturaModel = await _asignaturaService.ReadAsignatura(idAsignatura);
-            //ViewData["NombreAsignatura"] = asignaturaModel.NombreAsignatura;
-            //    ViewData["CursoAsignatura"] = asignaturaModel.Curso;
-            //    ViewData["Horarios"] = await _horarioService.ListHorariosEstudioCursoAsignatura(asignaturaModel.Curso, idEstudios);
-            //ViewData["ListaAsignaturas"] = await _asignaturaService.ListadoAsignatura(idEstudios);
-
 
             #endregion
 

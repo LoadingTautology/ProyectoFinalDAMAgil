@@ -182,5 +182,33 @@ namespace ProyectoFinalDAMAgil.Services.Asignaturasprofesor
 
             return listaEstudiosProfesor.ToList();
         }
+
+        public async Task<bool> ExistHorarioEnConflictoProfesor(int idProfesor, int idEstudio, int idAsignatura)
+        {
+            bool existe = false;
+
+            IQueryable<HorarioModel> listaHorariosAsignaturaEstudio =
+                from horario in _context.Horarios
+                where horario.IdEstudio == idEstudio && horario.IdAsignatura == idAsignatura
+                orderby horario.IdDiaFranja ascending
+                select new HorarioModel
+                {
+                    IdHorario = horario.IdHorario,
+                    IdAula = horario.IdAula,
+                    IdDiaFranja = horario.IdDiaFranja,
+                    IdAsignatura = horario.IdAsignatura,
+                    IdEstudio = horario.IdEstudio,
+                    ColorAsignatura = horario.ColorAsignatura
+                };
+
+            List<HorarioModel> listaHorarioProfesor = await ListHorariosProfesor(idProfesor) as List<HorarioModel>;
+
+            foreach(var horarioAsig in listaHorariosAsignaturaEstudio) 
+            {
+                existe = existe || listaHorarioProfesor.Exists(horarioProf => horarioProf.IdDiaFranja==horarioAsig.IdDiaFranja);
+            }
+
+            return existe;
+        }
     }
 }
