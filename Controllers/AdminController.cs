@@ -709,7 +709,26 @@ namespace ProyectoFinalDAMAgil.Controllers
             ViewData["ListaAsignaturas"] = await _asignaturaService.ListadoAsignatura(idEstudios);
         }
 
+        public async Task<IActionResult> HorariosEstudio(int idEstudio)
+        {
+            ViewData["action"]= "ListarEstudios";
+            CicloformativoModel cicloformativoModel = await _cicloformativoService.ReadCicloformativo(idEstudio);
+            ViewData["idCentro"]= cicloformativoModel.IdCentro;
 
+            ViewData["DiasSemana"] = await _diasemanaService.ListDiasemana();
+            ViewData["Horas"] = await _franjahorariumService.ListFranjahorarium();
+
+            ViewData["Horarios"] = await _horarioService.ListHorariosEstudio(idEstudio);
+            ViewData["ListaAsignaturas"] = await _asignaturaService.ListadoAsignatura(idEstudio);
+            ViewData["ListaAulas"] = await _aulaService.ListadoAulasEstudio(idEstudio);
+
+            ViewData["ListaEstudios"] = new List<CicloformativoModel>() { cicloformativoModel };
+
+            ViewData["NombreAsignatura"]= cicloformativoModel.NombreCiclo;
+            ViewData["CursoAsignatura"] = cicloformativoModel.Acronimo;
+
+            return View("~/Views/Admin/Horarios/Horario.cshtml");
+        }
 
 
         #endregion
@@ -1219,6 +1238,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 
 
         #endregion
+
 
     }
 }

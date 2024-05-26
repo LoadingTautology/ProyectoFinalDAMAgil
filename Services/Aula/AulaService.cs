@@ -165,5 +165,23 @@ namespace ProyectoFinalDAMAgil.Services.Aula
             }
             return aulaModel;
         }
+
+        public async Task<IEnumerable<AulaModel>> ListadoAulasEstudio(int idEstudio)
+        {
+            IQueryable<AulaModel> listaAulasEstudio =
+                (from horario in _context.Horarios
+                join aula in _context.Aulas on horario.IdAula equals aula.IdAula
+                where horario.IdEstudio == idEstudio
+                select new AulaModel()
+                {
+                    IdAula = aula.IdAula,
+                    NumeroAula = aula.NumeroAula,
+                    NombreAula = aula.NombreAula,
+                    AforoMax = aula.AforoMax,
+                    IdCentro = aula.IdCentro
+                }).Distinct();
+
+            return listaAulasEstudio.ToList();
+        }
     }
 }

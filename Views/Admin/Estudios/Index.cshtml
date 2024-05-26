@@ -40,6 +40,9 @@
                                 <td>@item.NombreCiclo</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Acciones">
+                                        <a asp-controller="Admin" asp-action="HorariosEstudio" asp-route-idEstudio="@item.IdCiclo" class="btn btn-info btn-sm">
+                                            <i class="bi bi-gear"></i> Horarios
+                                        </a>
                                         <a asp-controller="Admin" asp-action="ListarAsignaturas" asp-route-id="@item.IdCiclo" class="btn btn-primary btn-sm">
                                             <i class="bi bi-gear"></i> @Localizer["Asignaturas"]
                                         </a>

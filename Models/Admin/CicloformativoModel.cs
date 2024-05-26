@@ -11,6 +11,9 @@
 
         public int IdCentro { get; set; }
 
-
+        public override string ToString()
+        {
+            return "IdCiclo: "+IdCiclo+" NombreCiclo: "+NombreCiclo+" Acronimo: "+Acronimo+" IdCentro: "+IdCentro;
+        }
     }
 }

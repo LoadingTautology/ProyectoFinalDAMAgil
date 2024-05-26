@@ -7,5 +7,10 @@
         public string NombreAsignatura { get; set; }
 
         public int Curso { get; set; }
+
+        public override string ToString()
+        {
+            return "IdAsignatura: "+IdAsignatura+" NombreAsignatura: "+NombreAsignatura+" Curso: "+Curso;
+        }
     }
 }
