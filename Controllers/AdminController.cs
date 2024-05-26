@@ -962,7 +962,7 @@ namespace ProyectoFinalDAMAgil.Controllers
         #endregion
 
 
-        /* ********************ASIGNAR_PROFESOR******************** */
+        /* ********************ASIGNAR_ESTUDIOS_ASIGNATURAS_PROFESOR******************** */
         #region ASIGNAR_PROFESOR
 
         public async Task<IActionResult> ListarEstudiosProfesor(int idProfesor)
@@ -977,6 +977,28 @@ namespace ProyectoFinalDAMAgil.Controllers
             IEnumerable<AsignaturasprofesorModel> asignaturasprofesorModels = await _asignaturaprofesorService.ListAsignaturasprofesor(idProfesor);
 
             return View("~/Views/Admin/Profesores/ListarEstudiosAsignaturas.cshtml", asignaturasprofesorModels);
+        }
+
+        public async Task<IActionResult> EliminarAsignaturaAsignada(int idProfesor, int idEstudio, int idAsignatura)
+        {
+            try
+            {
+                await _asignaturaprofesorService.DeleteAsignaturasprofesor(idProfesor, idEstudio, idAsignatura);
+                bool existe = await _asignaturaprofesorService.ExistAsignaturasprofesor(idProfesor, idEstudio, idAsignatura);
+
+                if (existe)
+                {
+                    return Json(new { success = false, message = "La asignatura asignada no se pudo eliminar." });
+                }
+                else
+                {
+                    return Json(new { success = true });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Ocurrió un error al eliminar la asignatura asignada." });
+            }
         }
 
         public async Task<IActionResult> ListarEstudiosAsignar(int idProfesor)
@@ -1001,25 +1023,87 @@ namespace ProyectoFinalDAMAgil.Controllers
 
             CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(idEstudio);
             ViewData["Acronimo"] = cicloformativo.Acronimo;
-            IEnumerable<AsignaturaModel> listadoAsignaturas = await _asignaturaService.ListadoAsignatura(idEstudio);
-            /*HAY QUE MODIFICARLO ASIGNATURAS DEL ESTUDIO DIFERENCIA ASIGNADAS*/
-            return View("~/Views/Admin/Profesores/ListarAsignaturas.cshtml", listadoAsignaturas);
+
+            IEnumerable<AsignaturaModel> listadoAsignaturasEstudio = await _asignaturaService.ListadoAsignatura(idEstudio);
+            List<int> idAsignaturasCiclo = new List<int>();
+            foreach (var item in listadoAsignaturasEstudio)
+            {
+                idAsignaturasCiclo.Add(item.IdAsignatura);
+            }
+
+            IEnumerable<AsignaturasprofesorModel> listadoAsignaturasAsignadasProfesor = await _asignaturaprofesorService.ListAsignaturasprofesor(idProfesor);
+            List<int> idAsignaturasEstudioAsignadasProfesor = new List<int>();
+            foreach (var item in listadoAsignaturasAsignadasProfesor)
+            {
+                if (item.IdCiclo==idEstudio)
+                {
+                    idAsignaturasEstudioAsignadasProfesor.Add(item.IdAsignatura);
+                }
+            }
+
+            IEnumerable<int> idlistadoAsignaturasEstudioDiferenciaAsignadasProfesor = from idLista in idAsignaturasCiclo.Except(idAsignaturasEstudioAsignadasProfesor) 
+                                                                                      select idLista;
+
+            List<AsignaturaModel> listadoAsignaturasEstudioDiferenciaAsignadasProfesor = new List<AsignaturaModel>();
+            foreach (int item in idlistadoAsignaturasEstudioDiferenciaAsignadasProfesor)
+            {
+                listadoAsignaturasEstudioDiferenciaAsignadasProfesor.Add(await _asignaturaService.ReadAsignatura(item));
+            }
+
+            return View("~/Views/Admin/Profesores/ListarAsignaturas.cshtml", listadoAsignaturasEstudioDiferenciaAsignadasProfesor);
         }
 
         public async Task<IActionResult> AsignarProfesorAsignatura(int idProfesor, int idEstudio, int idAsignatura)
         {
             await _asignaturaprofesorService.CreateAsignaturasprofesor(idProfesor, idEstudio, idAsignatura);
+            /*FALTA CREAR UN METODO QUE IMPIDA GUARDAR OTRO EN ALGUNO DE LOS HORARIOS DE ESA ASIGNATURA*/
 
             return RedirectToAction("ListarAsignaturasAsignar", new {idProfesor= idProfesor, idEstudio=idEstudio});
         }
 
-        
+        public async Task<IActionResult> HorariosProfesor(int idProfesor)
+        {
+            ViewData["action"]= "ListarProfesores";
+            ProfesorModel profesorModel = await _profesorService.ReadProfesor(idProfesor);
+            ViewData["idCentro"]=profesorModel.IdCentro;
 
-        #endregion
+            ViewData["DiasSemana"] = await _diasemanaService.ListDiasemana();
+            ViewData["Horas"] = await _franjahorariumService.ListFranjahorarium();
 
-        /* ********************MATRICULAR_ALUMNOS******************** */
-        #region MATRICULAR_ALUMNOS
-        public async Task<IActionResult> ListarEstudiosAlumno(int idAlumno)
+            ViewData["Horarios"] = await _asignaturaprofesorService.ListHorariosProfesor(idProfesor);
+            ViewData["ListaAsignaturas"] = await _asignaturaprofesorService.ListAsignaturasProfesor(idProfesor);
+            ViewData["ListaAulas"] = await _asignaturaprofesorService.ListAulasProfesor(idProfesor);
+
+            ViewData["ListaEstudios"] = await _asignaturaprofesorService.ListEstudiosProfesor(idProfesor);
+
+            return View("~/Views/Admin/Horarios/Horario.cshtml");
+        }
+
+
+
+
+
+            //ViewData["idAsignatura"] = idAsignatura;
+            //    ViewData["idEstudios"] = idEstudios;
+            //    ViewData["DiasSemana"] = await _diasemanaService.ListDiasemana();
+            //ViewData["Horas"] = await _franjahorariumService.ListFranjahorarium();
+
+            //var cicloformativo = await _cicloformativoService.ReadCicloformativo(idEstudios);
+            //ViewData["ListaAulas"] = await _aulaService.ListadoAulas(cicloformativo.IdCentro);
+            //ViewData["idCentro"] = cicloformativo.IdCentro;
+
+            //    var asignaturaModel = await _asignaturaService.ReadAsignatura(idAsignatura);
+            //ViewData["NombreAsignatura"] = asignaturaModel.NombreAsignatura;
+            //    ViewData["CursoAsignatura"] = asignaturaModel.Curso;
+            //    ViewData["Horarios"] = await _horarioService.ListHorariosEstudioCursoAsignatura(asignaturaModel.Curso, idEstudios);
+            //ViewData["ListaAsignaturas"] = await _asignaturaService.ListadoAsignatura(idEstudios);
+
+
+            #endregion
+
+            /* ********************MATRICULAR_ALUMNOS******************** */
+            #region MATRICULAR_ALUMNOS
+            public async Task<IActionResult> ListarEstudiosAlumno(int idAlumno)
         {
             AlumnoModel alumnoModel = await _alumnoService.ReadAlumno(idAlumno);
 
@@ -1033,6 +1117,28 @@ namespace ProyectoFinalDAMAgil.Controllers
 
             return View("~/Views/Admin/Alumnos/ListarEstudiosAsignaturas.cshtml");
         }
+
+        //public async Task<IActionResult> EliminarAsignaturaMatriculada(int idAlumno, int idEstudio, int idAsignatura)
+        //{
+        //    try
+        //    {
+        //        await _matriculasalumnoService.DeleteMatriculasalumno(idAlumno, idEstudio, idAsignatura);
+        //        bool existe = await _matriculasalumnoService.ExistMatriculasalumno(idAlumno, idEstudio, idAsignatura);
+
+        //        if (existe)
+        //        {
+        //            return Json(new { success = false, message = "La asignatura matriculada no se pudo eliminar." });
+        //        }
+        //        else
+        //        {
+        //            return Json(new { success = true });
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { success = false, message = "Ocurrió un error al eliminar la asignatura matriculada." });
+        //    }
+        //}
 
         public async Task<IActionResult> ListarEstudiosMatricular(int idAlumno)
         {
@@ -1068,10 +1174,9 @@ namespace ProyectoFinalDAMAgil.Controllers
         }
 
 
-        
+
 
         #endregion
-
 
     }
 }

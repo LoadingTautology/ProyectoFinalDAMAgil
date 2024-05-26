@@ -1,5 +1,6 @@
 ﻿using ProyectoFinalDAMAgil.Models.Admin;
 using ProyectoFinalDAMAgil.Scaffold;
+using System.Security.Cryptography.Xml;
 
 namespace ProyectoFinalDAMAgil.Services.Asignaturasprofesor
 {
@@ -27,8 +28,11 @@ namespace ProyectoFinalDAMAgil.Services.Asignaturasprofesor
             _context.SaveChanges();
 
             return new AsignaturasprofesorModel{ IdAsignatura= idAsignatura, IdCiclo= idEstudio, IdProfesor=idProfesor };
+        }
 
-
+        public Task<AsignaturasprofesorModel> ReadAsignaturasprofesor(int idProfesor, int idEstudio, int idAsignatura)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<AsignaturasprofesorModel> DeleteAsignaturasprofesor(int idProfesor, int idEstudio, int idAsignatura)
@@ -38,7 +42,8 @@ namespace ProyectoFinalDAMAgil.Services.Asignaturasprofesor
                                                                               select asigCiclo).FirstOrDefault()!;
 
             Scaffold.Asignaturasprofesor asignaturasprofesor = (from asigProf in _context.Asignaturasprofesors
-                                                                where asigProf.IdProfesor == idProfesor && asigProf.IdAsignaturasProfesor == asignaturascicloformativoDB.IdAsignaturasCicloFormativo
+                                                                where asigProf.IdProfesor == idProfesor && 
+                                                                      asigProf.IdAsignaturasCicloFormativo == asignaturascicloformativoDB.IdAsignaturasCicloFormativo
                                                                 select asigProf).FirstOrDefault()!;
 
             _context.Asignaturasprofesors.Remove(asignaturasprofesor);
@@ -57,7 +62,8 @@ namespace ProyectoFinalDAMAgil.Services.Asignaturasprofesor
 
             IQueryable<Scaffold.Asignaturasprofesor> asignaturasprofesorListaDB = 
                 from asigProf in _context.Asignaturasprofesors
-                where asigProf.IdProfesor == idProfesor && asigProf.IdAsignaturasProfesor == asignaturascicloformativoDB.IdAsignaturasCicloFormativo
+                where asigProf.IdProfesor == idProfesor && 
+                      asigProf.IdAsignaturasCicloFormativo == asignaturascicloformativoDB.IdAsignaturasCicloFormativo
                 select asigProf;
 
             if (asignaturasprofesorListaDB.Count()!=0)
@@ -92,9 +98,89 @@ namespace ProyectoFinalDAMAgil.Services.Asignaturasprofesor
             return asignaturasprofesorListaDB.ToList();
         }
 
-        public Task<AsignaturasprofesorModel> ReadAsignaturasprofesor(int idProfesor, int idEstudio, int idAsignatura)
+        public async Task<IEnumerable<HorarioModel>> ListHorariosProfesor(int idProfesor)
         {
-            throw new NotImplementedException();
+            IQueryable<HorarioModel> listaHorariosProfesor =
+                from asigProf in _context.Asignaturasprofesors
+                join asigCiclo in _context.Asignaturascicloformativos
+                    on asigProf.IdAsignaturasCicloFormativo equals asigCiclo.IdAsignaturasCicloFormativo
+                join horario in _context.Horarios
+                    on new { asigCiclo.IdAsignatura, asigCiclo.IdCiclo }
+                    equals new { IdAsignatura = horario.IdAsignatura, IdCiclo = horario.IdEstudio }
+                where asigProf.IdProfesor == idProfesor
+                select new HorarioModel()
+                {
+                    IdHorario = horario.IdHorario,
+                    IdAula = horario.IdAula,
+                    IdDiaFranja = horario.IdDiaFranja,
+                    IdAsignatura = horario.IdAsignatura,
+                    IdEstudio = horario.IdEstudio,
+                    ColorAsignatura = horario.ColorAsignatura
+                };
+
+            return listaHorariosProfesor.ToList();
+        }
+
+        public async Task<IEnumerable<AsignaturaModel>> ListAsignaturasProfesor(int idProfesor)
+        {
+            IQueryable<AsignaturaModel> listaAsignaturasProfesor =
+                from asigProf in _context.Asignaturasprofesors
+                join asigCiclo in _context.Asignaturascicloformativos
+                    on asigProf.IdAsignaturasCicloFormativo equals asigCiclo.IdAsignaturasCicloFormativo
+                join asignatura in _context.Asignaturas
+                    on asigCiclo.IdAsignatura equals asignatura.IdAsignatura
+                where asigProf.IdProfesor == idProfesor
+                select new AsignaturaModel()
+                {
+                    IdAsignatura = asignatura.IdAsignatura,
+                    NombreAsignatura = asignatura.NombreAsignatura,
+                    Curso =asignatura.Curso
+                };
+
+            return listaAsignaturasProfesor.ToList();
+        }
+
+        public async Task<IEnumerable<AulaModel>> ListAulasProfesor(int idProfesor)
+        {
+            IQueryable<AulaModel> listaAulasProfesor =
+                from asigProf in _context.Asignaturasprofesors
+                join asigCiclo in _context.Asignaturascicloformativos
+                    on asigProf.IdAsignaturasCicloFormativo equals asigCiclo.IdAsignaturasCicloFormativo
+                join horario in _context.Horarios
+                    on new { asigCiclo.IdAsignatura, asigCiclo.IdCiclo }
+                    equals new { IdAsignatura = horario.IdAsignatura, IdCiclo = horario.IdEstudio }
+                join aula in _context.Aulas on horario.IdAula equals aula.IdAula
+                where asigProf.IdProfesor == idProfesor
+                select new AulaModel()
+                {
+                    IdAula = aula.IdAula,
+                    NumeroAula = aula.NumeroAula,
+                    NombreAula = aula.NombreAula,
+                    AforoMax = aula.AforoMax,
+                    IdCentro = aula.IdCentro
+                };
+
+            return listaAulasProfesor.ToList();
+        }
+
+        public async Task<IEnumerable<CicloformativoModel>> ListEstudiosProfesor(int idProfesor)
+        {
+            IQueryable<CicloformativoModel> listaEstudiosProfesor =
+                 from asigProf in _context.Asignaturasprofesors
+                 join asigCiclo in _context.Asignaturascicloformativos
+                     on asigProf.IdAsignaturasCicloFormativo equals asigCiclo.IdAsignaturasCicloFormativo
+                 join cicloformativo in _context.Cicloformativos
+                     on asigCiclo.IdCiclo equals cicloformativo.IdCiclo
+                 where asigProf.IdProfesor == idProfesor
+                 select new CicloformativoModel()
+                 {
+                     IdCiclo=cicloformativo.IdCiclo,
+                     NombreCiclo=cicloformativo.NombreCiclo,
+                     Acronimo=cicloformativo.Acronimo,
+                     IdCentro=cicloformativo.IdCentro
+                 };
+
+            return listaEstudiosProfesor.ToList();
         }
     }
 }

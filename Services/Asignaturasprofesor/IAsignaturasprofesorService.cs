@@ -14,5 +14,13 @@ namespace ProyectoFinalDAMAgil.Services.Asignaturasprofesor
 
         Task<IEnumerable<AsignaturasprofesorModel>> ListAsignaturasprofesor(int idProfesor);
 
+        Task<IEnumerable<HorarioModel>> ListHorariosProfesor(int idProfesor);
+
+        Task<IEnumerable<AsignaturaModel>> ListAsignaturasProfesor(int idProfesor);
+        Task<IEnumerable<CicloformativoModel>> ListEstudiosProfesor(int idProfesor);
+
+        Task<IEnumerable<AulaModel>> ListAulasProfesor(int idProfesor);
+        
+
     }
 }
