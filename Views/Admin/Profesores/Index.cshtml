@@ -1,7 +1,7 @@
-﻿@model  List<ProyectoFinalDAMAgil.Models.Admin.ProfesorModel>
+﻿@model List<ProyectoFinalDAMAgil.Models.Admin.ProfesorModel>
 
 @{
-    ViewData["Title"] = Localizer["Title"];
+    ViewData["Title"] = "Profesores";
 }
 
 <div class="container mt-5">
@@ -11,14 +11,15 @@
         </div>
         <div class="card-body">
             <div class="d-flex justify-content-between mb-3">
-                <a asp-controller="Admin" asp-action="GuardarProfesor" asp-route-id="@ViewData["idCentro"]" class="btn btn-success">
+                <a asp-controller="Admin" asp-action="GuardarProfesor" asp-route-id="@ViewData["idCentro"]" class="btn btn-success mb-3">
                     <i class="bi bi-plus-circle"></i> Crear Nuevo Profesor
                 </a>
-                <a asp-controller="Admin" asp-action="ListarCentroProfesores" class="btn btn-warning">
+                <a asp-controller="Admin" asp-action="ListarCentroProfesores" class="btn btn-warning mb-3">
                     <i class="bi bi-arrow-left"></i> Volver Centros Profesores
                 </a>
-
+                <input type="text" id="searchInput" class="form-control w-50 mb-3" placeholder="Buscar por cualquier campo...">
             </div>
+
             <table id="centrosTable" class="table table-hover table-striped">
                 <thead class="table-dark">
                     <tr>
@@ -61,7 +62,7 @@
                     else
                     {
                         <tr>
-                            <td colspan="3" class="text-center"> No hay profesores </td>
+                            <td colspan="5" class="text-center"> No hay profesores </td>
                         </tr>
                     }
                 </tbody>
@@ -74,15 +75,15 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="confirmDeleteModalLabel">@Localizer["ConfirmarEliminacion"]</h5>
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar eliminación</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    @Localizer["SeguroEliminar"]
+                    ¿Está seguro que desea eliminar este profesor?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancelar"]</button>
-                    <a id="confirmDeleteButton" class="btn btn-danger">@Localizer["EliminarCentro"]</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <a id="confirmDeleteButton" class="btn btn-danger">Eliminar</a>
                 </div>
             </div>
         </div>
@@ -119,16 +120,16 @@
                             if (data.success) {
                                 Swal.fire({
                                     icon: 'success',
-                                    title: '@Localizer["CentroEliminado"]',
-                                    text: '@Localizer["CentroEliminadoMensaje"]'
+                                    title: 'Centro eliminado',
+                                    text: 'El profesor ha sido eliminado correctamente.'
                                 }).then(() => {
                                     location.reload();
                                 });
                             } else {
                                 Swal.fire({
                                     icon: 'error',
-                                    title: '@Localizer["Error"]',
-                                    text: '@Localizer["ErrorEliminarCentro"]'
+                                    title: 'Error',
+                                    text: 'No se pudo eliminar el profesor.'
                                 }).then(() => {
                                     location.reload();
                                 });
@@ -137,8 +138,8 @@
                         .catch(error => {
                             Swal.fire({
                                 icon: 'error',
-                                title: '@Localizer["Error"]',
-                                text: '@Localizer["ErrorGeneral"]'
+                                title: 'Error',
+                                text: 'Ocurrió un error al eliminar el profesor.'
                             }).then(() => {
                                 location.reload();
                             });
@@ -150,13 +151,15 @@
                     var searchTerm = this.value.toLowerCase();
                     var rows = document.querySelectorAll('#centrosTable tbody tr');
                     rows.forEach(function (row) {
-                        var nombre = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
-                        var direccion = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-                        if (nombre.includes(searchTerm) || direccion.includes(searchTerm)) {
-                            row.style.display = '';
-                        } else {
-                            row.style.display = 'none';
+                        var cells = row.querySelectorAll('td');
+                        var match = false;
+                        for (var i = 0; i < cells.length - 1; i++) { // Excluir la última celda (acciones)
+                            if (cells[i].textContent.toLowerCase().includes(searchTerm)) {
+                                match = true;
+                                break;
+                            }
                         }
+                        row.style.display = match ? '' : 'none';
                     });
                 });
             });
