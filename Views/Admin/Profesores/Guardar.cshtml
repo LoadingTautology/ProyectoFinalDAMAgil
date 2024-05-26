@@ -1,13 +1,15 @@
-﻿@model ProyectoFinalDAMAgil.Models.Admin.ProfesorModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model ProyectoFinalDAMAgil.Models.Admin.ProfesorModel
 
 @{
-    ViewData["Title"] = "Profesor Profesor";
+    ViewData["Title"] = Localizer["Title"];
 }
 
 <div class="container mt-5">
     <div class="card">
         <div class="card-header">
-            <h3>Crear Nuevo Profesor</h3>
+            <h3>@Localizer["CrearNuevoProfesor"]</h3>
         </div>
         <div class="card-body">
             <form asp-controller="Admin" asp-action="GuardarProfesor" method="post" enctype="multipart/form-data">
@@ -15,31 +17,31 @@
                 <input type="hidden" asp-for="IdCentro" value="@ViewData["idCentro"]" />
 
                 <div class="mb-3">
-                    <label class="form-label" for="NombreUsuario">Nombre Profesor</label>
-                    <input asp-for="NombreUsuario" type="text" class="form-control" id="NombreUsuario" placeholder="Nombre del Profesor">
+                    <label class="form-label" for="NombreUsuario">@Localizer["NombreProfesor"]</label>
+                    <input asp-for="NombreUsuario" type="text" class="form-control" id="NombreUsuario" placeholder="@Localizer["NombreProfesor"]">
                     <span asp-validation-for="NombreUsuario" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="ApellidosUsuario">Apellidos Profesor</label>
-                    <input asp-for="ApellidosUsuario" type="text" class="form-control" id="ApellidosUsuario" placeholder="Apellidos Profesor">
+                    <label class="form-label" for="ApellidosUsuario">@Localizer["ApellidosProfesor"]</label>
+                    <input asp-for="ApellidosUsuario" type="text" class="form-control" id="ApellidosUsuario" placeholder="@Localizer["ApellidosProfesor"]">
                     <span asp-validation-for="ApellidosUsuario" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="Email">Email</label>
-                    <input asp-for="Email" type="email" class="form-control" id="Email" placeholder="Email">
+                    <label class="form-label" for="Email">@Localizer["Email"]</label>
+                    <input asp-for="Email" type="email" class="form-control" id="Email" placeholder="@Localizer["Email"]">
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="Especialidad">Especialidad</label>
-                    <input asp-for="Especialidad" type="text" class="form-control" id="Especialidad" placeholder="Especialidad">
+                    <label class="form-label" for="Especialidad">@Localizer["Especialidad"]</label>
+                    <input asp-for="Especialidad" type="text" class="form-control" id="Especialidad" placeholder="@Localizer["Especialidad"]">
                     <span asp-validation-for="Especialidad" class="text-danger"></span>
                 </div>
                 <div class="d-flex justify-content-between">
                     <button type="submit" class="btn btn-primary" asp-route-id="@ViewData["idCentro"]">
-                        <i class="bi bi-save"></i> Guardar
+                        <i class="bi bi-save"></i> @Localizer["Guardar"]
                     </button>
                     <a asp-controller="Admin" asp-action="ListarProfesores" asp-route-id="@ViewData["idCentro"]" class="btn btn-warning">
-                        <i class="bi bi-arrow-left"></i> Volver Lista Profesores
+                        <i class="bi bi-arrow-left"></i> @Localizer["VolverListaProfesores"]
                     </a>
                 </div>
             </form>
