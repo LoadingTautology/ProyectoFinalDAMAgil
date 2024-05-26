@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Resources\Views\Admin\Alumnos\" />
-    <Folder Include="Resources\Views\Admin\Profesores\" />
     <Folder Include="Scaffold\" />
     <Folder Include="wwwroot\src\img\MainIMG\" />
   </ItemGroup>
