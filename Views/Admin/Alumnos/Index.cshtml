@@ -43,7 +43,10 @@
                                 <td>@item.FechaDeNacimiento.ToString("dd/MM/yyyy")</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Acciones">
-                                        <a asp-controller="Admin" asp-action="ListarEstudiosAlumno" asp-route-id="@item.IdAlumno" asp-route-idCentro="@item.IdCentro" class="btn btn-primary btn-sm">
+                                        <a asp-controller="Admin" asp-action="HorariosAlumno" asp-route-idAlumno="@item.IdAlumno" class="btn btn-primary btn-sm">
+                                            <i class="bi bi-gear"></i> Horarios
+                                        </a>
+                                        <a asp-controller="Admin" asp-action="ListarEstudiosAlumno" asp-route-idAlumno="@item.IdAlumno" class="btn btn-primary btn-sm">
                                             <i class="bi bi-gear"></i> Asignar Estudios
                                         </a>
                                         <a asp-controller="Admin" asp-action="EditarAlumno" asp-route-id="@item.IdAlumno" class="btn btn-secondary btn-sm">

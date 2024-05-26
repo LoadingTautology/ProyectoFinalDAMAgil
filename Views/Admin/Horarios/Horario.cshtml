@@ -1,0 +1,78 @@
+﻿@{
+    ViewData["Title"] = Localizer["Tutulo"];
+    var listaHorarioEstudio = ViewData["Horarios"] as List<ProyectoFinalDAMAgil.Models.Admin.HorarioModel>;
+    var listaAsignaturas = ViewData["ListaAsignaturas"] as List<ProyectoFinalDAMAgil.Models.Admin.AsignaturaModel>;
+    var listaAulas = ViewData["ListaAulas"] as List<ProyectoFinalDAMAgil.Models.Admin.AulaModel>;
+    var listaEstudios = ViewData["ListaEstudios"] as List<ProyectoFinalDAMAgil.Models.Admin.CicloformativoModel>;
+
+    int contador = 0;
+}
+<body>
+    <div class="container mt-5">
+        <div class="card">
+
+            <div class="card-header">
+                <h3 class="card-title">@Localizer["Titulo"] - @ViewData["NombreAsignatura"] - @ViewData["CursoAsignatura"]º @Localizer["Curso"]</h3>
+            </div>
+
+            <div class="card-body">
+
+                <div>
+
+                    <a asp-controller="Admin" asp-action="@ViewData["action"]" asp-route-id="@ViewData["idCentro"]" class="btn btn-warning mb-3">
+                        <i class="bi bi-arrow-left"></i> @Localizer["Volver"]
+                    </a>
+                </div>
+
+                <table class="table table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col" class="hora-col">@Localizer["Hora/Día"]</th>
+                            @foreach (var dia in ViewData["DiasSemana"] as IEnumerable<ProyectoFinalDAMAgil.Models.Admin.DiasemanaModel>)
+                            {
+                                <th scope="col">@Localizer[dia.DiaDeLaSemana]</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var hora in ViewData["Horas"] as IEnumerable<ProyectoFinalDAMAgil.Models.Admin.FranjahorariumModel>)
+                        {
+                            <tr>
+                                <td class="hora-col">@hora.HoraMinInicio - @hora.HoraMinFinal</td>
+                                @foreach (var dia in ViewData["DiasSemana"] as IEnumerable<ProyectoFinalDAMAgil.Models.Admin.DiasemanaModel>)
+                                {
+                                    contador++;
+                                    var horarioExistente = listaHorarioEstudio.FirstOrDefault(h => h.IdDiaFranja == contador);
+                                    if (horarioExistente != null)
+                                    {
+                                        var colorAsignatura = horarioExistente.ColorAsignatura;
+                                        var nombreAsignatura = listaAsignaturas.First(a => a.IdAsignatura == horarioExistente.IdAsignatura).NombreAsignatura;
+                                        var aulaDescripcion = listaAulas.First(a => a.IdAula == horarioExistente.IdAula).NumeroAula.ToString();
+                                        var acronimoEstudio = listaEstudios.First(a => a.IdCiclo == horarioExistente.IdEstudio).Acronimo;
+
+                                        <td style="background-color:@colorAsignatura;">
+                                            aula:@aulaDescripcion - @acronimoEstudio - @nombreAsignatura
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                        </td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>
+    </div>
+</body>
+
+
+<style>
+    .hora-col {
+        width: 175px;
+    }
+</style>

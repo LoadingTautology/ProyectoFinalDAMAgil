@@ -6,6 +6,7 @@ using ProyectoFinalDAMAgil.Services.Administrador;
 using ProyectoFinalDAMAgil.Services.Alumno;
 using ProyectoFinalDAMAgil.Services.Asignatura;
 using ProyectoFinalDAMAgil.Services.AsignaturasEstudios;
+using ProyectoFinalDAMAgil.Services.Asignaturasprofesor;
 using ProyectoFinalDAMAgil.Services.Aula;
 using ProyectoFinalDAMAgil.Services.Centroeducativo;
 using ProyectoFinalDAMAgil.Services.Cicloformativo;
@@ -13,6 +14,7 @@ using ProyectoFinalDAMAgil.Services.Correoelectronico;
 using ProyectoFinalDAMAgil.Services.Diasemana;
 using ProyectoFinalDAMAgil.Services.Franjahorarium;
 using ProyectoFinalDAMAgil.Services.Horario;
+using ProyectoFinalDAMAgil.Services.Matriculasalumno;
 using ProyectoFinalDAMAgil.Services.Profesor;
 using ProyectoFinalDAMAgil.Services.Usuario;
 using ProyectoFinalDAMAgil.Services.Usuarioscentroeducativo;
@@ -29,6 +31,7 @@ namespace ProyectoFinalDAMAgil.Controllers
         private readonly IAlumnoService _alumnoService;
         private readonly IAsignaturaService _asignaturaService;
         private readonly IAsignaturasEstudiosService _asignaturasEstudiosService;
+        private readonly IAsignaturasprofesorService _asignaturaprofesorService;
         private readonly IAulaService _aulaService;
         private readonly ICentroeducativoService _centroeducativoService;
         private readonly ICicloformativoService _cicloformativoService;
@@ -36,6 +39,7 @@ namespace ProyectoFinalDAMAgil.Controllers
         private readonly IDiasemanaService _diasemanaService;
         private readonly IFranjahorariumService _franjahorariumService;
         private readonly IHorarioService _horarioService;
+        private readonly IMatriculasalumnoService _matriculasalumnoService;
         private readonly IProfesorService _profesorService;
         private readonly IUsuarioService _usuarioService;
         private readonly IUsuarioscentroeducativoService _usuarioscentroeducativoService;
@@ -45,6 +49,7 @@ namespace ProyectoFinalDAMAgil.Controllers
                                 IAlumnoService alumnoService,
                                 IAsignaturaService asignaturaService,
                                 IAsignaturasEstudiosService asignaturasEstudiosService,
+                                IAsignaturasprofesorService asignaturasprofesorService,
                                 IAulaService aulaService,
                                 ICentroeducativoService centroeducativoService,
                                 ICicloformativoService cicloformativoService,
@@ -52,6 +57,7 @@ namespace ProyectoFinalDAMAgil.Controllers
                                 IDiasemanaService diasemanaService,
                                 IFranjahorariumService franjahorariumService,
                                 IHorarioService horarioService,
+                                IMatriculasalumnoService matriculasalumnoService,
                                 IProfesorService profesorService,
                                 IUsuarioService usuarioService,
                                 IUsuarioscentroeducativoService usuarioscentroeducativo)
@@ -62,6 +68,7 @@ namespace ProyectoFinalDAMAgil.Controllers
             _alumnoService = alumnoService;
             _asignaturaService = asignaturaService;
             _asignaturasEstudiosService = asignaturasEstudiosService;
+            _asignaturaprofesorService = asignaturasprofesorService;
             _aulaService = aulaService;
             _centroeducativoService = centroeducativoService;
             _cicloformativoService = cicloformativoService;
@@ -69,6 +76,7 @@ namespace ProyectoFinalDAMAgil.Controllers
             _diasemanaService = diasemanaService;
             _franjahorariumService = franjahorariumService;
             _horarioService = horarioService;
+            _matriculasalumnoService = matriculasalumnoService;
             _profesorService = profesorService;
             _usuarioService = usuarioService;
             _usuarioscentroeducativoService = usuarioscentroeducativo;
@@ -831,6 +839,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 
         #endregion
 
+
         /* ********************ALUMNOS******************** */
         #region Gestion Alumnos
 
@@ -948,6 +957,265 @@ namespace ProyectoFinalDAMAgil.Controllers
 
             return RedirectToAction("ListarAlumnos",new {id=alumnoModel.IdCentro });
         }
+
+
+        #endregion
+
+
+        /* ********************ASIGNAR_ESTUDIOS_ASIGNATURAS_PROFESOR******************** */
+        #region ASIGNAR_PROFESOR
+
+        public async Task<IActionResult> ListarEstudiosProfesor(int idProfesor)
+        {
+            ProfesorModel profesorModel = await _profesorService.ReadProfesor(idProfesor);
+
+            ViewData["NombreUsuario"]=profesorModel.NombreUsuario;
+            ViewData["ApellidosUsuario"]=profesorModel.ApellidosUsuario;
+            ViewData["IdProfesor"]= profesorModel.IdProfesor;
+            ViewData["IdCentro"]=profesorModel.IdCentro;
+
+            IEnumerable<AsignaturasprofesorModel> asignaturasprofesorModels = await _asignaturaprofesorService.ListAsignaturasAsignadasProfesor(idProfesor);
+
+            return View("~/Views/Admin/Profesores/ListarEstudiosAsignaturas.cshtml", asignaturasprofesorModels);
+        }
+
+        public async Task<IActionResult> EliminarAsignaturaAsignada(int idProfesor, int idEstudio, int idAsignatura)
+        {
+            try
+            {
+                await _asignaturaprofesorService.DeleteAsignaturasprofesor(idProfesor, idEstudio, idAsignatura);
+                bool existe = await _asignaturaprofesorService.ExistAsignaturasprofesor(idProfesor, idEstudio, idAsignatura);
+
+                if (existe)
+                {
+                    return Json(new { success = false, message = "La asignatura asignada no se pudo eliminar." });
+                }
+                else
+                {
+                    return Json(new { success = true });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Ocurrió un error al eliminar la asignatura asignada." });
+            }
+        }
+
+        public async Task<IActionResult> ListarEstudiosAsignar(int idProfesor)
+        {
+            ViewData["IdProfesor"]= idProfesor;
+            ProfesorModel profesorModel = await _profesorService.ReadProfesor(idProfesor);
+            ViewData["IdCentro"]=profesorModel.IdCentro;
+
+            var centroDB = await _centroeducativoService.GetCentroeducativo(profesorModel.IdCentro);
+            ViewData["NombreCentro"] = centroDB.NombreCentro;
+            ViewData["DireccionCentro"] = centroDB.Direccion;
+
+            IEnumerable<CicloformativoModel> listadoEstudios = await _cicloformativoService.ListadoCicloformativo(profesorModel.IdCentro);
+
+            return View("~/Views/Admin/Profesores/ListarEstudios.cshtml",listadoEstudios);
+        }
+
+        public async Task<IActionResult> ListarAsignaturasAsignar(int idProfesor, int idEstudio, bool errorGuardar = false)
+        {
+            ViewData["idProfesor"]= idProfesor;
+            ViewData["idEstudio"]=idEstudio;
+
+            CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(idEstudio);
+            ViewData["Acronimo"] = cicloformativo.Acronimo;
+
+            IEnumerable<AsignaturaModel> listadoAsignaturasEstudio = await _asignaturaService.ListadoAsignatura(idEstudio);
+            List<int> idAsignaturasCiclo = new List<int>();
+            foreach (var item in listadoAsignaturasEstudio)
+            {
+                idAsignaturasCiclo.Add(item.IdAsignatura);
+            }
+
+            IEnumerable<AsignaturasprofesorModel> listadoAsignaturasAsignadasProfesor = await _asignaturaprofesorService.ListAsignaturasAsignadasProfesor(idProfesor);
+            List<int> idAsignaturasEstudioAsignadasProfesor = new List<int>();
+            foreach (var item in listadoAsignaturasAsignadasProfesor)
+            {
+                if (item.IdCiclo==idEstudio)
+                {
+                    idAsignaturasEstudioAsignadasProfesor.Add(item.IdAsignatura);
+                }
+            }
+
+            IEnumerable<int> idlistadoAsignaturasEstudioDiferenciaAsignadasProfesor = from idLista in idAsignaturasCiclo.Except(idAsignaturasEstudioAsignadasProfesor) select idLista;
+
+            List<AsignaturaModel> listadoAsignaturasEstudioDiferenciaAsignadasProfesor = new List<AsignaturaModel>();
+            foreach (int item in idlistadoAsignaturasEstudioDiferenciaAsignadasProfesor)
+            {
+                listadoAsignaturasEstudioDiferenciaAsignadasProfesor.Add(await _asignaturaService.ReadAsignatura(item));
+            }
+
+            if (errorGuardar) 
+            {
+                ViewData["Mensaje"]="ERROR ASIGNATURA NO GUARDADA";
+            }
+
+            return View("~/Views/Admin/Profesores/ListarAsignaturas.cshtml", listadoAsignaturasEstudioDiferenciaAsignadasProfesor);
+        }
+
+        public async Task<IActionResult> AsignarProfesorAsignatura(int idProfesor, int idEstudio, int idAsignatura)
+        {
+            if(await _asignaturaprofesorService.ExistHorarioEnConflictoProfesor(idProfesor, idEstudio, idAsignatura)) 
+            {
+                Console.WriteLine("\n\n**********************************ERROR ASIGNATURA NO GUARDADA");
+                return RedirectToAction("ListarAsignaturasAsignar", new { idProfesor = idProfesor, idEstudio = idEstudio, errorGuardar = true });
+            }
+            else 
+            {
+                await _asignaturaprofesorService.CreateAsignaturasprofesor(idProfesor, idEstudio, idAsignatura);
+                return RedirectToAction("ListarAsignaturasAsignar", new { idProfesor = idProfesor, idEstudio = idEstudio });
+            }
+        }
+
+        public async Task<IActionResult> HorariosProfesor(int idProfesor)
+        {
+            ViewData["action"]= "ListarProfesores";
+            ProfesorModel profesorModel = await _profesorService.ReadProfesor(idProfesor);
+            ViewData["idCentro"]=profesorModel.IdCentro;
+
+            ViewData["DiasSemana"] = await _diasemanaService.ListDiasemana();
+            ViewData["Horas"] = await _franjahorariumService.ListFranjahorarium();
+
+            ViewData["Horarios"] = await _asignaturaprofesorService.ListHorariosProfesor(idProfesor);
+            ViewData["ListaAsignaturas"] = await _asignaturaprofesorService.ListAsignaturasProfesor(idProfesor);
+            ViewData["ListaAulas"] = await _asignaturaprofesorService.ListAulasProfesor(idProfesor);
+
+            ViewData["ListaEstudios"] = await _asignaturaprofesorService.ListEstudiosProfesor(idProfesor);
+
+            return View("~/Views/Admin/Horarios/Horario.cshtml");
+        }
+
+            #endregion
+
+        /* ********************MATRICULAR_ALUMNOS******************** */
+        #region MATRICULAR_ALUMNOS
+        public async Task<IActionResult> ListarEstudiosAlumno(int idAlumno)
+        {
+            AlumnoModel alumnoModel = await _alumnoService.ReadAlumno(idAlumno);
+
+            ViewData["NombreUsuario"]=alumnoModel.NombreUsuario;
+            ViewData["ApellidosUsuario"]=alumnoModel.ApellidosUsuario;
+            ViewData["IdAlumno"]= alumnoModel.IdAlumno;
+            ViewData["IdCentro"]=alumnoModel.IdCentro;
+
+            IEnumerable<MatriculasalumnoModel> asignaturasMatriculadasAlumnosModels = await _matriculasalumnoService.ListAsignaturasMatriculadasAlumno(idAlumno);
+            
+            return View("~/Views/Admin/Alumnos/ListarEstudiosAsignaturas.cshtml", asignaturasMatriculadasAlumnosModels);
+        }
+
+        public async Task<IActionResult> EliminarAsignaturaMatriculada(int idAlumno, int idEstudio, int idAsignatura)
+        {
+            try
+            {
+                await _matriculasalumnoService.DeleteMatriculasalumno(idAlumno, idEstudio, idAsignatura);
+                bool existe = await _matriculasalumnoService.ExistMatriculasalumno(idAlumno, idEstudio, idAsignatura);
+
+                if (existe)
+                {
+                    return Json(new { success = false, message = "La asignatura matriculada no se pudo eliminar." });
+                }
+                else
+                {
+                    return Json(new { success = true });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Ocurrió un error al eliminar la asignatura matriculada." });
+            }
+        }
+
+        public async Task<IActionResult> ListarEstudiosMatricular(int idAlumno)
+        {
+            ViewData["IdAlumno"]= idAlumno;
+            AlumnoModel alumnoModel = await _alumnoService.ReadAlumno(idAlumno);
+            ViewData["IdCentro"]=alumnoModel.IdCentro;
+
+            var centroDB = await _centroeducativoService.GetCentroeducativo(alumnoModel.IdCentro);
+            ViewData["NombreCentro"] = centroDB.NombreCentro;
+            ViewData["DireccionCentro"] = centroDB.Direccion;
+
+            IEnumerable<CicloformativoModel> listadoEstudios = await _cicloformativoService.ListadoCicloformativo(alumnoModel.IdCentro);
+
+            return View("~/Views/Admin/Alumnos/ListarEstudios.cshtml", listadoEstudios);
+        }
+
+        public async Task<IActionResult> ListarAsignaturasMatricular(int idAlumno, int idEstudio, bool errorGuardar = false)
+        {
+            ViewData["idAlumno"]= idAlumno;
+            ViewData["idEstudio"]= idEstudio;
+
+            CicloformativoModel cicloformativo = await _cicloformativoService.ReadCicloformativo(idEstudio);
+            ViewData["Acronimo"] = cicloformativo.Acronimo;
+
+            IEnumerable<AsignaturaModel> listadoAsignaturasEstudio = await _asignaturaService.ListadoAsignatura(idEstudio);
+            List<int> idAsignaturasCiclo = new List<int>();
+            foreach (var item in listadoAsignaturasEstudio)
+            {
+                idAsignaturasCiclo.Add(item.IdAsignatura);
+            }
+
+            IEnumerable<MatriculasalumnoModel> listadoAsignaturasMatriculadasAlumno = await _matriculasalumnoService.ListAsignaturasMatriculadasAlumno(idAlumno);
+            List<int> idAsignaturasEstudioMatriculadasAlumno = new List<int>();
+            foreach (var item in listadoAsignaturasMatriculadasAlumno)
+            {
+                if (item.IdCiclo==idEstudio)
+                {
+                    idAsignaturasEstudioMatriculadasAlumno.Add(item.IdAsignatura);
+                }
+            }
+
+            IEnumerable<int> idlistadoAsignaturasEstudioDiferenciaMatriculadasAlumno = from idLista in idAsignaturasCiclo.Except(idAsignaturasEstudioMatriculadasAlumno) select idLista;
+
+            List<AsignaturaModel> listadoAsignaturasEstudioDiferenciaMatriculadasAlumno = new List<AsignaturaModel>();
+            foreach (int item in idlistadoAsignaturasEstudioDiferenciaMatriculadasAlumno)
+            {
+                listadoAsignaturasEstudioDiferenciaMatriculadasAlumno.Add(await _asignaturaService.ReadAsignatura(item));
+            }
+
+            if (errorGuardar)
+            {
+                ViewData["Mensaje"]="ERROR ASIGNATURA NO GUARDADA";
+            }
+
+            return View("~/Views/Admin/Alumnos/ListarAsignaturas.cshtml", listadoAsignaturasEstudioDiferenciaMatriculadasAlumno);
+        }
+
+        public async Task<IActionResult> MatricularAlumnoAsignatura(int idAlumno, int idEstudio, int idAsignatura)
+        {
+            if (await _matriculasalumnoService.ExistHorarioEnConflictoAlumno(idAlumno, idEstudio, idAsignatura))
+            {
+                return RedirectToAction("ListarAsignaturasMatricular", new { idAlumno = idAlumno, idEstudio = idEstudio, errorGuardar = true });
+            }
+            else
+            {
+                await _matriculasalumnoService.CreateMatriculasalumno(idAlumno, idEstudio, idAsignatura);
+                return RedirectToAction("ListarAsignaturasMatricular", new { idAlumno = idAlumno, idEstudio = idEstudio });
+            }
+        }
+
+        public async Task<IActionResult> HorariosAlumno(int idAlumno)
+        {
+            ViewData["action"]= "ListarAlumnos";
+            AlumnoModel alumnoModel = await _alumnoService.ReadAlumno(idAlumno);
+            ViewData["idCentro"]=alumnoModel.IdCentro;
+
+            ViewData["DiasSemana"] = await _diasemanaService.ListDiasemana();
+            ViewData["Horas"] = await _franjahorariumService.ListFranjahorarium();
+
+            ViewData["Horarios"] = await _matriculasalumnoService.ListHorariosAlumno(idAlumno);
+            ViewData["ListaAsignaturas"] = await _matriculasalumnoService.ListAsignaturasAlumno(idAlumno);
+            ViewData["ListaAulas"] = await _matriculasalumnoService.ListAulasAlumno(idAlumno);
+
+            ViewData["ListaEstudios"] = await _matriculasalumnoService.ListEstudiosAlumno(idAlumno);
+
+            return View("~/Views/Admin/Horarios/Horario.cshtml");
+        }
+
 
 
         #endregion

@@ -122,13 +122,13 @@ namespace ProyectoFinalDAMAgil.Services.Asignatura
             IQueryable<AsignaturaModel> asignaturaListaDB 
                 = from asignatura in _context.Asignaturas
                     join asignaturaciclo in _context.Asignaturascicloformativos on asignatura.IdAsignatura equals asignaturaciclo.IdAsignatura
-                  where asignaturaciclo.IdCiclo == idCiclo
-                  select new AsignaturaModel()
-                  {
-                      IdAsignatura = asignatura.IdAsignatura,
-                      NombreAsignatura = asignatura.NombreAsignatura,
-                      Curso =asignatura.Curso
-                  };
+                    where asignaturaciclo.IdCiclo == idCiclo
+                    select new AsignaturaModel()
+                    {
+                        IdAsignatura = asignatura.IdAsignatura,
+                        NombreAsignatura = asignatura.NombreAsignatura,
+                        Curso =asignatura.Curso
+                    };
 
             return asignaturaListaDB.ToList();
         }
@@ -181,15 +181,15 @@ namespace ProyectoFinalDAMAgil.Services.Asignatura
         {
             IQueryable<AsignaturaModel> asignaturaListaDB
                 = from asignatura in _context.Asignaturas
-                  join asignaturaciclo in _context.Asignaturascicloformativos on asignatura.IdAsignatura equals asignaturaciclo.IdAsignatura
-                  join cicloformativo in _context.Cicloformativos on asignaturaciclo.IdCiclo equals cicloformativo.IdCiclo
-                  where cicloformativo.IdCentro == idCentro
-                  select new AsignaturaModel()
-                  {
-                      IdAsignatura = asignatura.IdAsignatura,
-                      NombreAsignatura = asignatura.NombreAsignatura,
-                      Curso =asignatura.Curso
-                  };
+                    join asignaturaciclo in _context.Asignaturascicloformativos on asignatura.IdAsignatura equals asignaturaciclo.IdAsignatura
+                    join cicloformativo in _context.Cicloformativos on asignaturaciclo.IdCiclo equals cicloformativo.IdCiclo
+                    where cicloformativo.IdCentro == idCentro
+                    select new AsignaturaModel()
+                    {
+                        IdAsignatura = asignatura.IdAsignatura,
+                        NombreAsignatura = asignatura.NombreAsignatura,
+                        Curso =asignatura.Curso
+                    };
 
             return asignaturaListaDB.ToList();
         }

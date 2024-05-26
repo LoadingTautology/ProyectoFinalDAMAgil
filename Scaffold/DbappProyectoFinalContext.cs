@@ -19,6 +19,8 @@ public partial class DbappProyectoFinalContext : DbContext
 
     public virtual DbSet<Asignaturascicloformativo> Asignaturascicloformativos { get; set; }
 
+    public virtual DbSet<Asignaturasprofesor> Asignaturasprofesors { get; set; }
+
     public virtual DbSet<Aula> Aulas { get; set; }
 
     public virtual DbSet<Centroeducativo> Centroeducativos { get; set; }
@@ -34,6 +36,8 @@ public partial class DbappProyectoFinalContext : DbContext
     public virtual DbSet<Franjahorarium> Franjahoraria { get; set; }
 
     public virtual DbSet<Horario> Horarios { get; set; }
+
+    public virtual DbSet<Matriculasalumno> Matriculasalumnos { get; set; }
 
     public virtual DbSet<Profesor> Profesors { get; set; }
 
@@ -123,6 +127,29 @@ public partial class DbappProyectoFinalContext : DbContext
             entity.HasOne(d => d.IdCicloNavigation).WithMany(p => p.Asignaturascicloformativos)
                 .HasForeignKey(d => d.IdCiclo)
                 .HasConstraintName("asignaturascicloformativo_ibfk_1");
+        });
+
+        modelBuilder.Entity<Asignaturasprofesor>(entity =>
+        {
+            entity.HasKey(e => e.IdAsignaturasProfesor).HasName("PRIMARY");
+
+            entity.ToTable("asignaturasprofesor");
+
+            entity.HasIndex(e => e.IdAsignaturasCicloFormativo, "IdAsignaturasCicloFormativo");
+
+            entity.HasIndex(e => new { e.IdProfesor, e.IdAsignaturasCicloFormativo }, "IdProfesor").IsUnique();
+
+            entity.Property(e => e.IdAsignaturasProfesor).HasColumnType("int(11)");
+            entity.Property(e => e.IdAsignaturasCicloFormativo).HasColumnType("int(11)");
+            entity.Property(e => e.IdProfesor).HasColumnType("int(11)");
+
+            entity.HasOne(d => d.IdAsignaturasCicloFormativoNavigation).WithMany(p => p.Asignaturasprofesors)
+                .HasForeignKey(d => d.IdAsignaturasCicloFormativo)
+                .HasConstraintName("asignaturasprofesor_ibfk_2");
+
+            entity.HasOne(d => d.IdProfesorNavigation).WithMany(p => p.Asignaturasprofesors)
+                .HasForeignKey(d => d.IdProfesor)
+                .HasConstraintName("asignaturasprofesor_ibfk_1");
         });
 
         modelBuilder.Entity<Aula>(entity =>
@@ -281,6 +308,29 @@ public partial class DbappProyectoFinalContext : DbContext
                 .HasPrincipalKey(p => new { p.IdAsignatura, p.IdCiclo })
                 .HasForeignKey(d => new { d.IdAsignatura, d.IdEstudio })
                 .HasConstraintName("horario_ibfk_1");
+        });
+
+        modelBuilder.Entity<Matriculasalumno>(entity =>
+        {
+            entity.HasKey(e => e.IdMatriculasAlumnos).HasName("PRIMARY");
+
+            entity.ToTable("matriculasalumnos");
+
+            entity.HasIndex(e => new { e.IdAlumno, e.IdAsignaturasCicloFormativo }, "IdAlumno").IsUnique();
+
+            entity.HasIndex(e => e.IdAsignaturasCicloFormativo, "IdAsignaturasCicloFormativo");
+
+            entity.Property(e => e.IdMatriculasAlumnos).HasColumnType("int(11)");
+            entity.Property(e => e.IdAlumno).HasColumnType("int(11)");
+            entity.Property(e => e.IdAsignaturasCicloFormativo).HasColumnType("int(11)");
+
+            entity.HasOne(d => d.IdAlumnoNavigation).WithMany(p => p.Matriculasalumnos)
+                .HasForeignKey(d => d.IdAlumno)
+                .HasConstraintName("matriculasalumnos_ibfk_1");
+
+            entity.HasOne(d => d.IdAsignaturasCicloFormativoNavigation).WithMany(p => p.Matriculasalumnos)
+                .HasForeignKey(d => d.IdAsignaturasCicloFormativo)
+                .HasConstraintName("matriculasalumnos_ibfk_2");
         });
 
         modelBuilder.Entity<Profesor>(entity =>

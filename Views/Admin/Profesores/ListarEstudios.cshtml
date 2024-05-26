@@ -1,0 +1,76 @@
+﻿@model List<ProyectoFinalDAMAgil.Models.Admin.CicloformativoModel>
+
+@{
+    ViewData["Title"] = Localizer["Title"];
+}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">@Localizer["ListaDeEstudios"] - @ViewData["NombreCentro"] - @ViewData["DireccionCentro"]</h3>
+        </div>
+        <div class="card-body">
+            <div class="d-flex justify-content-between mb-3">
+
+                <a asp-controller="Admin" asp-action="ListarEstudiosProfesor" asp-route-idProfesor="@ViewData["IdProfesor"]" class="btn btn-warning">
+                    <i class="bi bi-arrow-left"></i> Volver Asignaturas
+                </a>
+                <input type="text" id="searchInput" class="form-control w-50" placeholder="@Localizer["BuscarEstudios"]">
+            </div>
+            <table id="centrosTable" class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>@Localizer["Acronimo"]</th>
+                        <th>@Localizer["Nombre"]</th>
+                        <th>@Localizer["Acciones"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr data-id="@item.IdCiclo">
+                                <td>@item.Acronimo</td>
+                                <td>@item.NombreCiclo</td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Acciones">
+                                        <a asp-controller="Admin" asp-action="ListarAsignaturasAsignar" asp-route-idProfesor="@ViewData["IdProfesor"]" asp-route-idEstudio="@item.IdCiclo" class="btn btn-primary btn-sm">
+                                            <i class="bi bi-gear"></i> Asignaturas
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3" class="text-center"> No hay estudios </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            // Funcionalidad de búsqueda
+            document.getElementById('searchInput').addEventListener('keyup', function () {
+                var searchTerm = this.value.toLowerCase();
+                var rows = document.querySelectorAll('#centrosTable tbody tr');
+                rows.forEach(function (row) {
+                    var acronimo = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+                    var nombre = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                    if (acronimo.includes(searchTerm) || nombre.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+                    });
+        </script>
+    }

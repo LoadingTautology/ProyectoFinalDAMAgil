@@ -14,4 +14,6 @@ public partial class Alumno
     public virtual Usuario IdAlumnoNavigation { get; set; } = null!;
 
     public virtual Centroeducativo IdCentroNavigation { get; set; } = null!;
+
+    public virtual ICollection<Matriculasalumno> Matriculasalumnos { get; set; } = new List<Matriculasalumno>();
 }
