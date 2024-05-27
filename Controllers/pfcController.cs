@@ -8,9 +8,9 @@ namespace ProyectoFinalDAMAgil.Controllers
         {
             return View();
         }
-        public IActionResult Grantt()
+        public IActionResult Gantt()
         {
-            return View("~/Views/pfc/Grantt.cshtml");
+            return View("~/Views/pfc/Gantt.cshtml");
         }
     }
 }
