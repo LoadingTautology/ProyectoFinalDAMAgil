@@ -10,6 +10,7 @@
     <Folder Include="Resources\Views\Admin\Alumnos\" />
     <Folder Include="Scaffold\" />
     <Folder Include="wwwroot\src\img\MainIMG\" />
+    <Folder Include="wwwroot\src\img\pfc\" />
   </ItemGroup>
 
   <ItemGroup>
