@@ -135,16 +135,13 @@
                     <h5 class="text-uppercase">@Localizer["Enlaces"]</h5>
                     <ul class="list-unstyled mb-0 footer-links animate__animated animate__fadeInUp">
                         <li>
-                            <a href="#!" class="text-dark">@Localizer["AcercaDe"]</a>
+                            <a class="text-dark" asp-area="" asp-controller="MainPage" asp-action="AboutUs">@Localizer["AcercaDe"]</a>
                         </li>
                         <li>
-                            <a href="#!" class="text-dark">@Localizer["Soporte"]</a>
+                            <a class="text-dark" asp-area="" asp-controller="MainPage" asp-action="Contacto">@Localizer["Contacto"]</a>
                         </li>
                         <li>
-                            <a href="#!" class="text-dark">@Localizer["Contacto"]</a>
-                        </li>
-                        <li>
-                            <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-dark">@Localizer["Privacy"]</a>
+                            <a asp-area="page" asp-controller="MainPage" asp-action="Privacy" class="text-dark">@Localizer["Privacy"]</a>
                         </li>
                     </ul>
 
