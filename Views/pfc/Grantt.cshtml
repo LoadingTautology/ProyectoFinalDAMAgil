@@ -1,0 +1,207 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gantt Chart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .gantt-chart {
+            display: flex;
+            flex-direction: column;
+            width: 80%; /* Adjust to occupy 70-90% of the screen */
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .gantt-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px; /* Increased margin for better spacing */
+        }
+
+        .gantt-label {
+            width: 20%; /* Increased width for labels */
+            text-align: right;
+            padding-right: 15px;
+            font-weight: bold;
+            font-size: 1.2em; /* Increased font size */
+        }
+
+        .gantt-bar-container {
+            position: relative;
+            width: 80%;
+            height: 40px; /* Increased height for bars */
+            background-color: #e0e0e0;
+            border-radius: 20px; /* Adjusted border radius */
+        }
+
+        .gantt-bar {
+            position: absolute;
+            height: 100%;
+            border-radius: 20px; /* Adjusted border radius */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2em; /* Increased font size */
+            padding: 0 10px;
+            box-sizing: border-box;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .highlight {
+            background-color: #FFD700;
+        }
+
+        .gantt-bar-1 {
+            background-color: #1E90FF;
+            left: 0%;
+            width: 10%;
+        }
+
+        .gantt-bar-2 {
+            background-color: #32CD32;
+            left: 10%;
+            width: 20%;
+        }
+
+        .gantt-bar-3 {
+            background-color: #FFA500;
+            left: 30%;
+            width: 50%;
+        }
+
+        .gantt-bar-4 {
+            background-color: #FF4500;
+            left: 80%;
+            width: 5%;
+        }
+
+        .gantt-bar-5 {
+            background-color: #FF6347;
+            left: 95%;
+            width: 5%;
+        }
+
+        .activity {
+            font-size: 1em; /* Adjusted font size for activity details */
+            text-align: left;
+            margin-top: 10px; /* Increased margin for better spacing */
+            padding-left: 20%; /* Aligned with gantt-label */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="gantt-chart">
+        <div class="gantt-row">
+            <div class="gantt-label">Propuesta</div>
+            <div class="gantt-bar-container">
+                <div class="gantt-bar gantt-bar-1">11 Mar - 15 Mar</div>
+            </div>
+        </div>
+        <div class="activity">
+            <ul>
+                <li>11/03: Inicio del proyecto, discusión inicial.</li>
+                <li>12/03: Brainstorming de ideas.</li>
+                <li>13/03: Análisis de viabilidad.</li>
+                <li>14/03: Preparación de la propuesta.</li>
+                <li>15/03: Envío de la propuesta.</li>
+            </ul>
+        </div>
+
+        <div class="gantt-row">
+            <div class="gantt-label">Diseño</div>
+            <div class="gantt-bar-container">
+                <div class="gantt-bar gantt-bar-2">15 Mar - 27 Mar</div>
+            </div>
+        </div>
+        <div class="activity">
+            <ul>
+                <li>16/03: Creación de diagramas de flujo.</li>
+                <li>17/03: Estructuración del proyecto.</li>
+                <li>18/03: Diseño de la arquitectura.</li>
+                <li>19/03: Definición de requisitos.</li>
+                <li>20/03 - 27/03: Refinamiento y aprobación del diseño.</li>
+            </ul>
+        </div>
+
+        <div class="gantt-row">
+            <div class="gantt-label">Desarrollo</div>
+            <div class="gantt-bar-container">
+                <div class="gantt-bar gantt-bar-3">27 Mar - 27 May</div>
+            </div>
+        </div>
+        <div class="activity">
+            <ul>
+                <li>28/03 - 03/04: Aprender C#.</li>
+                <li>04/04 - 10/04: Estudio del entorno de ASP.NET Core 8 MVC.</li>
+                <li>11/04 - 17/04: Conexión de base de datos con Entity Framework.</li>
+                <li>18/04 - 24/04: Implementación de la inyección de dependencias.</li>
+                <li>25/04 - 01/05: Trabajo en el controlador.</li>
+                <li>02/05 - 08/05: Implementación de login con cookies.</li>
+                <li>09/05 - 12/05: Desarrollo del primer CRUD (Registro).</li>
+                <li>13/05 - 15/05: Revisión de la vista del CRUD de Registro.</li>
+                <li>16/05 - 19/05: Desarrollo del segundo CRUD (Login).</li>
+                <li>20/05 - 22/05: Revisión de la vista del CRUD de Login.</li>
+                <li>23/05 - 26/05: Desarrollo del CRUD de Centro.</li>
+                <li>27/05 - 29/05: Revisión de la vista del CRUD de Centro.</li>
+                <li>30/05 - 02/06: Desarrollo del CRUD de Aulas.</li>
+                <li>03/06 - 05/06: Revisión de la vista del CRUD de Aulas.</li>
+                <li>06/06 - 09/06: Desarrollo del CRUD de Estudios.</li>
+                <li>10/06 - 12/06: Revisión de la vista del CRUD de Estudios.</li>
+                <li>13/06 - 16/06: Desarrollo del CRUD de Asignaturas.</li>
+                <li>17/06 - 19/06: Revisión de la vista del CRUD de Asignaturas.</li>
+                <li>20/06 - 23/06: Desarrollo del CRUD de Horario.</li>
+                <li>24/06 - 26/06: Revisión de la vista del CRUD de Horario.</li>
+                <li>27/06 - 30/06: Desarrollo del CRUD de Profesores.</li>
+                <li>01/07 - 03/07: Revisión de la vista del CRUD de Profesores.</li>
+                <li>04/07 - 07/07: Desarrollo del CRUD de Alumnos.</li>
+                <li>08/07 - 10/07: Revisión de la vista del CRUD de Alumnos.</li>
+                <li>11/07 - 15/07: Despliegue de la aplicación web.</li>
+            </ul>
+        </div>
+
+        <div class="gantt-row">
+            <div class="gantt-label">Presentación</div>
+            <div class="gantt-bar-container">
+                <div class="gantt-bar gantt-bar-4 highlight">06 May</div>
+            </div>
+        </div>
+        <div class="activity">
+            <ul>
+                <li>06/05: Preparación del video de presentación.</li>
+            </ul>
+        </div>
+
+        <div class="gantt-row">
+            <div class="gantt-label">Entrega</div>
+            <div class="gantt-bar-container">
+                <div class="gantt-bar gantt-bar-5 highlight">27 May</div>
+            </div>
+        </div>
+        <div class="activity">
+            <ul>
+                <li>27/05: Entrega del proyecto final.</li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>
