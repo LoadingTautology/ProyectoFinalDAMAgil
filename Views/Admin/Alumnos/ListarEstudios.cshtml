@@ -1,28 +1,34 @@
-﻿@model List<ProyectoFinalDAMAgil.Models.Admin.CicloformativoModel>
-
+﻿@model List<ProyectoFinalDAMAgil.Models.Admin.AsignaturaModel>
 @{
-    ViewData["Title"] = Localizer["Title"];
+    ViewData["Title"] = "Lista de Asignaturas";
 }
 
 <div class="container mt-5">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Estudios - @ViewData["NombreCentro"]</h3>
+            <h3 class="card-title">Asignaturas - @ViewData["Acronimo"]</h3>
         </div>
         <div class="card-body">
             <div class="d-flex justify-content-between mb-3">
-
-                <a asp-controller="Admin" asp-action="ListarEstudiosAlumno" asp-route-idAlumno="@ViewData["IdAlumno"]" class="btn btn-warning">
-                    <i class="bi bi-arrow-left"></i> Volver Asignaturas
+                <a asp-controller="Admin" asp-action="ListarEstudiosMatricular" asp-route-idAlumno="@ViewData["idAlumno"]" class="btn btn-warning">
+                    <i class="bi bi-arrow-left"></i> Volver a Estudios
                 </a>
-                <input type="text" id="searchInput" class="form-control w-50" placeholder="@Localizer["BuscarEstudios"]">
+                <input type="text" id="searchInput" class="form-control w-50" placeholder="Buscar Asignaturas">
             </div>
+
+            @if (!string.IsNullOrEmpty(ViewData["Mensaje"] as string))
+            {
+                <div class="alert alert-danger mt-3" role="alert">
+                    @ViewData["Mensaje"]
+                </div>
+            }
+
             <table id="centrosTable" class="table table-hover table-striped">
                 <thead>
                     <tr>
-                        <th>@Localizer["Acronimo"]</th>
-                        <th>@Localizer["Nombre"]</th>
-                        <th>@Localizer["Acciones"]</th>
+                        <th>Nombre Asignatura</th>
+                        <th>Curso</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,13 +36,16 @@
                     {
                         @foreach (var item in Model)
                         {
-                            <tr data-id="@item.IdCiclo">
-                                <td>@item.Acronimo</td>
-                                <td>@item.NombreCiclo</td>
+                            <tr data-id="@item.IdAsignatura">
+                                <td>@item.NombreAsignatura</td>
+                                <td>@item.Curso</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Acciones">
-                                        <a asp-controller="Admin" asp-action="ListarAsignaturasMatricular" asp-route-idAlumno="@ViewData["IdAlumno"]" asp-route-idEstudio="@item.IdCiclo" class="btn btn-primary btn-sm">
-                                            <i class="bi bi-gear"></i> Asignaturas
+                                        <a asp-controller="Admin" asp-action="MatricularAlumnoAsignatura" asp-route-idAlumno="@ViewData["idAlumno"]" 
+                                                                                                          asp-route-idAsignatura="@item.IdAsignatura" 
+                                                                                                          asp-route-idEstudio="@ViewData["idEstudio"]" 
+                                                                                                          class="btn btn-primary btn-sm">
+                                            <i class="bi bi-gear"></i> Matricular
                                         </a>
                                     </div>
                                 </td>
@@ -46,25 +55,27 @@
                     else
                     {
                         <tr>
-                            <td colspan="3" class="text-center"> No hay estudios </td>
+                            <td colspan="3" class="text-center">No hay asignaturas</td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
     </div>
+</div>
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
             // Funcionalidad de búsqueda
             document.getElementById('searchInput').addEventListener('keyup', function () {
                 var searchTerm = this.value.toLowerCase();
                 var rows = document.querySelectorAll('#centrosTable tbody tr');
                 rows.forEach(function (row) {
-                    var acronimo = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
-                    var nombre = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-                    if (acronimo.includes(searchTerm) || nombre.includes(searchTerm)) {
+                    var nombreAsignatura = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+                    var curso = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                    if (nombreAsignatura.includes(searchTerm) || curso.includes(searchTerm)) {
                         row.style.display = '';
                     } else {
                         row.style.display = 'none';

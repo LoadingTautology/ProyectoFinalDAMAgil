@@ -27,7 +27,7 @@
                 <thead>
                     <tr>
                         <th>Nombre Asignatura</th>
-                        <th>Evaluacion</th>
+                        <th>Evaluación</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -41,10 +41,10 @@
                                 <td>@item.Curso</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Acciones">
-                                        <a asp-controller="Admin" asp-action="AsignarProfesorAsignatura" asp-route-idProfesor="@ViewData["idProfesor"]" 
-                                                                                                         asp-route-idAsignatura="@item.IdAsignatura" 
-                                                                                                         asp-route-idEstudio="@ViewData["idEstudio"]" 
-                                                                                                         class="btn btn-primary btn-sm">
+                                        <a asp-controller="Admin" asp-action="AsignarProfesorAsignatura" asp-route-idProfesor="@ViewData["idProfesor"]"
+                                           asp-route-idAsignatura="@item.IdAsignatura"
+                                           asp-route-idEstudio="@ViewData["idEstudio"]"
+                                           class="btn btn-primary btn-sm">
                                             <i class="bi bi-gear"></i> Asignar
                                         </a>
                                     </div>
@@ -62,25 +62,24 @@
             </table>
         </div>
     </div>
+</div>
 
-
-    @section Scripts {
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script>
-            // Funcionalidad de búsqueda
-            document.getElementById('searchInput').addEventListener('keyup', function () {
-                var searchTerm = this.value.toLowerCase();
-                var rows = document.querySelectorAll('#centrosTable tbody tr');
-                rows.forEach(function (row) {
-                    var nombreAsignatura = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
-                    var curso = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-                    if (nombreAsignatura.includes(searchTerm) || curso.includes(searchTerm)) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Funcionalidad de búsqueda
+        document.getElementById('searchInput').addEventListener('keyup', function () {
+            var searchTerm = this.value.toLowerCase();
+            var rows = document.querySelectorAll('#centrosTable tbody tr');
+            rows.forEach(function (row) {
+                var nombreAsignatura = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+                var curso = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                if (nombreAsignatura.includes(searchTerm) || curso.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
             });
-                    });
-        </script>
-    }
+        });
+    </script>
+}
