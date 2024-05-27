@@ -12,5 +12,9 @@ namespace ProyectoFinalDAMAgil.Controllers
         {
             return View("~/Views/pfc/Gantt.cshtml");
         }
+        public IActionResult DiagramClass()
+        {
+            return View("~/Views/pfc/diagramaClases.cshtml");
+        }
     }
 }
