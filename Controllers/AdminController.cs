@@ -1150,7 +1150,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 
         public async Task<IActionResult> ListarEstudiosMatricular(int idAlumno)
         {
-            ViewData["IdAlumno"]= idAlumno;
+            ViewData["idAlumno"]= idAlumno;
             AlumnoModel alumnoModel = await _alumnoService.ReadAlumno(idAlumno);
             ViewData["IdCentro"]=alumnoModel.IdCentro;
 
