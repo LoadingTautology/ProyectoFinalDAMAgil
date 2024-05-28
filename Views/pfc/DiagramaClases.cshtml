@@ -4,74 +4,48 @@
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Navigation</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
     <style>
-        .image-container {
-            display: none;
-            margin-top: 20px;
-            text-align: center;
+        .instruction-icons {
+            font-size: 1.5rem;
+            vertical-align: middle;
         }
-
-            .image-container img {
-                max-width: 100%;
-                max-height: 80vh;
-                width: auto;
-                height: auto;
-            }
     </style>
 </head>
 <body class="d-flex flex-column justify-content-center align-items-center vh-100">
+    <div class="container text-center mb-4">
+        <h1 class="mb-4">Navegar por las Imágenes SVG</h1>
+        <p><i class="bi bi-shift"></i> Shift + arrastrar el ratón para moverse</p>
+        <p><span class="instruction-icons">&#8963;</span> <i class="bi bi-command"></i> Control/command + rueda del ratón para hacer zoom in y zoom out</p>
+    </div>
     <div class="container text-center">
-        <h1 class="mb-4">Navigate to SVG Images</h1>
         <div class="row">
             <div class="col-md-4 mb-3">
-                <button class="btn btn-primary btn-block" onclick="showImage('admin')">Admin Controller</button>
+                <button class="btn btn-primary btn-block" onclick="window.open('@Url.Content("~/src/img/pfc/AdminController.svg")', '_blank')">Admin Controller</button>
             </div>
             <div class="col-md-4 mb-3">
-                <button class="btn btn-primary btn-block" onclick="showImage('home')">Home Controller</button>
+                <button class="btn btn-primary btn-block" onclick="window.open('@Url.Content("~/src/img/pfc/HomeController.svg")', '_blank')">Home Controller</button>
             </div>
             <div class="col-md-4 mb-3">
-                <button class="btn btn-primary btn-block" onclick="showImage('language')">Language Controller</button>
+                <button class="btn btn-primary btn-block" onclick="window.open('@Url.Content("~/src/img/pfc/LanguageController.svg")', '_blank')">Language Controller</button>
             </div>
             <div class="col-md-4 mb-3">
-                <button class="btn btn-primary btn-block" onclick="showImage('login')">Login Controller</button>
+                <button class="btn btn-primary btn-block" onclick="window.open('@Url.Content("~/src/img/pfc/LoginController.svg")', '_blank')">Login Controller</button>
             </div>
             <div class="col-md-4 mb-3">
-                <button class="btn btn-primary btn-block" onclick="showImage('mainPage')">Main Page Controller</button>
+                <button class="btn btn-primary btn-block" onclick="window.open('@Url.Content("~/src/img/pfc/MainPageController.svg")', '_blank')">Main Page Controller</button>
             </div>
-        </div>
-        <div id="admin" class="image-container">
-            <img src="@Url.Content("~/src/img/pfc/AdminController.svg")" alt="Admin Controller">
-        </div>
-        <div id="home" class="image-container">
-            <img src="@Url.Content("~/src/img/pfc/HomeController.svg")" alt="Home Controller">
-        </div>
-        <div id="language" class="image-container">
-            <img src="@Url.Content("~/src/img/pfc/LanguageController.svg")" alt="Language Controller">
-        </div>
-        <div id="login" class="image-container">
-            <img src="@Url.Content("~/src/img/pfc/LoginController.svg")" alt="Login Controller">
-        </div>
-        <div id="mainPage" class="image-container">
-            <img src="@Url.Content("~/src/img/pfc/MainPageController.svg")" alt="Main Page Controller">
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        function showImage(id) {
-            document.querySelectorAll('.image-container').forEach(container => {
-                container.style.display = 'none';
-            });
-            document.getElementById(id).style.display = 'block';
-        }
-    </script>
 </body>
 </html>
