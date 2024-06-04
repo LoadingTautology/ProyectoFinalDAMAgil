@@ -9,6 +9,7 @@
   <ItemGroup>
     <Folder Include="Resources\Views\Admin\Alumnos\" />
     <Folder Include="Scaffold\" />
+    <Folder Include="Views\Alumno\" />
     <Folder Include="wwwroot\src\img\MainIMG\" />
   </ItemGroup>
 

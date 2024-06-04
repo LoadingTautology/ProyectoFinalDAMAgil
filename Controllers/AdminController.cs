@@ -711,6 +711,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 
         public async Task<IActionResult> HorariosEstudio(int idEstudio)
         {
+            ViewData["controller"] ="Admin";
             ViewData["action"]= "ListarEstudios";
             CicloformativoModel cicloformativoModel = await _cicloformativoService.ReadCicloformativo(idEstudio);
             ViewData["idCentro"]= cicloformativoModel.IdCentro;
@@ -747,6 +748,7 @@ namespace ProyectoFinalDAMAgil.Controllers
                 emailUsuario = claimsUser.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()!;
 
             IEnumerable<Scaffold.Centroeducativo> listado = await _centroeducativoService.ListadoCentroEducativo(emailUsuario);
+            ViewData["controller"] ="Admin";
             ViewData["Action"]="ListarProfesores";
             ViewData["TipoUsuario"]="Profesores";
 
@@ -872,6 +874,7 @@ namespace ProyectoFinalDAMAgil.Controllers
                 emailUsuario = claimsUser.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()!;
 
             IEnumerable<Scaffold.Centroeducativo> listado = await _centroeducativoService.ListadoCentroEducativo(emailUsuario);
+            ViewData["controller"] ="Admin";
             ViewData["Action"]="ListarAlumnos";
             ViewData["TipoUsuario"]="Alumnos";
 
@@ -1092,6 +1095,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 
         public async Task<IActionResult> HorariosProfesor(int idProfesor)
         {
+            ViewData["controller"] ="Admin";
             ViewData["action"]= "ListarProfesores";
             ProfesorModel profesorModel = await _profesorService.ReadProfesor(idProfesor);
             ViewData["idCentro"]=profesorModel.IdCentro;
@@ -1219,6 +1223,7 @@ namespace ProyectoFinalDAMAgil.Controllers
 
         public async Task<IActionResult> HorariosAlumno(int idAlumno)
         {
+            ViewData["controller"] ="Admin";
             ViewData["action"]= "ListarAlumnos";
             AlumnoModel alumnoModel = await _alumnoService.ReadAlumno(idAlumno);
             ViewData["idCentro"]=alumnoModel.IdCentro;

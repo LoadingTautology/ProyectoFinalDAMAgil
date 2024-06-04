@@ -1,0 +1,61 @@
+﻿@model List<ProyectoFinalDAMAgil.Models.Admin.AsignaturasprofesorModel>
+@{
+    ViewData["Title"] = "Lista de Asignaturas Impartidas";
+}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Asignaturas Impartidas - @ViewData["NombreUsuario"] @ViewData["ApellidosUsuario"]</h3>
+        </div>
+        <div class="card-body">
+            <div class="d-flex justify-content-between mb-3">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-warning">
+                    <i class="bi bi-arrow-left"></i> Volver 
+                </a>
+                <input type="text" id="searchInput" class="form-control w-50" placeholder="Buscar Asignaturas">
+            </div>
+            <table id="centrosTable" class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>Acrónimo</th>
+                        <th>Nombre Asignatura</th>
+                        <th>Curso</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr data-id="@item.IdAsignatura">
+                                <td>@item.Acronimo</td>
+                                <td>@item.NombreAsignatura</td>
+                                <td>@item.Curso</td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Acciones">
+
+
+                                        <a asp-controller="Profesor" asp-action="GestionarAsignatura" asp-route-idProfesor="@item.IdProfesor"
+                                                                                                      asp-route-idEstudio="@item.IdCiclo"
+                                                                                                      asp-route-idAsignatura="@item.IdAsignatura"
+                                                                                                      class="btn btn-primary btn-sm">
+                                            <i class="bi bi-arrow-left"></i> Seleccionar
+                                        </a>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center">No hay asignaturas asignadas</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>

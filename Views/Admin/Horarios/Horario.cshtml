@@ -19,7 +19,7 @@
 
                 <div>
 
-                    <a asp-controller="Admin" asp-action="@ViewData["action"]" asp-route-id="@ViewData["idCentro"]" class="btn btn-warning mb-3">
+                    <a asp-controller="@ViewData["controller"]" asp-action="@ViewData["action"]" asp-route-id="@ViewData["idCentro"]" class="btn btn-warning mb-3">
                         <i class="bi bi-arrow-left"></i> @Localizer["Volver"]
                     </a>
                 </div>

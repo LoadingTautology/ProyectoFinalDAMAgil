@@ -85,6 +85,34 @@
                     </a>
                 </li>
             }
+            else if (User.IsInRole("PROFESOR"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Profesor" asp-action="ListarAsignaturasEstudiosProfesor">
+                        <i class="bi bi-building"></i> <span>Asignaturas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Profesor" asp-action="MostrarHorarioProfesor">
+                        <i class="bi bi-person"></i> <span>Horario</span>
+                    </a>
+                </li>
+            }
+
+            else if (User.IsInRole("ALUMNO"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Alumno" asp-action="ListarAsignaturasEstudiosAlumno">
+                        <i class="bi bi-building"></i> <span>Asignaturas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Alumno" asp-action="MostrarHorarioAlumno">
+                        <i class="bi bi-person"></i> <span>Horario</span>
+                    </a>
+                </li>
+            }
+
         </ul>
     </div>
 
