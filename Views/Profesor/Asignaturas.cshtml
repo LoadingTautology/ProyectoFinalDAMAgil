@@ -37,7 +37,7 @@
                                     <div class="btn-group" role="group" aria-label="Acciones">
 
 
-                                        <a asp-controller="Profesor" asp-action="GestionarAsignatura" asp-route-idProfesor="@item.IdProfesor"
+                                        <a asp-controller="Profesor" asp-action="GestionarAsignatura" asp-route-idProfesor="@ViewData["idProfesor"]"
                                                                                                       asp-route-idEstudio="@item.IdCiclo"
                                                                                                       asp-route-idAsignatura="@item.IdAsignatura"
                                                                                                       class="btn btn-primary btn-sm">

@@ -143,12 +143,49 @@ namespace ProyectoFinalDAMAgil.Controllers
             ViewData["idEstudio"]= idEstudio;
             ViewData["idAsignatura"]= idAsignatura;
 
-            AsignaturasprofesorModel asignaturasprofesorModel = await _asignaturaprofesorService.ReadAsignaturasprofesor(idProfesor,idEstudio,idAsignatura);
+            AsignaturasprofesorModel asignaturasprofesorModel = await _asignaturaprofesorService.ReadAsignaturasprofesor(idProfesor, idEstudio, idAsignatura);
             ViewData["acronimoEstudio"] =asignaturasprofesorModel.Acronimo;
             ViewData["nombreAsignatura"]= asignaturasprofesorModel.NombreAsignatura;
 
-            return View("~/Views/Profesor/Asignaturas.cshtml");
+            return View("~/Views/Profesor/GestionarAsignatura.cshtml");
         }
+
+
+        public async Task<IActionResult> ListarAlumnosAsignatura(int idProfesor, int idEstudio, int idAsignatura)
+        {
+            ViewData["idProfesor"]= idProfesor;
+            ViewData["idEstudio"]= idEstudio;
+            ViewData["idAsignatura"]= idAsignatura;
+
+            ViewData["MatriculasAlumnos"]= await _matriculasalumnoService.ListAlumnosMatriculadosAsignaturaEstudio(idEstudio,idAsignatura);
+
+            IEnumerable<AlumnoModel> alumnosMatriculadosAsignaturaEstudio= await _alumnoService.ListadoAlumnos(idEstudio,idAsignatura);
+
+            return View("~/Views/Profesor/AlumnosProfesor.cshtml", alumnosMatriculadosAsignaturaEstudio);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AsignarNotasAlumno(int idAlumno, int idEstudio, int idAsignatura)
+        {
+            //FALTA CREAR EL FORMULARIO PARA ACTUALIZAR
+            MatriculasalumnoModel matriculaAlumno = await _matriculasalumnoService.ReadMatriculasalumno(idAlumno,idEstudio,idAsignatura);
+
+            return View("~/Views/Profesor/AsignarNotasAlumno.cshtml", matriculaAlumno);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AsignarNotasAlumno(MatriculasalumnoModel notas, int idProfesor)
+        {
+            await _matriculasalumnoService.UpdateMatriculasalumno(notas);
+
+            return RedirectToAction("ListarAlumnosAsignatura", new { idProfesor= idProfesor, idEstudio= notas.IdCiclo, idAsignatura=notas.IdAsignatura });
+        }
+
+
+        //PasarListaQR
+        //RevisarAsistencia
+
+
 
 
     }

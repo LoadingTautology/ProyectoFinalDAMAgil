@@ -1,0 +1,65 @@
+﻿
+
+
+
+<div class="container mt-4">
+
+    <div class="card-body">
+        <div class="d-flex justify-content-between mb-3">
+            <a asp-controller="Profesor" asp-action="ListarAsignaturasEstudiosProfesor" class="btn btn-warning">
+                <i class="bi bi-arrow-left"></i> Volver
+            </a>
+        </div>
+    </div>
+
+
+    <div class="row mt-4">
+
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-building display-4 mb-3"></i>
+                        <h5 class="card-title">Alumnos</h5>
+                        <p class="card-text">Alumnos</p>
+
+                        <a asp-controller="Profesor" asp-action="ListarAlumnosAsignatura" asp-route-idProfesor="@ViewData["idProfesor"]"
+                                                                                          asp-route-idEstudio="@ViewData["idEstudio"]"
+                                                                                          asp-route-idAsignatura="@ViewData["idAsignatura"]"
+                                                                                          class="btn btn-primary btn-sm">
+                            Alumnos
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-person display-4 mb-3"></i>
+                        <h5 class="card-title">PasarLista</h5>
+                        <p class="card-text">PasarLista</p>
+                        <a href="@Url.Action("PasarListaQR", "Profesor")" class="btn btn-primary">Pasar Lista</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-people display-4 mb-3"></i>
+                        <h5 class="card-title">RevisarAsistencia</h5>
+                        <p class="card-text">RevisarAsistencia</p>
+                        <a href="@Url.Action("RevisarAsistencia", "Profesor")" class="btn btn-primary"> Revisar Asistencia</a>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+
+</div>
+@* 
+    <a asp-controller="Profesor" asp-action="ListarAlumnosAsignatura" asp-route-idProfesor="@ViewData["idProfesor"]"
+                                                                      asp-route-idEstudio="@ViewData["idEstudio"]"
+                                                                      asp-route-idAsignatura="@ViewData["idAsignatura"]"
+                                                                      class="btn btn-primary btn-sm">
+                                                    class="btn btn-primary btn-sm"> 
+*@

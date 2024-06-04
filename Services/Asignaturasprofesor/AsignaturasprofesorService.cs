@@ -30,9 +30,28 @@ namespace ProyectoFinalDAMAgil.Services.Asignaturasprofesor
             return new AsignaturasprofesorModel{ IdAsignatura= idAsignatura, IdCiclo= idEstudio, IdProfesor=idProfesor };
         }
 
-        public Task<AsignaturasprofesorModel> ReadAsignaturasprofesor(int idProfesor, int idEstudio, int idAsignatura)
+        public async Task<AsignaturasprofesorModel> ReadAsignaturasprofesor(int idProfesor, int idEstudio, int idAsignatura)
         {
-            throw new NotImplementedException();
+            IQueryable<AsignaturasprofesorModel> asignaturasprofesorListaDB =
+                from asigProf in _context.Asignaturasprofesors
+                join asigCiclo in _context.Asignaturascicloformativos on asigProf.IdAsignaturasCicloFormativo equals asigCiclo.IdAsignaturasCicloFormativo
+                join usuario in _context.Usuarios on asigProf.IdProfesor equals usuario.IdUsuario
+                join asignatura in _context.Asignaturas on asigCiclo.IdAsignatura equals asignatura.IdAsignatura
+                join estudio in _context.Cicloformativos on asigCiclo.IdCiclo equals estudio.IdCiclo
+                where asigProf.IdProfesor == idProfesor &&  estudio.IdCiclo == idEstudio && asignatura.IdAsignatura==idAsignatura
+                select new AsignaturasprofesorModel()
+                {
+                    IdAsignatura = asignatura.IdAsignatura,
+                    NombreAsignatura = asignatura.NombreAsignatura,
+                    Curso = asignatura.Curso,
+                    IdCiclo = estudio.IdCiclo,
+                    Acronimo = estudio.Acronimo,
+                    IdProfesor = asigProf.IdProfesor,
+                    NombreUsuario = usuario.NombreUsuario,
+                    ApellidosUsuario = usuario.ApellidosUsuario
+                };
+
+            return asignaturasprofesorListaDB.FirstOrDefault();
         }
 
         public async Task<AsignaturasprofesorModel> DeleteAsignaturasprofesor(int idProfesor, int idEstudio, int idAsignatura)

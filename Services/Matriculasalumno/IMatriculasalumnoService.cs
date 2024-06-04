@@ -8,6 +8,8 @@ namespace ProyectoFinalDAMAgil.Services.Matriculasalumno
 
         Task<MatriculasalumnoModel> ReadMatriculasalumno(int idAlumno, int idEstudio, int idAsignatura);
 
+        Task<MatriculasalumnoModel> UpdateMatriculasalumno(MatriculasalumnoModel matriculasalumnoModel);
+
         Task<MatriculasalumnoModel> DeleteMatriculasalumno(int idAlumno, int idEstudio, int idAsignatura);
 
         Task<bool> ExistMatriculasalumno(int idAlumno, int idEstudio, int idAsignatura);
@@ -24,5 +26,6 @@ namespace ProyectoFinalDAMAgil.Services.Matriculasalumno
 
         Task<bool> ExistHorarioEnConflictoAlumno(int idAlumno, int idEstudio, int idAsignatura);
 
+        Task<IEnumerable<MatriculasalumnoModel>> ListAlumnosMatriculadosAsignaturaEstudio(int idEstudio, int idAsignatura);
     }
 }

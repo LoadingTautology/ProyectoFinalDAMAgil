@@ -153,6 +153,24 @@ namespace ProyectoFinalDAMAgil.Services.Alumno
             return alumnosListaDB.ToList();
         }
 
+        public async Task<IEnumerable<AlumnoModel>> ListadoAlumnos(int idEstudio, int idAsignatura)
+        {
 
+            IQueryable<AlumnoModel> alumnosListaDB
+                = from usuario in _context.Usuarios
+                  join  matricula in _context.Matriculasalumnos on usuario.IdUsuario equals matricula.IdAlumno
+                  join asignaturaEstudio in _context.Asignaturascicloformativos on matricula.IdAsignaturasCicloFormativo equals asignaturaEstudio.IdAsignaturasCicloFormativo
+                  where asignaturaEstudio.IdCiclo== idEstudio && asignaturaEstudio.IdAsignatura== idAsignatura
+                  select new AlumnoModel()
+                  {
+                      NombreUsuario = usuario.NombreUsuario,
+                      ApellidosUsuario = usuario.ApellidosUsuario,
+                      Email = usuario.Email,
+                      IdAlumno = usuario.IdUsuario,
+
+                  };
+
+            return alumnosListaDB.ToList();
+        }
     }
 }

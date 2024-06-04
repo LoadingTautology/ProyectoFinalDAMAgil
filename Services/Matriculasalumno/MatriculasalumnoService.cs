@@ -29,9 +29,52 @@ namespace ProyectoFinalDAMAgil.Services.Matriculasalumno
             return new MatriculasalumnoModel { IdAsignatura= idAsignatura, IdCiclo= idEstudio, IdAlumno=idAlumno };
         }
 
-        public Task<MatriculasalumnoModel> ReadMatriculasalumno(int idAlumno, int idEstudio, int idAsignatura)
+        public async Task<MatriculasalumnoModel> ReadMatriculasalumno(int idAlumno, int idEstudio, int idAsignatura)
         {
-            throw new NotImplementedException();
+            IQueryable<MatriculasalumnoModel> asignaturasMatriculadasAlumnoListaDB =
+                (from matriAlumno in _context.Matriculasalumnos
+                 join asigCiclo in _context.Asignaturascicloformativos on matriAlumno.IdAsignaturasCicloFormativo equals asigCiclo.IdAsignaturasCicloFormativo
+                 join usuario in _context.Usuarios on matriAlumno.IdAlumno equals usuario.IdUsuario
+                 join asignatura in _context.Asignaturas on asigCiclo.IdAsignatura equals asignatura.IdAsignatura
+                 join estudio in _context.Cicloformativos on asigCiclo.IdCiclo equals estudio.IdCiclo
+                 where asigCiclo.IdCiclo==idEstudio && asigCiclo.IdAsignatura==idAsignatura && matriAlumno.IdAlumno== idAlumno
+                 select new MatriculasalumnoModel()
+                 {
+                     IdAsignatura = asignatura.IdAsignatura,
+                     NombreAsignatura = asignatura.NombreAsignatura,
+                     Curso = asignatura.Curso,
+                     IdCiclo = estudio.IdCiclo,
+                     Acronimo = estudio.Acronimo,
+                     IdAlumno = matriAlumno.IdAlumno,
+                     NombreUsuario = usuario.NombreUsuario,
+                     ApellidosUsuario = usuario.ApellidosUsuario,
+                     Eva1 = matriAlumno.Eva1,
+                     Eva2 = matriAlumno.Eva2,
+                     Eva3 = matriAlumno.Eva3
+                 }).Distinct();
+
+            return asignaturasMatriculadasAlumnoListaDB.FirstOrDefault();
+        }
+
+        public async Task<MatriculasalumnoModel> UpdateMatriculasalumno(MatriculasalumnoModel matriculasalumnoModel)
+        {
+            Scaffold.Matriculasalumno matriculaAlumnoBD =
+                (from matriAlumno in _context.Matriculasalumnos
+                join asigCiclo in _context.Asignaturascicloformativos
+                     on matriAlumno.IdAsignaturasCicloFormativo equals asigCiclo.IdAsignaturasCicloFormativo
+                where asigCiclo.IdCiclo==matriculasalumnoModel.IdCiclo &&
+                      asigCiclo.IdAsignatura==matriculasalumnoModel.IdAsignatura &&
+                      matriAlumno.IdAlumno== matriculasalumnoModel.IdAlumno
+                select matriAlumno).FirstOrDefault()!;
+
+            matriculaAlumnoBD.Eva1=matriculasalumnoModel.Eva1;
+            matriculaAlumnoBD.Eva2=matriculasalumnoModel.Eva2;
+            matriculaAlumnoBD.Eva3=matriculasalumnoModel.Eva3;
+
+            _context.Update(matriculaAlumnoBD);
+            _context.SaveChanges();
+
+            return matriculasalumnoModel;
         }
 
         public async Task<MatriculasalumnoModel> DeleteMatriculasalumno(int idAlumno, int idEstudio, int idAsignatura)
@@ -209,6 +252,34 @@ namespace ProyectoFinalDAMAgil.Services.Matriculasalumno
 
             return existe;
         }
+
+        public async Task<IEnumerable<MatriculasalumnoModel>> ListAlumnosMatriculadosAsignaturaEstudio(int idEstudio, int idAsignatura)
+        {
+            IQueryable<MatriculasalumnoModel> asignaturasMatriculadasAlumnoListaDB =
+                (from matriAlumno in _context.Matriculasalumnos
+                join asigCiclo in _context.Asignaturascicloformativos on matriAlumno.IdAsignaturasCicloFormativo equals asigCiclo.IdAsignaturasCicloFormativo
+                join usuario in _context.Usuarios on matriAlumno.IdAlumno equals usuario.IdUsuario
+                join asignatura in _context.Asignaturas on asigCiclo.IdAsignatura equals asignatura.IdAsignatura
+                join estudio in _context.Cicloformativos on asigCiclo.IdCiclo equals estudio.IdCiclo
+                where asigCiclo.IdCiclo==idEstudio && asigCiclo.IdAsignatura==idAsignatura
+                select new MatriculasalumnoModel()
+                {
+                    IdAsignatura = asignatura.IdAsignatura,
+                    NombreAsignatura = asignatura.NombreAsignatura,
+                    Curso = asignatura.Curso,
+                    IdCiclo = estudio.IdCiclo,
+                    Acronimo = estudio.Acronimo,
+                    IdAlumno = matriAlumno.IdAlumno,
+                    NombreUsuario = usuario.NombreUsuario,
+                    ApellidosUsuario = usuario.ApellidosUsuario,
+                    Eva1 = matriAlumno.Eva1,
+                    Eva2 = matriAlumno.Eva2,
+                    Eva3 = matriAlumno.Eva3
+                }).Distinct();
+
+            return asignaturasMatriculadasAlumnoListaDB.ToList();
+        }
+
 
     }
 }

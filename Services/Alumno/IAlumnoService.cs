@@ -12,5 +12,7 @@ namespace ProyectoFinalDAMAgil.Services.Alumno
         Task<IEnumerable<AlumnoModel>> ListadoAlumnos(int idCentro);
 
         Task<bool> ExistAlumno(string emailAlumno, int idCentro);
+
+        Task<IEnumerable<AlumnoModel>> ListadoAlumnos(int idEstudio, int idAsignatura);
     }
 }

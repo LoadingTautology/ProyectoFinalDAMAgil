@@ -1,0 +1,102 @@
+﻿@model List<ProyectoFinalDAMAgil.Models.Admin.AlumnoModel>
+
+@{
+    ViewData["Title"] = "Lista Alumnos";
+    var listadoMatriculasAlumnos = ViewData["MatriculasAlumnos"] as List<ProyectoFinalDAMAgil.Models.Admin.MatriculasalumnoModel>;
+}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Listar Alumnos - @ViewData["NombreCentro"] - @ViewData["DireccionCentro"]</h3>
+        </div>
+        <div class="card-body">
+            <div class="d-flex justify-content-between mb-3">
+                <a asp-controller="Profesor" asp-action="ListarAsignaturasEstudiosProfesor" class="btn btn-warning mb-3">
+                    <i class="bi bi-arrow-left"></i> Volver
+                </a>
+                <input type="text" id="searchInput" class="form-control w-50 mb-3" placeholder="Buscar por cualquier campo...">
+
+            </div>
+
+            <table id="centrosTable" class="table table-hover table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellidos</th>
+                        <th>Email</th>
+                        <th>1EVA</th>
+                        <th>2EVA</th>
+                        <th>3EVA</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr data-id="@item.IdCentro">
+                                <td>@item.NombreUsuario</td>
+                                <td>@item.ApellidosUsuario</td>
+                                <td>@item.Email</td>
+                                <td>@listadoMatriculasAlumnos.First(matricula => matricula.IdAlumno== item.IdAlumno).Eva1  </td>
+                                <td>@listadoMatriculasAlumnos.First(matricula => matricula.IdAlumno== item.IdAlumno).Eva2  </td>
+                                <td>@listadoMatriculasAlumnos.First(matricula => matricula.IdAlumno== item.IdAlumno).Eva3  </td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Acciones">
+                                        <a asp-controller="Profesor" asp-action="AsignarNotasAlumno" asp-route-idAlumno="@item.IdAlumno"
+                                                                                                     asp-route-idEstudio="@ViewData["idEstudio"]"
+                                                                                                     asp-route-idAsignatura="@ViewData["idAsignatura"]"
+                                                                                                     class="btn btn-primary btn-sm">
+                                            <i class="bi bi-gear"></i> Asignar Notas
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center">No hay alumnos</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    @section Scripts {
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+                // Funcionalidad de búsqueda
+                document.getElementById('searchInput').addEventListener('keyup', function () {
+                    var searchTerm = this.value.toLowerCase();
+                    var rows = document.querySelectorAll('#centrosTable tbody tr');
+                    rows.forEach(function (row) {
+                        var cells = row.querySelectorAll('td');
+                        var match = false;
+                        for (var i = 0; i < cells.length - 1; i++) { // Excluir la última celda (acciones)
+                            if (cells[i].textContent.toLowerCase().includes(searchTerm)) {
+                                match = true;
+                                break;
+                            }
+                        }
+                        row.style.display = match ? '' : 'none';
+                    });
+                });
+            });
+        </script>
+    }
+
+@* 
+    var horarioExistente = listaHorarioEstudio.FirstOrDefault(h => h.IdDiaFranja == contador);
+    if (horarioExistente != null)
+    {
+    var colorAsignatura = horarioExistente.ColorAsignatura;
+    var nombreAsignatura = listaAsignaturas.First(a => a.IdAsignatura == horarioExistente.IdAsignatura).NombreAsignatura;
+    var aulaDescripcion = listaAulas.First(a => a.IdAula == horarioExistente.IdAula).NumeroAula.ToString();
+    var acronimoEstudio = listaEstudios.First(a => a.IdCiclo == horarioExistente.IdEstudio).Acronimo;
+ *@
